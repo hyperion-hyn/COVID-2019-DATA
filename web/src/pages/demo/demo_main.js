@@ -18,6 +18,11 @@ class DemoMain extends Component {
     requestDemoData();
   };
 
+  _onCancelRequestClick = () => {
+    const { cancelDemoRequest } = this.props;
+    cancelDemoRequest();
+  };
+
   render() {
     const { classes, demoState } = this.props;
     return (
@@ -34,6 +39,13 @@ class DemoMain extends Component {
           >
             Request Demo Data
           </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={this._onCancelRequestClick}
+          >
+            Cancel Reqest
+          </Button>
         </Box>
       </Typography>
     );
@@ -45,7 +57,8 @@ const mapStateToProps = (state, onwProps) => ({
 });
 
 const mapDispatchToProps = {
-  requestDemoData: DemoActions.requestDemoData
+  requestDemoData: DemoActions.requestDemoData,
+  cancelDemoRequest: DemoActions.setDemoDataCancel
 };
 
 //see https://react-redux.js.org/api/connect
