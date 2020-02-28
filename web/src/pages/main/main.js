@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import { Box, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
-
-import { DemoActions } from "../../actions";
 
 const styles = theme => ({
   root: {
@@ -14,44 +10,26 @@ const styles = theme => ({
 });
 
 class Main extends Component {
-  _onRequestDemoDataClick = () => {
-    const { requestDemoData } = this.props;
-    requestDemoData();
-  };
-
   render() {
-    const { classes, demoState } = this.props;
+    const { classes } = this.props;
 
     return (
-      <Typography component="div">
-        <Box m={2}>
-          <Box fontSize="h6.fontSize">hello demo</Box>
-          <Box>data: {demoState.data}</Box>
-          <Box>msg: {demoState.msg}</Box>
-          <Box>status: {demoState.status}</Box>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this._onRequestDemoDataClick}
-          >
-            Request Demo Data
-          </Button>
-        </Box>
+      <Typography component="div" className={classes.root}>
+        <Box p={2}>Hello Hyperion!</Box>
       </Typography>
     );
   }
 }
 
-const mapStateToProps = (state, onwProps) => ({
-  demoState: state.demo
-});
+// const mapStateToProps = (state, onwProps) => ({
+//   demoState: state.demo
+// });
 
-const mapDispatchToProps = {
-  requestDemoData: DemoActions.requestDemoData
-};
+// const mapDispatchToProps = {
+//   requestDemoData: DemoActions.requestDemoData
+// };
 
 //see https://react-redux.js.org/api/connect
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(Main));
+export default connect()(withStyles(styles)(Main));
+// mapStateToProps,
+// mapDispatchToProps
