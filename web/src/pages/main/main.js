@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Box, Typography, Grid } from "@material-ui/core";
+import { Box, Typography, Grid, AppBar, Toolbar } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 import MapGL from "react-map-gl";
@@ -11,9 +11,20 @@ const styles = theme => ({
     width: "100vw",
     height: "100vh"
   },
+  appBar: {},
+  mainBoard: {
+    height: "100%",
+    width: "100%"
+  },
   mapBox: {
     backgroundColor: "#cccccc",
     height: "100%"
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
   },
   virusBox: {
     width: "auto",
@@ -49,36 +60,46 @@ class Main extends Component {
     const { viewport } = this.state;
 
     return (
-      <Grid
-        container
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-start"
-        wrap="nowrap"
-        className={classes.root}
-      >
-        <Grid direction="column" item container className={classes.virusBox}>
-          <Grid item xs className={classes.virusListBox}>
-            <Box p={1}>virus list here</Box>
-          </Grid>
-          <Grid item className={classes.virusChartsBox}>
-            <Box p={1}>
-              <Typography color="primary">daily charts here</Typography>
-            </Box>
-          </Grid>
-        </Grid>
+      <Grid container direction="column" wrap="nowrap" className={classes.root}>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar variant="dense">
+            <Typography className={classes.title}>
+              全球疫情地图
+            </Typography>
+          </Toolbar>
+        </AppBar>
 
-        <Grid item className={classes.mapBox} xs>
-          <MapGL
-            {...viewport}
-            mapStyle="https://cn.tile.map3.network/ncov_v1.json"
-            onViewportChange={this._onViewportChange}
-            mapOptions={{
-              localIdeographFontFamily:
-                "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
-              attributionControl: false
-            }}
-          ></MapGL>
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+          wrap="nowrap"
+          className={classes.mainBoard}
+        >
+          <Grid direction="column" item container className={classes.virusBox}>
+            <Grid item xs className={classes.virusListBox}>
+              <Box p={1}>virus list here</Box>
+            </Grid>
+            <Grid item className={classes.virusChartsBox}>
+              <Box p={1}>
+                <Typography color="primary">daily charts here</Typography>
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Grid item className={classes.mapBox} xs>
+            <MapGL
+              {...viewport}
+              mapStyle="https://cn.tile.map3.network/ncov_v1.json"
+              onViewportChange={this._onViewportChange}
+              mapOptions={{
+                localIdeographFontFamily:
+                  "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
+                attributionControl: false
+              }}
+            ></MapGL>
+          </Grid>
         </Grid>
       </Grid>
     );
