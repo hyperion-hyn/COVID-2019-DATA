@@ -1,6 +1,6 @@
 export class VirusStatusModel {
   static fromObject(obj) {
-    let model = VirusStatusModel();
+    let model = new VirusStatusModel();
     model.id = obj["id"];
     model.isCountry = obj["isCountry"];
     model.area = obj["area"];
@@ -26,7 +26,7 @@ export class VirusStatusModel {
 
 export class VirusStatusDateNewTickModel {
   static fromObject(obj) {
-    let model = VirusStatusDateNewTickModel();
+    let model = new VirusStatusDateNewTickModel();
     model.id = obj["id"];
     model.isCountry = obj["isCountry"];
     model.type = obj["type"];
@@ -45,7 +45,7 @@ export class VirusStatusDateNewTickModel {
 
 export class VirusStatusDateTotalTickModel {
   static fromObject(obj) {
-    let model = VirusStatusDateTotalTickModel();
+    let model = new VirusStatusDateTotalTickModel();
     model.id = obj["id"];
     model.isCountry = obj["isCountry"];
     model.type = obj["type"];

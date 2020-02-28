@@ -1,4 +1,8 @@
-import { VirusStatusModel, VirusStatusDateNewTickModel } from "./model";
+import {
+  VirusStatusModel,
+  VirusStatusDateNewTickModel,
+  VirusStatusDateTotalTickModel
+} from "./model";
 
 export default {
   demo_data_success: {
@@ -35,7 +39,7 @@ export default {
       })
     ]
   },
-
+  //模拟日新增数据
   mock_virus_status_date_new_tick: {
     code: 1,
     msg: "success",
@@ -86,6 +90,67 @@ export default {
           count: 30
         }),
         VirusStatusDateNewTickModel.fromObject({
+          id: 2,
+          isCountry: 1,
+          area: "China", //China
+          type: "recoverd", //confirmed, recoverd
+          date: "2019-2-2",
+          count: 21
+        })
+      ]
+    }
+  },
+  //模拟日总数统计增数据
+  mock_virus_status_date_new_tick: {
+    code: 1,
+    msg: "success",
+    data: {
+      dead: [
+        VirusStatusDateTotalTickModel.fromObject({
+          id: 1,
+          isCountry: 1,
+          area: "China", //China
+          type: "dead", //confirmed, recoverd
+          date: "2019-2-1",
+          count: 10
+        }),
+        VirusStatusDateTotalTickModel.fromObject({
+          id: 2,
+          isCountry: 1,
+          area: "China", //China
+          type: "dead", //confirmed, recoverd
+          date: "2019-2-2",
+          count: 4
+        })
+      ],
+      confirmed: [
+        VirusStatusDateTotalTickModel.fromObject({
+          id: 1,
+          isCountry: 1,
+          area: "China", //China
+          type: "confirmed", //confirmed, recoverd
+          date: "2019-2-1",
+          count: 3
+        }),
+        VirusStatusDateTotalTickModel.fromObject({
+          id: 2,
+          isCountry: 1,
+          area: "China", //China
+          type: "confirmed", //confirmed, recoverd
+          date: "2019-2-2",
+          count: 2
+        })
+      ],
+      recoverd: [
+        VirusStatusDateTotalTickModel.fromObject({
+          id: 1,
+          isCountry: 1,
+          area: "China", //China
+          type: "recoverd", //confirmed, recoverd
+          date: "2019-2-1",
+          count: 30
+        }),
+        VirusStatusDateTotalTickModel.fromObject({
           id: 2,
           isCountry: 1,
           area: "China", //China
