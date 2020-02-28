@@ -3,8 +3,9 @@ import configureStore from "./store/configure_store";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import withMuiTheme from "./with_mui_theme";
-import Main from "./containers/main";
-import NotFindPage from "./pages/not_found";
+import Main from "./pages/demo/demo_main";
+// import Main from "./pages/main/main";
+import NotFindPage from "./pages/not_found_page";
 
 const store = configureStore();
 

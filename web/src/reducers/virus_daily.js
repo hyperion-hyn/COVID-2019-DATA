@@ -3,19 +3,19 @@ import { VirusStatusActions } from "../actions/virus_status";
 
 const initState = {
   status: Status.IDLE,
-  data: [],
+  data: {},
   msg: ""
 };
 
-export default function virusStatusReducer(state = initState, action) {
+export default function virusDailyReducer(state = initState, action) {
   switch (action.type) {
-    case VirusStatusActions.LOAD_VIRUS_STATUS_DATA:
+    case VirusStatusActions.LOAD_DAILY_DATA:
       return { state: Status.LOADING };
-    case VirusStatusActions.LOADED_VIRDUS_STATUS_DATA:
+    case VirusStatusActions.LOADED_DAILY_DATA:
       return { state: Status.SUCCESS, data: action.data };
-    case VirusStatusActions.CANCELLED_LOAD_VIRUS_STATUS_DATA:
+    case VirusStatusActions.CANCELLED_DAILY_DATA:
       return { state: Status.CANCELED };
-    case VirusStatusActions.FAIL_LOAD_VIRUS_STATUS_DATA:
+    case VirusStatusActions.FAILED_DAILY_DATA:
       return { state: Status.FAILED, msg: action.msg };
     default:
       return state;

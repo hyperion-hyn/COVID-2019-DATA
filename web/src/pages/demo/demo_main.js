@@ -5,15 +5,16 @@ import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 
-import { requestDemoData, DemoActions } from "../actions";
+import { DemoActions } from "../../actions";
 
 const styles = theme => ({
   root: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "#e8e8e8"
   }
 });
 
-class Main extends Component {
+class DemoMain extends Component {
   _onRequestDemoDataClick = () => {
     const { requestDemoData } = this.props;
     requestDemoData();
@@ -21,12 +22,9 @@ class Main extends Component {
 
   render() {
     const { classes, demoState } = this.props;
-
-    console.log(demoState);
-
     return (
-      <Typography component="div">
-        <Box m={2}>
+      <Typography component="div" className={classes.root}>
+        <Box p={2}>
           <Box fontSize="h6.fontSize">hello demo</Box>
           <Box>data: {demoState.data}</Box>
           <Box>msg: {demoState.msg}</Box>
@@ -56,4 +54,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Main));
+)(withStyles(styles)(DemoMain));

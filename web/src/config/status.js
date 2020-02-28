@@ -1,4 +1,4 @@
-export class Status {
+export default class Status {
   static IDLE = "0";
   static LOADING = "1";
   static SUCCESS = "2";

@@ -1,7 +1,13 @@
-import {combineEpics} from "redux-observable";
+import { combineEpics } from "redux-observable";
 
-import {demoEpics} from './demo'
+import { demoEpics } from "./demo";
+import {
+  onLoadContryVirusStatusEpics,
+  onLoadDailyVirusByContryEpics
+} from "./virus_status";
 
 export default combineEpics(
-  demoEpics
-)
+  demoEpics,
+  onLoadContryVirusStatusEpics,
+  onLoadDailyVirusByContryEpics
+);

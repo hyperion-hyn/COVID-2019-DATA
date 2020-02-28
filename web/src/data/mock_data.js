@@ -1,7 +1,7 @@
 import {
   VirusStatusModel,
-  VirusStatusDateNewTickModel,
-  VirusStatusDateTotalTickModel
+  VirusStatusDailyNewTickModel,
+  VirusStatusDailyTotalTickModel
 } from "./model";
 
 export default {
@@ -39,126 +39,126 @@ export default {
       })
     ]
   },
-  //模拟日新增数据
-  mock_virus_status_date_new_tick: {
+
+  //mock daily status
+  mock_virus_status_daily_tick: {
     code: 1,
     msg: "success",
     data: {
-      dead: [
-        VirusStatusDateNewTickModel.fromObject({
-          id: 1,
-          isCountry: 1,
-          area: "China", //China
-          type: "dead", //confirmed, recoverd
-          date: "2019-2-1",
-          count: 10
-        }),
-        VirusStatusDateNewTickModel.fromObject({
-          id: 2,
-          isCountry: 1,
-          area: "China", //China
-          type: "dead", //confirmed, recoverd
-          date: "2019-2-2",
-          count: 4
-        })
-      ],
-      confirmed: [
-        VirusStatusDateNewTickModel.fromObject({
-          id: 1,
-          isCountry: 1,
-          area: "China", //China
-          type: "confirmed", //confirmed, recoverd
-          date: "2019-2-1",
-          count: 3
-        }),
-        VirusStatusDateNewTickModel.fromObject({
-          id: 2,
-          isCountry: 1,
-          area: "China", //China
-          type: "confirmed", //confirmed, recoverd
-          date: "2019-2-2",
-          count: 2
-        })
-      ],
-      recoverd: [
-        VirusStatusDateNewTickModel.fromObject({
-          id: 1,
-          isCountry: 1,
-          area: "China", //China
-          type: "recoverd", //confirmed, recoverd
-          date: "2019-2-1",
-          count: 30
-        }),
-        VirusStatusDateNewTickModel.fromObject({
-          id: 2,
-          isCountry: 1,
-          area: "China", //China
-          type: "recoverd", //confirmed, recoverd
-          date: "2019-2-2",
-          count: 21
-        })
-      ]
-    }
-  },
-  //模拟日总数统计增数据
-  mock_virus_status_date_new_tick: {
-    code: 1,
-    msg: "success",
-    data: {
-      dead: [
-        VirusStatusDateTotalTickModel.fromObject({
-          id: 1,
-          isCountry: 1,
-          area: "China", //China
-          type: "dead", //confirmed, recoverd
-          date: "2019-2-1",
-          count: 10
-        }),
-        VirusStatusDateTotalTickModel.fromObject({
-          id: 2,
-          isCountry: 1,
-          area: "China", //China
-          type: "dead", //confirmed, recoverd
-          date: "2019-2-2",
-          count: 4
-        })
-      ],
-      confirmed: [
-        VirusStatusDateTotalTickModel.fromObject({
-          id: 1,
-          isCountry: 1,
-          area: "China", //China
-          type: "confirmed", //confirmed, recoverd
-          date: "2019-2-1",
-          count: 3
-        }),
-        VirusStatusDateTotalTickModel.fromObject({
-          id: 2,
-          isCountry: 1,
-          area: "China", //China
-          type: "confirmed", //confirmed, recoverd
-          date: "2019-2-2",
-          count: 2
-        })
-      ],
-      recoverd: [
-        VirusStatusDateTotalTickModel.fromObject({
-          id: 1,
-          isCountry: 1,
-          area: "China", //China
-          type: "recoverd", //confirmed, recoverd
-          date: "2019-2-1",
-          count: 30
-        }),
-        VirusStatusDateTotalTickModel.fromObject({
-          id: 2,
-          isCountry: 1,
-          area: "China", //China
-          type: "recoverd", //confirmed, recoverd
-          date: "2019-2-2",
-          count: 21
-        })
-      ]
+      //daily total status
+      dailyTotal: {
+        dead: [
+          VirusStatusDailyTotalTickModel.fromObject({
+            id: 1,
+            isCountry: 1,
+            area: "China", //China
+            type: "dead", //confirmed, recoverd
+            date: "2019-2-1",
+            count: 10
+          }),
+          VirusStatusDailyTotalTickModel.fromObject({
+            id: 2,
+            isCountry: 1,
+            area: "China", //China
+            type: "dead", //confirmed, recoverd
+            date: "2019-2-2",
+            count: 4
+          })
+        ],
+        confirmed: [
+          VirusStatusDailyTotalTickModel.fromObject({
+            id: 1,
+            isCountry: 1,
+            area: "China", //China
+            type: "confirmed", //confirmed, recoverd
+            date: "2019-2-1",
+            count: 3
+          }),
+          VirusStatusDailyTotalTickModel.fromObject({
+            id: 2,
+            isCountry: 1,
+            area: "China", //China
+            type: "confirmed", //confirmed, recoverd
+            date: "2019-2-2",
+            count: 2
+          })
+        ],
+        recoverd: [
+          VirusStatusDailyTotalTickModel.fromObject({
+            id: 1,
+            isCountry: 1,
+            area: "China", //China
+            type: "recoverd", //confirmed, recoverd
+            date: "2019-2-1",
+            count: 30
+          }),
+          VirusStatusDailyTotalTickModel.fromObject({
+            id: 2,
+            isCountry: 1,
+            area: "China", //China
+            type: "recoverd", //confirmed, recoverd
+            date: "2019-2-2",
+            count: 21
+          })
+        ]
+      },
+      //daily new status
+      dailyNew: {
+        dead: [
+          VirusStatusDailyNewTickModel.fromObject({
+            id: 1,
+            isCountry: 1,
+            area: "China", //China
+            type: "dead", //confirmed, recoverd
+            date: "2019-2-1",
+            count: 10
+          }),
+          VirusStatusDailyNewTickModel.fromObject({
+            id: 2,
+            isCountry: 1,
+            area: "China", //China
+            type: "dead", //confirmed, recoverd
+            date: "2019-2-2",
+            count: 4
+          })
+        ],
+        confirmed: [
+          VirusStatusDailyNewTickModel.fromObject({
+            id: 1,
+            isCountry: 1,
+            area: "China", //China
+            type: "confirmed", //confirmed, recoverd
+            date: "2019-2-1",
+            count: 3
+          }),
+          VirusStatusDailyNewTickModel.fromObject({
+            id: 2,
+            isCountry: 1,
+            area: "China", //China
+            type: "confirmed", //confirmed, recoverd
+            date: "2019-2-2",
+            count: 2
+          })
+        ],
+        recoverd: [
+          VirusStatusDailyNewTickModel.fromObject({
+            id: 1,
+            isCountry: 1,
+            area: "China", //China
+            type: "recoverd", //confirmed, recoverd
+            date: "2019-2-1",
+            count: 30
+          }),
+          VirusStatusDailyNewTickModel.fromObject({
+            id: 2,
+            isCountry: 1,
+            area: "China", //China
+            type: "recoverd", //confirmed, recoverd
+            date: "2019-2-2",
+            count: 21
+          })
+        ]
+      }
     }
   }
 };
