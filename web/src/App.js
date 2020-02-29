@@ -7,6 +7,8 @@ import Demo from "./pages/demo/demo_main";
 import Main from "./pages/main/main";
 import NotFindPage from "./pages/not_found_page";
 
+import "./iconfont.js";
+
 const store = configureStore();
 
 class App extends Component {

@@ -1,9 +1,28 @@
 import React, { Component } from "react";
-import { Box, Typography, Grid, AppBar, Toolbar } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Grid,
+  AppBar,
+  Toolbar,
+  Icon,
+  SvgIcon
+} from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 import MapGL from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import VirusStatusPanel from "./component/virus_status_panel";
+
+import IconFont from "react-iconfonts";
+
+// function HomeIcon(props) {
+//   return (
+//     <SvgIcon {...props}>
+//       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+//     </SvgIcon>
+//   );
+// }
 
 const styles = theme => ({
   root: {
@@ -35,6 +54,20 @@ const styles = theme => ({
   },
   virusChartsBox: {
     backgroundColor: "#333333"
+  },
+  languageIcon: {
+    width: "16px",
+    height: "16px",
+    fill: "currentColor",
+    marginRight: "4px"
+  },
+  languageText: {
+    marginRight: "16px",
+    fontSize: '12px'
+  },
+  githubIcon: {
+    width: "24px",
+    height: "24px"
   }
 });
 
@@ -63,9 +96,20 @@ class Main extends Component {
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar variant="dense">
-            <Typography className={classes.title}>
+            <Typography variant="h6" className={classes.title}>
               全球疫情地图
             </Typography>
+            <svg
+              class="icon"
+              aria-hidden="true"
+              className={classes.languageIcon}
+            >
+              <use xlinkHref="#iconyuyan"></use>
+            </svg>
+            <Typography className={classes.languageText}>简体中文</Typography>
+            <svg class="icon" aria-hidden="true" className={classes.githubIcon}>
+              <use xlinkHref="#icongit-copy"></use>
+            </svg>
           </Toolbar>
         </AppBar>
 
@@ -78,9 +122,7 @@ class Main extends Component {
           className={classes.mainBoard}
         >
           <Grid direction="column" item container className={classes.virusBox}>
-            <Grid item xs className={classes.virusListBox}>
-              <Box p={1}>virus list here</Box>
-            </Grid>
+            <VirusStatusPanel></VirusStatusPanel>
             <Grid item className={classes.virusChartsBox}>
               <Box p={1}>
                 <Typography color="primary">daily charts here</Typography>
