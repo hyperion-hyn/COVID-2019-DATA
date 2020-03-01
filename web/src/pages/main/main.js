@@ -47,7 +47,6 @@ const styles = theme => ({
   },
   virusBox: {
     width: "auto",
-    height: "100%"
   },
   virusListBox: {
     backgroundColor: "#ffffff"

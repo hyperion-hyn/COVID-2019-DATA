@@ -30,7 +30,7 @@ export class VirusStatusActions {
   static CANCELLED_DAILY_DATA = "cancelled_daily_data";
 
   static fetchDailyVirus = contry => ({
-    type: VirusStatusActions.LOADED_DAILY_DATA,
+    type: VirusStatusActions.LOAD_DAILY_DATA,
     contry
   });
 

@@ -36,6 +36,94 @@ export default {
         totalConfirmed: 123,
         totalRecovered: 121,
         totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "韩国",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "美国",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "拉国",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "泰国",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "咯国",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "啦国",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "嗯国",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 2,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
       })
     ]
   },

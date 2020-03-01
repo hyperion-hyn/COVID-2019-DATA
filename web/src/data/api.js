@@ -6,7 +6,7 @@ export const api = {
   requestDemoData() {
     return new Observable(observer => {
       setTimeout(() => {
-        const ramdom = Math.random() >= 0.495;
+        const ramdom = Math.random() >= 0;
         if (ramdom) {
           console.log("mock request success.");
           observer.next(mock_data.demo_data_success);
@@ -24,7 +24,7 @@ export const api = {
     //request mock
     return new Observable(observer => {
       setTimeout(() => {
-        const ramdom = Math.random() >= 0.9;
+        const ramdom = Math.random() >= 0;
         if (ramdom) {
           console.log("mock request success.");
           observer.next(mock_data.mock_virus_status_list);
@@ -41,9 +41,9 @@ export const api = {
   requestDailyVirusStatus() {
     return new Observable(observer => {
       setTimeout(() => {
-        const ramdom = Math.random() >= 0.9;
+        const ramdom = Math.random() >= 0;
         if (ramdom) {
-          console.log("mock request success.");
+          console.log("mock request success");
           observer.next(mock_data.mock_virus_status_daily_tick);
           observer.complete();
         } else {
