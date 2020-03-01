@@ -24,6 +24,17 @@ export class VirusStatusModel {
   totalDead;
 }
 
+export class VirusStatusTotalModel{
+  static fromObject(obj) {
+    let model = new VirusStatusTotalModel();
+    model.virusUpdateTime = obj["virusUpdateTime"];
+    model.virusList = obj["virusList"];
+    return model;
+  }
+  virusUpdateTime;
+  virusList;
+}
+
 export class VirusStatusDailyNewTickModel {
   static fromObject(obj) {
     let model = new VirusStatusDailyNewTickModel();

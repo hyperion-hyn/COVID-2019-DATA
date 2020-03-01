@@ -1,5 +1,6 @@
 import {
   VirusStatusModel,
+  VirusStatusTotalModel,
   VirusStatusDailyNewTickModel,
   VirusStatusDailyTotalTickModel
 } from "./model";
@@ -14,7 +15,9 @@ export default {
   mock_virus_status_list: {
     code: 1,
     msg: "success",
-    data: [
+    data: VirusStatusTotalModel.fromObject({
+      virusUpdateTime:"2020-03-01",
+      virusList:[
       VirusStatusModel.fromObject({
         id: 1,
         isCountry: 1,
@@ -38,7 +41,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 3,
         isCountry: 1,
         area: "韩国",
         newConfirmed: 121,
@@ -49,7 +52,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 4,
         isCountry: 1,
         area: "美国",
         newConfirmed: 121,
@@ -60,7 +63,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 5,
         isCountry: 1,
         area: "拉国",
         newConfirmed: 121,
@@ -71,7 +74,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 6,
         isCountry: 1,
         area: "泰国",
         newConfirmed: 121,
@@ -82,7 +85,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 7,
         isCountry: 1,
         area: "咯国",
         newConfirmed: 121,
@@ -93,7 +96,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 8,
         isCountry: 1,
         area: "啦国",
         newConfirmed: 121,
@@ -104,7 +107,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 9,
         isCountry: 1,
         area: "嗯国",
         newConfirmed: 121,
@@ -115,7 +118,7 @@ export default {
         totalDead: 123
       }),
       VirusStatusModel.fromObject({
-        id: 2,
+        id: 10,
         isCountry: 1,
         area: "好",
         newConfirmed: 121,
@@ -125,7 +128,7 @@ export default {
         totalRecovered: 121,
         totalDead: 123
       })
-    ]
+    ]})
   },
 
   //mock daily status
