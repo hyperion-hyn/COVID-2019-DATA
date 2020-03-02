@@ -1,16 +1,8 @@
 import React, { Component } from "react";
-// import { withStyles, Grid, Box } from "@material-ui/core";
-import { Grid, Box, Typography, ListItemText, List, TextField, Input } from "@material-ui/core";
+import { Grid, Box, Typography, TextField } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
-// import { makeStyles } from '@material-ui/core/styles';
-
-
-import { DemoActions } from "../../../actions/demo_action"
 import { VirusStatusActions } from "../../../actions/virus_status"
-import { VirusStatusModel } from "../../../data/model"
-
-import { makeStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -18,7 +10,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import { useState } from 'react';
 
 const styles = theme => ({
   root: {
@@ -29,7 +20,7 @@ const styles = theme => ({
   },
   virusListStyle: {
     height: 300,
-    width: "100%"
+    width: 370
   },
 });
 
@@ -49,7 +40,7 @@ class VirusStatusPanel extends Component {
     this.setState({ value: event.target.value });
   };
 
-  handleSelectVirus(event, id) {
+  handleSelectVirus(id) {
     const selectedIndex = this.state.listValue.indexOf(id);
     let newSelectedVirus = [];
 
@@ -64,22 +55,20 @@ class VirusStatusPanel extends Component {
   render() {
     const { classes, virusData, requestVirusDialyData, dialyData } = this.props;
 
-    const inputStyle = {
-      border: '1px solid grey',
-      padding: '10px',
-    }
-
     let inputValue = this.state.value;
-    let tableValue = this.state.listValue;
+    let tableSelectValue = this.state.listValue;
 
     let newArray = [];
     let virusUpdateTime = "";
-    if (virusData.data && inputValue != "") {
+    if (virusData.data && inputValue !== "") {
       newArray = virusData.data.virusList.filter(item => (item.area.match(inputValue)));
       virusUpdateTime = virusData.data.virusUpdateTime;
     } else if (virusData.data) {
       newArray = virusData.data.virusList;
       virusUpdateTime = virusData.data.virusUpdateTime;
+      if (tableSelectValue.length === 0 && newArray && newArray[0]) {
+        tableSelectValue = [newArray[0].id];
+      }
     }
     console.log("virusData.data result  " + newArray
       + " daily data: mock_virus_status_daily_tick===" + JSON.stringify(dialyData))
@@ -87,10 +76,11 @@ class VirusStatusPanel extends Component {
     return (
 
       <Grid item xs className={classes.root}>
-        <Typography style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-end' }}>
-          <Box pl={2} fontSize={20}>疫情统计</Box>
-          <Box pl={2} fontSize={15} style={{ color: '#4F4F4F' }}>更新时间：{virusUpdateTime}</Box>
-        </Typography>
+        <Box pl={2} pr={2} pt={1} style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-end' }}>
+          <Typography variant="subtitle1">疫情统计</Typography>
+          <Box ml={1}></Box>
+          <Typography variant="subtitle2" style={{ color: '#4F4F4F' }}>更新时间：{virusUpdateTime}</Typography>
+        </Box>
         <form onSubmit={this.handleChange}>
           <TextField margin='dense' fullWidth={true} variant="outlined" onChange={this.handleChange} value={inputValue} placeholder="搜索国家/地区" />
         </form>
@@ -109,12 +99,14 @@ class VirusStatusPanel extends Component {
 
             <TableBody>
               {newArray && newArray.map(row => (
-                <TableRow hover onClick={(rowEntity) => {
-                  console.log("tabletable" + row.area);
-                  requestVirusDialyData();
-                }} key={row.id}
-                  selected={tableValue.indexOf(row.id) !== -1}
-                  onClick={event => this.handleSelectVirus(event, row.id)}>
+                <TableRow
+                  hover
+                  onClick={(rowEntity, event) => {
+                    requestVirusDialyData();
+                    this.handleSelectVirus(row.id)
+                  }}
+                  key={row.id}
+                  selected={tableSelectValue.indexOf(row.id) !== -1}>
                   <TableCell component="th" scope="row">
                     {row.area}
                   </TableCell>
