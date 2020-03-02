@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   Box,
   Typography,
@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
-import MapGL from "react-map-gl";
+import MapGL, { GeolocateControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import VirusStatusPanel from "./component/virus_status_panel";
 
@@ -46,7 +46,7 @@ const styles = theme => ({
     flexGrow: 1
   },
   virusBox: {
-    width: "auto",
+    width: "auto"
   },
   virusListBox: {
     backgroundColor: "#ffffff"
@@ -62,11 +62,18 @@ const styles = theme => ({
   },
   languageText: {
     marginRight: "16px",
-    fontSize: '12px'
+    fontSize: "12px"
   },
   githubIcon: {
     width: "24px",
     height: "24px"
+  },
+  addVirusTip: {
+    position: "fixed",
+    top: "4rem",
+    color: "white",
+    textShadow: "1px 1px 2px blue"
+    // ['-webkit-text-stroke']: '1px grey'
   }
 });
 
@@ -81,11 +88,24 @@ class Main extends Component {
     }
   };
 
+  geolocateStyle = {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    margin: 32
+  };
+
+  _geolocateButtonRef = createRef();
+
   _onViewportChange = viewport => {
     viewport["width"] = "100%";
     viewport["height"] = "100%";
     this.setState({ viewport });
   };
+
+  componentDidMount() {
+    console.log("xxx did mount");
+  }
 
   render() {
     const { classes } = this.props;
@@ -99,14 +119,18 @@ class Main extends Component {
               全球疫情地图
             </Typography>
             <svg
-              class="icon"
+              // class="icon"
               aria-hidden="true"
               className={classes.languageIcon}
             >
               <use xlinkHref="#iconyuyan"></use>
             </svg>
             <Typography className={classes.languageText}>简体中文</Typography>
-            <svg class="icon" aria-hidden="true" className={classes.githubIcon}>
+            <svg
+              //  class="icon"
+              aria-hidden="true"
+              className={classes.githubIcon}
+            >
               <use xlinkHref="#icongit-copy"></use>
             </svg>
           </Toolbar>
@@ -129,7 +153,7 @@ class Main extends Component {
             </Grid>
           </Grid>
 
-          <Grid item className={classes.mapBox} xs>
+          <Grid item container className={classes.mapBox} xs justify="center">
             <MapGL
               {...viewport}
               mapStyle="https://cn.tile.map3.network/ncov_v1.json"
@@ -139,7 +163,18 @@ class Main extends Component {
                   "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
                 attributionControl: false
               }}
-            ></MapGL>
+            >
+              <GeolocateControl
+                style={this.geolocateStyle}
+                positionOptions={{ enableHighAccuracy: true }}
+                trackUserLocation={true}
+                showUserLocation={true}
+              />
+            </MapGL>
+
+            <Typography variant="h6" className={classes.addVirusTip}>
+              长按地图位置添加疫情信息
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
