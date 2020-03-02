@@ -87,10 +87,12 @@ class VirusStatusPanel extends Component {
     return (
 
       <Grid item xs className={classes.root}>
-        <Typography style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-end' }}>
-          <Box pl={2} fontSize={20}>疫情统计</Box>
-          <Box pl={2} fontSize={15} style={{ color: '#4F4F4F' }}>更新时间：{virusUpdateTime}</Box>
-        </Typography>
+        <Box pl={2} pr={2} pt={1} style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-end' }}>
+          <Typography variant="subtitle1">疫情统计</Typography>
+          <Box ml={1}>
+            <Typography variant="subtitle2" style={{ color: '#4F4F4F' }}>更新时间：{virusUpdateTime}</Typography>
+          </Box>
+        </Box>
         <form onSubmit={this.handleChange}>
           <TextField margin='dense' fullWidth={true} variant="outlined" onChange={this.handleChange} value={inputValue} placeholder="搜索国家/地区" />
         </form>
