@@ -7,7 +7,8 @@ import {
   Toolbar,
   IconButton,
   Button,
-  ButtonBase
+  ButtonBase,
+  Paper
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
@@ -55,7 +56,15 @@ const styles = theme => ({
     flexGrow: 1
   },
   virusBox: {
-    width: "auto"
+    width: 360,
+    height: "100%",
+    overflow: "hidden"
+  },
+  virusBoxItem: {
+    width: "100%",
+    // padding: theme.spacing(1),
+    maxHeight: "60%"
+    // overflow: 'hidden',
   },
   virusListBox: {
     backgroundColor: "#ffffff"
@@ -100,6 +109,11 @@ const styles = theme => ({
   addingMarkTip: {
     color: "blue",
     cursor: "pointer"
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary
   }
 });
 
@@ -207,17 +221,26 @@ class Main extends Component {
           wrap="nowrap"
           className={classes.mainBoard}
         >
-          <Grid direction="column" item container className={classes.virusBox}>
-            <VirusStatusPanel></VirusStatusPanel>
-            <VirusDailyPanel></VirusDailyPanel>
-            {/* <Grid item className={classes.virusChartsBox}>
-              <Box p={1}>
-                <Typography color="primary">daily charts here</Typography>
-              </Box>
-            </Grid> */}
+          <Grid
+            direction="column"
+            item
+            container
+            justify="flex-start"
+            alignItems="flex-start"
+            wrap="nowrap"
+            className={classes.virusBox}
+          >
+            <Grid item xs={12} className={classes.virusBoxItem}>
+              <VirusStatusPanel></VirusStatusPanel>
+              {/* <Paper className={classes.paper}>paper paper paper paper paper paper paper paper</Paper> */}
+            </Grid>
+            <Grid item xs className={classes.virusBoxItem}>
+              {/* <Paper className={classes.paper}>paper paper paper paper paper paper paper paper</Paper> */}
+              <VirusDailyPanel></VirusDailyPanel>
+            </Grid>
           </Grid>
 
-          <Grid item container className={classes.mapBox} xs justify="center">
+          <Grid item xs container className={classes.mapBox} justify="center">
             <MapGL
               {...viewport}
               mapStyle="https://cn.tile.map3.network/ncov_v1.json"
