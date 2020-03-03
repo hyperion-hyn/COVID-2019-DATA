@@ -1,3 +1,3 @@
 export default class ServerCode {
-  static SUCCESS = 1;
+  static SUCCESS = 0;
 }

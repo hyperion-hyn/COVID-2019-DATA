@@ -15,8 +15,11 @@ const styles = theme => ({
   root: {
     backgroundColor: "#ffffff"
   },
-  virusListBox: {
-    backgroundColor: "#ffffff"
+  virusTableRow: {
+    height: "30px"
+  },
+  virusTableCell: {
+    fontSize: "12px"
   },
   virusListStyle: {
     height: 300,
@@ -90,7 +93,7 @@ class VirusStatusPanel extends Component {
             <TableHead>
               <TableRow >
                 <TableCell>国家/地区</TableCell>
-                <TableCell align="right">新增</TableCell>
+                {/* <TableCell align="right">新增</TableCell> */}
                 <TableCell align="right">确诊</TableCell>
                 <TableCell align="right">康复</TableCell>
                 <TableCell align="right">死亡</TableCell>
@@ -110,7 +113,7 @@ class VirusStatusPanel extends Component {
                   <TableCell component="th" scope="row">
                     {row.area}
                   </TableCell>
-                  <TableCell align="right">{row.newConfirmed}</TableCell>
+                  {/* <TableCell align="right">{row.newConfirmed}</TableCell> */}
                   <TableCell align="right">{row.totalConfirmed}</TableCell>
                   <TableCell align="right">{row.totalRecovered}</TableCell>
                   <TableCell align="right">{row.totalDead}</TableCell>

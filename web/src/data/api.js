@@ -20,7 +20,7 @@ export const api = {
   },
 
   //each country virus status data list
-  requstCountryVirusStatus() {
+  requstCountryVirusStatusOld() {
     //request mock
     return new Observable(observer => {
       setTimeout(() => {
@@ -34,6 +34,20 @@ export const api = {
           observer.error(new Error("data request error"));
         }
       }, 500);
+    });
+  },
+
+  requstCountryVirusStatus() {
+    return new Observable(observer => {
+      fetch('http://10.10.1.115:3000/data/country/latest')
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (virusJson) {
+          observer.next(virusJson);
+          observer.complete();
+          // console.log("!!!"+JSON.stringify(virusJson));
+        });
     });
   },
 

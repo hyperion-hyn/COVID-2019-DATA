@@ -7,13 +7,13 @@ import {
 
 export default {
   demo_data_success: {
-    code: 1,
+    code: 0,
     msg: "success",
     data: "This is data back from server"
   },
   demo_data_fail: { code: -1, msg: "request data fail from server." },
   mock_virus_status_list: {
-    code: 1,
+    code: 0,
     msg: "success",
     data: VirusStatusTotalModel.fromObject({
       virusUpdateTime:"2020-03-01",
@@ -133,7 +133,7 @@ export default {
 
   //mock daily status
   mock_virus_status_daily_tick: {
-    code: 1,
+    code: 0,
     msg: "success",
     data: {
       //daily total status

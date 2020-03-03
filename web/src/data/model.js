@@ -44,6 +44,7 @@ export class VirusStatusDailyNewTickModel {
     model.area = obj["area"];
     model.date = obj["date"];
     model.count = obj["count"];
+    return model;
   }
 
   id;
@@ -63,6 +64,7 @@ export class VirusStatusDailyTotalTickModel {
     model.area = obj["area"];
     model.date = obj["date"];
     model.count = obj["count"];
+    return model;
   }
 
   id;
