@@ -5,16 +5,21 @@ import {
   Grid,
   AppBar,
   Toolbar,
-  Icon,
-  SvgIcon
+  Button
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
-import MapGL, { GeolocateControl } from "react-map-gl";
+import MapGL, {
+  GeolocateControl,
+  Marker,
+  FlyToInterpolator,
+  Popup
+} from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import VirusStatusPanel from "./component/virus_status_panel";
 
-import IconFont from "react-iconfonts";
+import Pin from "./component/pin";
+import { easeCubic } from "d3-ease";
 
 // function HomeIcon(props) {
 //   return (
@@ -74,18 +79,23 @@ const styles = theme => ({
     color: "white",
     textShadow: "1px 1px 2px blue"
     // ['-webkit-text-stroke']: '1px grey'
+  },
+  addingMarkTip: {
+    color: "blue",
+    cursor: "pointer"
   }
 });
 
 class Main extends Component {
   state = {
     viewport: {
-      latitude: 22.30511,
-      longitude: 114.188488,
-      zoom: 9,
+      latitude: 23.10901,
+      longitude: 113.31799,
+      zoom: 7.2,
       width: "100%",
       height: "100%"
-    }
+    },
+    addingMaker: undefined
   };
 
   geolocateStyle = {
@@ -103,13 +113,51 @@ class Main extends Component {
     this.setState({ viewport });
   };
 
+  _onAddVirus = () => {
+    let viewport = {
+      ...this.state.viewport
+    };
+    const minZoom = 16;
+    if (this.state.viewport.zoom < minZoom) {
+      viewport.zoom = minZoom;
+      viewport.transitionDuration = 1000;
+      viewport.transitionInterpolator = new FlyToInterpolator();
+      viewport.transitionEasing = easeCubic;
+    }
+
+    let addingMaker = {
+      latitude: viewport.latitude,
+      longitude: viewport.longitude,
+      message: "点击编辑疫情信息"
+    };
+
+    this.setState({ viewport, addingMaker });
+  };
+
+  _onMarkerDrag = event => {
+    if (this.state.addingMaker) {
+      let addingMaker = {
+        ...this.state.addingMaker
+      };
+      addingMaker.latitude = event.lngLat[1];
+      addingMaker.longitude = event.lngLat[0];
+      this.setState({ addingMaker });
+    }
+  };
+
+  _onCloseAdding = () => {
+    this.setState({ addingMaker: undefined });
+  };
+
   componentDidMount() {
-    console.log("xxx did mount");
+    setTimeout(() => {
+      // this._geolocateButtonRef.current._onClickGeolocate();
+    }, 1000);
   }
 
   render() {
     const { classes } = this.props;
-    const { viewport } = this.state;
+    const { viewport, addingMaker } = this.state;
 
     return (
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
@@ -166,18 +214,73 @@ class Main extends Component {
             >
               <GeolocateControl
                 style={this.geolocateStyle}
+                ref={this._geolocateButtonRef}
                 positionOptions={{ enableHighAccuracy: true }}
                 trackUserLocation={true}
                 showUserLocation={true}
               />
+
+              {this._renderAddNewMaker()}
+              {this._renderAddNewPopup()}
             </MapGL>
 
-            <Typography variant="h6" className={classes.addVirusTip}>
-              长按地图位置添加疫情信息
-            </Typography>
+            <Button onClick={this._onAddVirus}>
+              <Typography variant="h6" className={classes.addVirusTip}>
+                点击此处上报疫情信息
+              </Typography>
+            </Button>
           </Grid>
         </Grid>
       </Grid>
+    );
+  }
+
+  _renderAddNewMaker() {
+    const { addingMaker } = this.state;
+    return (
+      addingMaker && (
+        <Marker
+          longitude={addingMaker.longitude}
+          latitude={addingMaker.latitude}
+          offsetTop={-48}
+          offsetLeft={-24}
+          draggable
+          onDragEnd={this._onMarkerDrag}
+          onDrag={this._onMarkerDrag}
+        >
+          <Pin size={48} />
+        </Marker>
+      )
+    );
+  }
+
+  _renderAddNewPopup() {
+    const { addingMaker } = this.state;
+    const { classes } = this.props;
+    return (
+      addingMaker && (
+        <Popup
+          longitude={addingMaker.longitude}
+          latitude={addingMaker.latitude}
+          onClose={this._onCloseAdding}
+          closeOnClick={false}
+          offsetTop={-56}
+          // offsetLeft={-24}
+        >
+          <Box
+            onClick={() => {
+              console.log("TODO xxx edit point");
+            }}
+          >
+            <Typography color="textSecondary">
+              拖动标记到疫情发生位置
+            </Typography>
+            <Typography color="primary" className={classes.addingMarkTip}>
+              {addingMaker.message}
+            </Typography>
+          </Box>
+        </Popup>
+      )
     );
   }
 }
