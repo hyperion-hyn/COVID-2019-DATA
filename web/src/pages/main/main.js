@@ -5,7 +5,9 @@ import {
   Grid,
   AppBar,
   Toolbar,
-  Button
+  IconButton,
+  Button,
+  ButtonBase
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
@@ -17,6 +19,8 @@ import MapGL, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import VirusStatusPanel from "./component/virus_status_panel";
+import VirusDailyPanel from "./component/virus_daily_charts";
+import LanguageIcon from "@material-ui/icons/Language";
 
 import Pin from "./component/pin";
 import { easeCubic } from "d3-ease";
@@ -31,7 +35,7 @@ import { easeCubic } from "d3-ease";
 
 const styles = theme => ({
   root: {
-    backgroundColor: "#FF0000",
+    // backgroundColor: "#FF0000",
     width: "100vw",
     height: "100vh"
   },
@@ -65,17 +69,30 @@ const styles = theme => ({
     fill: "currentColor",
     marginRight: "4px"
   },
+  languageButton: {
+    marginRight: theme.spacing(2)
+  },
   languageText: {
-    marginRight: "16px",
-    fontSize: "12px"
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    fontSize: "14px"
   },
   githubIcon: {
     width: "24px",
     height: "24px"
   },
+  addVirusBox: {
+    margin: "auto",
+    width: "100%",
+    position: "absolute",
+    display: "flex",
+    "justify-content": "center",
+    top: "1rem"
+  },
+  addVirusButton: {
+    padding: theme.spacing(1)
+  },
   addVirusTip: {
-    position: "fixed",
-    top: "4rem",
     color: "white",
     textShadow: "1px 1px 2px blue"
     // ['-webkit-text-stroke']: '1px grey'
@@ -117,7 +134,7 @@ class Main extends Component {
     let viewport = {
       ...this.state.viewport
     };
-    const minZoom = 16;
+    const minZoom = 15;
     if (this.state.viewport.zoom < minZoom) {
       viewport.zoom = minZoom;
       viewport.transitionDuration = 1000;
@@ -166,19 +183,17 @@ class Main extends Component {
             <Typography variant="h6" className={classes.title}>
               全球疫情地图
             </Typography>
-            <svg
-              // class="icon"
-              aria-hidden="true"
-              className={classes.languageIcon}
+
+            <ButtonBase
+              variant="contained"
+              color="default"
+              className={classes.languageButton}
             >
-              <use xlinkHref="#iconyuyan"></use>
-            </svg>
-            <Typography className={classes.languageText}>简体中文</Typography>
-            <svg
-              //  class="icon"
-              aria-hidden="true"
-              className={classes.githubIcon}
-            >
+              <LanguageIcon />
+              <Typography className={classes.languageText}>简体中文</Typography>
+            </ButtonBase>
+
+            <svg aria-hidden="true" className={classes.githubIcon}>
               <use xlinkHref="#icongit-copy"></use>
             </svg>
           </Toolbar>
@@ -194,11 +209,12 @@ class Main extends Component {
         >
           <Grid direction="column" item container className={classes.virusBox}>
             <VirusStatusPanel></VirusStatusPanel>
-            <Grid item className={classes.virusChartsBox}>
+            <VirusDailyPanel></VirusDailyPanel>
+            {/* <Grid item className={classes.virusChartsBox}>
               <Box p={1}>
                 <Typography color="primary">daily charts here</Typography>
               </Box>
-            </Grid>
+            </Grid> */}
           </Grid>
 
           <Grid item container className={classes.mapBox} xs justify="center">
@@ -216,19 +232,24 @@ class Main extends Component {
                 style={this.geolocateStyle}
                 ref={this._geolocateButtonRef}
                 positionOptions={{ enableHighAccuracy: true }}
-                trackUserLocation={true}
+                trackUserLocation={false}
                 showUserLocation={true}
               />
 
               {this._renderAddNewMaker()}
               {this._renderAddNewPopup()}
-            </MapGL>
 
-            <Button onClick={this._onAddVirus}>
-              <Typography variant="h6" className={classes.addVirusTip}>
-                点击此处上报疫情信息
-              </Typography>
-            </Button>
+              <Box className={classes.addVirusBox}>
+                <ButtonBase
+                  onClick={this._onAddVirus}
+                  className={classes.addVirusButton}
+                >
+                  <Typography variant="h6" className={classes.addVirusTip}>
+                    点击此处上报疫情信息
+                  </Typography>
+                </ButtonBase>
+              </Box>
+            </MapGL>
           </Grid>
         </Grid>
       </Grid>
