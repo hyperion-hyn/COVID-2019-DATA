@@ -17,7 +17,7 @@ import MapGL, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import VirusStatusPanel from "./component/virus_status_panel";
-
+import UploadVirusPanel from "./component/upload_virus_panel";
 import Pin from "./component/pin";
 import { easeCubic } from "d3-ease";
 
@@ -83,7 +83,14 @@ const styles = theme => ({
   addingMarkTip: {
     color: "blue",
     cursor: "pointer"
-  }
+  },
+  uploadVirusPanel: {
+    height: "80%",
+    width: 370,
+    backgroundColor: "#ffffff",
+    position: "fixed",
+    top: "4rem",
+  },
 });
 
 class Main extends Component {
@@ -229,6 +236,10 @@ class Main extends Component {
                 点击此处上报疫情信息
               </Typography>
             </Button>
+            {/* <Box className={classes.uploadVirusPanel}>
+              <UploadVirusPanel abc={"enen"} callbackParent={this._uploadPanelCallback}>
+              </UploadVirusPanel>
+            </Box> */}
           </Grid>
         </Grid>
       </Grid>
@@ -265,7 +276,7 @@ class Main extends Component {
           onClose={this._onCloseAdding}
           closeOnClick={false}
           offsetTop={-56}
-          // offsetLeft={-24}
+        // offsetLeft={-24}
         >
           <Box
             onClick={() => {
@@ -282,6 +293,10 @@ class Main extends Component {
         </Popup>
       )
     );
+  }
+
+  _uploadPanelCallback(callBack) {
+    console.log("child call = " + callBack);
   }
 }
 
