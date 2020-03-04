@@ -5,10 +5,7 @@ import {
   Grid,
   AppBar,
   Toolbar,
-  IconButton,
-  Button,
   ButtonBase,
-  Paper
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
@@ -56,15 +53,23 @@ const styles = theme => ({
     flexGrow: 1
   },
   virusBox: {
-    width: 360,
+    width: 400,
     height: "100%",
     overflow: "hidden"
   },
-  virusBoxItem: {
+  virusBoxItem1: {
+    width: "100%"
+    // overflow: 'scroll'
+    // maxHeight: '60%'
+    // padding: theme.spacing(1),
+    // height: 420
+    // overflow: 'hidden',
+  },
+  virusBoxItem2: {
     width: "100%",
     // padding: theme.spacing(1),
-    maxHeight: "60%"
     // overflow: 'hidden',
+    height: 320
   },
   virusListBox: {
     backgroundColor: "#ffffff"
@@ -110,11 +115,6 @@ const styles = theme => ({
     color: "blue",
     cursor: "pointer"
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
-  }
 });
 
 class Main extends Component {
@@ -194,7 +194,7 @@ class Main extends Component {
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.title}>
+            <Typography variant="h5" className={classes.title}>
               全球疫情地图
             </Typography>
 
@@ -225,17 +225,23 @@ class Main extends Component {
             direction="column"
             item
             container
-            justify="flex-start"
-            alignItems="flex-start"
             wrap="nowrap"
             className={classes.virusBox}
           >
-            <Grid item xs={12} className={classes.virusBoxItem}>
+            <Grid item xs className={classes.virusBoxItem1}>
               <VirusStatusPanel></VirusStatusPanel>
-              {/* <Paper className={classes.paper}>paper paper paper paper paper paper paper paper</Paper> */}
             </Grid>
-            <Grid item xs className={classes.virusBoxItem}>
-              {/* <Paper className={classes.paper}>paper paper paper paper paper paper paper paper</Paper> */}
+
+            <Box
+              style={{
+                backgroundColor: "#ccc",
+                height: 1,
+                marginTop: 4,
+                marginBottom: 4
+              }}
+            ></Box>
+
+            <Grid item className={classes.virusBoxItem2}>
               <VirusDailyPanel></VirusDailyPanel>
             </Grid>
           </Grid>

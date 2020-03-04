@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Grid, Box, Typography, TextField } from "@material-ui/core";
+import {
+  Grid,
+  Box,
+  Typography,
+  TextField,
+  Paper,
+  IconButton,
+  InputBase
+} from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 import { VirusStatusActions } from "../../../actions/virus_status";
@@ -8,22 +16,25 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
+
+import SearchIcon from "@material-ui/icons/Search";
 
 const styles = theme => ({
   root: {
     backgroundColor: "#ffffff",
     height: "100%"
   },
-  virusTableRow: {
-    height: "30px"
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1
   },
-  virusTableCell: {
-    fontSize: "12px"
+  iconButton: {
+    padding: 10
   },
-  virusListStyle: {
-    maxHeight: '100%',
+  divider: {
+    height: 28,
+    margin: 4
   }
 });
 
@@ -82,7 +93,14 @@ class VirusStatusPanel extends Component {
     );
 
     return (
-      <Grid container direction="column" wrap="nowrap" className={classes.root}>
+      <Grid
+        container
+        wrap="nowrap"
+        direction="column"
+        container
+        wrap="nowrap"
+        className={classes.root}
+      >
         <Grid item>
           <Box
             pl={2}
@@ -91,40 +109,50 @@ class VirusStatusPanel extends Component {
             style={{
               display: "flex",
               justifyContent: "flex-start",
-              alignItems: "flex-end"
+              alignItems: "flex-end",
+              marginTop: 4
             }}
           >
-            <Typography variant="subtitle1">疫情统计</Typography>
-            <Box ml={1}></Box>
-            <Typography variant="subtitle2" style={{ color: "#4F4F4F" }}>
+            <Typography variant="h6">疫情统计</Typography>
+            <Box ml={2}></Box>
+            <Typography variant="subtitle2" style={{ color: "grey" }}>
               更新时间：{virusUpdateTime}
             </Typography>
           </Box>
         </Grid>
 
-        <Grid item>
-          <form onSubmit={this.handleChange}>
-            <TextField
-              margin="dense"
-              fullWidth={true}
-              variant="outlined"
-              onChange={this.handleChange}
-              value={inputValue}
-              placeholder="过滤国家/地区"
-            />
-          </form>
+        <Box
+          style={{
+            backgroundColor: "#cccccc",
+            height: 0.5,
+            marginTop: 6,
+            marginBottom: 4
+          }}
+        ></Box>
+
+        <Grid item container alignItems="center">
+          <SearchIcon style={{ color: "grey", marginLeft: "1rem" }} />
+          <InputBase
+            className={classes.input}
+            placeholder="过滤国家/地区"
+            inputProps={{ "aria-label": "search google maps" }}
+          />
         </Grid>
 
-        <Grid item xs={12} style={{height: '100%', paddingBottom: 96}}>
-          <TableContainer component={Paper} className={classes.virusListStyle}>
-            <Table className={classes.table}>
+        <Box
+          style={{ backgroundColor: "#cccccc", height: 1, marginTop: 4, marginBottom: 2}}
+        ></Box>
+
+        <Grid item xs style={{ overflowY: "scroll" }}>
+          <TableContainer>
+            <Table size="small" stickyHeader>
               <TableHead>
                 <TableRow>
                   <TableCell>国家/地区</TableCell>
-                  <TableCell align="right">新增</TableCell>
-                  <TableCell align="right">确诊</TableCell>
-                  <TableCell align="right">康复</TableCell>
-                  <TableCell align="right">死亡</TableCell>
+                  <TableCell align="center">新增</TableCell>
+                  <TableCell align="center">确诊</TableCell>
+                  <TableCell align="center">康复</TableCell>
+                  <TableCell align="center">死亡</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -140,13 +168,21 @@ class VirusStatusPanel extends Component {
                       key={row.id}
                       selected={tableSelectValue.indexOf(row.id) !== -1}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell component="th" scope="row" size="small">
                         {row.area}
                       </TableCell>
-                      <TableCell align="right">{row.newConfirmed}</TableCell>
-                      <TableCell align="right">{row.totalConfirmed}</TableCell>
-                      <TableCell align="right">{row.totalRecovered}</TableCell>
-                      <TableCell align="right">{row.totalDead}</TableCell>
+                      <TableCell size="small" align="center">
+                        {row.newConfirmed}
+                      </TableCell>
+                      <TableCell size="small" align="center">
+                        {row.totalConfirmed}
+                      </TableCell>
+                      <TableCell size="small" align="center">
+                        {row.totalRecovered}
+                      </TableCell>
+                      <TableCell size="small" align="center">
+                        {row.totalDead}
+                      </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
