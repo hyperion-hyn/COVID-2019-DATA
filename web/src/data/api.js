@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable, from } from "rxjs";
 
 import mock_data from "./mock_data";
 
@@ -39,16 +39,24 @@ export const api = {
 
   requstCountryVirusStatus() {
     return new Observable(observer => {
-      fetch('http://10.10.1.115:3000/data/country/latest')
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (virusJson) {
-          observer.next(virusJson);
+      setTimeout(() => {
+        const ramdom = Math.random() >= 0;
+        if (ramdom) {
+          console.log("mock request success");
+          observer.next(mock_data.mock_virus_status_list);
           observer.complete();
-          // console.log("!!!"+JSON.stringify(virusJson));
-        });
+        } else {
+          console.log("mock request fail.");
+          observer.error(new Error("data request error"));
+        }
+      }, 500);
     });
+
+    // return from(
+    //   fetch("http://10.10.1.115:3000/data/country/latest").then(res =>
+    //     res.json()
+    //   )
+    // );
   },
 
   //daily status data for charts.
