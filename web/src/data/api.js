@@ -38,11 +38,25 @@ export const api = {
   },
 
   requstCountryVirusStatus() {
-    return from(
-      fetch("http://10.10.1.115:3000/data/country/latest").then(res =>
-        res.json()
-      )
-    );
+    return new Observable(observer => {
+      setTimeout(() => {
+        const ramdom = Math.random() >= 0;
+        if (ramdom) {
+          console.log("mock request success");
+          observer.next(mock_data.mock_virus_status_list);
+          observer.complete();
+        } else {
+          console.log("mock request fail.");
+          observer.error(new Error("data request error"));
+        }
+      }, 500);
+    });
+
+    // return from(
+    //   fetch("http://10.10.1.115:3000/data/country/latest").then(res =>
+    //     res.json()
+    //   )
+    // );
   },
 
   //daily status data for charts.

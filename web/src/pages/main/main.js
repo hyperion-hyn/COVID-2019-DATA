@@ -7,7 +7,8 @@ import {
   Toolbar,
   IconButton,
   Button,
-  ButtonBase
+  ButtonBase,
+  Paper
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
@@ -19,6 +20,7 @@ import MapGL, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import VirusStatusPanel from "./component/virus_status_panel";
+import UploadVirusPanel from "./component/upload_virus_panel";
 import VirusDailyPanel from "./component/virus_daily_charts";
 import LanguageIcon from "@material-ui/icons/Language";
 
@@ -55,7 +57,15 @@ const styles = theme => ({
     flexGrow: 1
   },
   virusBox: {
-    width: "auto"
+    width: 360,
+    height: "100%",
+    overflow: "hidden"
+  },
+  virusBoxItem: {
+    width: "100%",
+    // padding: theme.spacing(1),
+    maxHeight: "60%"
+    // overflow: 'hidden',
   },
   virusListBox: {
     backgroundColor: "#ffffff"
@@ -100,6 +110,18 @@ const styles = theme => ({
   addingMarkTip: {
     color: "blue",
     cursor: "pointer"
+  },
+  uploadVirusPanel: {
+    height: "80%",
+    width: 370,
+    backgroundColor: "#ffffff",
+    position: "fixed",
+    top: "4rem",
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary
   }
 });
 
@@ -207,17 +229,26 @@ class Main extends Component {
           wrap="nowrap"
           className={classes.mainBoard}
         >
-          <Grid direction="column" item container className={classes.virusBox}>
-            <VirusStatusPanel></VirusStatusPanel>
-            <VirusDailyPanel></VirusDailyPanel>
-            {/* <Grid item className={classes.virusChartsBox}>
-              <Box p={1}>
-                <Typography color="primary">daily charts here</Typography>
-              </Box>
-            </Grid> */}
+          <Grid
+            direction="column"
+            item
+            container
+            justify="flex-start"
+            alignItems="flex-start"
+            wrap="nowrap"
+            className={classes.virusBox}
+          >
+            <Grid item xs={12} className={classes.virusBoxItem}>
+              <VirusStatusPanel></VirusStatusPanel>
+              {/* <Paper className={classes.paper}>paper paper paper paper paper paper paper paper</Paper> */}
+            </Grid>
+            <Grid item xs className={classes.virusBoxItem}>
+              {/* <Paper className={classes.paper}>paper paper paper paper paper paper paper paper</Paper> */}
+              <VirusDailyPanel></VirusDailyPanel>
+            </Grid>
           </Grid>
 
-          <Grid item container className={classes.mapBox} xs justify="center">
+          <Grid item xs container className={classes.mapBox} justify="center">
             <MapGL
               {...viewport}
               mapStyle="https://cn.tile.map3.network/ncov_v1.json"
@@ -249,6 +280,10 @@ class Main extends Component {
                   </Typography>
                 </ButtonBase>
               </Box>
+              {/* <Box className={classes.uploadVirusPanel}>
+              <UploadVirusPanel abc={"enen"} callbackParent={this._uploadPanelCallback}>
+              </UploadVirusPanel>
+            </Box> */}
             </MapGL>
           </Grid>
         </Grid>
@@ -286,7 +321,7 @@ class Main extends Component {
           onClose={this._onCloseAdding}
           closeOnClick={false}
           offsetTop={-56}
-          // offsetLeft={-24}
+        // offsetLeft={-24}
         >
           <Box
             onClick={() => {
@@ -303,6 +338,10 @@ class Main extends Component {
         </Popup>
       )
     );
+  }
+
+  _uploadPanelCallback(callBack) {
+    console.log("child call = " + callBack);
   }
 }
 
