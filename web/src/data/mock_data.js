@@ -127,6 +127,116 @@ export default {
         totalConfirmed: 123,
         totalRecovered: 121,
         totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 11,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 12,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 13,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 14,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 15,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 16,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 17,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 18,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 19,
+        isCountry: 1,
+        area: "好",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
+      }),
+      VirusStatusModel.fromObject({
+        id: 20,
+        isCountry: 1,
+        area: "好-end",
+        newConfirmed: 121,
+        newRecovered: 111,
+        newDead: 21,
+        totalConfirmed: 123,
+        totalRecovered: 121,
+        totalDead: 123
       })
     ]})
   },
