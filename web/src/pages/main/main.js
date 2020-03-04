@@ -201,7 +201,7 @@ class Main extends Component {
     return (
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
-          <Toolbar variant="dense">
+          <Toolbar>
             <Typography variant="h5" className={classes.title}>
               全球疫情地图
             </Typography>
