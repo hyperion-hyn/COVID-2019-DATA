@@ -15,7 +15,7 @@ class VirusDailyPanel extends Component {
 
     return (
       <Box className={classes.root}>
-        <Typography >韩国情势:</Typography>
+        <Typography >韩国情势</Typography>
         <Simple></Simple>
         <Simple></Simple>
       </Box>
