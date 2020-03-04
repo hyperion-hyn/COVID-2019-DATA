@@ -17,6 +17,7 @@ import MapGL, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import VirusStatusPanel from "./component/virus_status_panel";
+import UploadVirusPanel from "./component/upload_virus_panel";
 import VirusDailyPanel from "./component/virus_daily_charts";
 import LanguageIcon from "@material-ui/icons/Language";
 
@@ -114,6 +115,13 @@ const styles = theme => ({
   addingMarkTip: {
     color: "blue",
     cursor: "pointer"
+  },
+  uploadVirusPanel: {
+    height: "80%",
+    width: 370,
+    backgroundColor: "#ffffff",
+    position: "fixed",
+    top: "4rem",
   },
 });
 
@@ -278,6 +286,10 @@ class Main extends Component {
                   </Typography>
                 </ButtonBase>
               </Box>
+              {/* <Box className={classes.uploadVirusPanel}>
+              <UploadVirusPanel abc={"enen"} callbackParent={this._uploadPanelCallback}>
+              </UploadVirusPanel>
+            </Box> */}
             </MapGL>
           </Grid>
         </Grid>
@@ -315,7 +327,7 @@ class Main extends Component {
           onClose={this._onCloseAdding}
           closeOnClick={false}
           offsetTop={-56}
-          // offsetLeft={-24}
+        // offsetLeft={-24}
         >
           <Box
             onClick={() => {
@@ -332,6 +344,10 @@ class Main extends Component {
         </Popup>
       )
     );
+  }
+
+  _uploadPanelCallback(callBack) {
+    console.log("child call = " + callBack);
   }
 }
 
