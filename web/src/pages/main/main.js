@@ -134,6 +134,7 @@ class Main extends Component {
     },
     addingMaker: undefined,
     isShowPanel:false,
+    areaValue:""
   };
 
   geolocateStyle = {
@@ -236,7 +237,7 @@ class Main extends Component {
             className={classes.virusBox}
           >
             <Grid item xs className={classes.virusBoxItem1}>
-              <VirusStatusPanel></VirusStatusPanel>
+              <VirusStatusPanel ></VirusStatusPanel>
             </Grid>
 
             <Box
