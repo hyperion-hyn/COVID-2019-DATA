@@ -76,7 +76,7 @@ export const api = {
   //daily status data for charts.
   requestDailyVirusStatus(area) {
     // todo: test
-    return new Observable(observer => {
+    /* return new Observable(observer => {
       setTimeout(() => {
         const ramdom = Math.random() >= 0;
         if (ramdom) {
@@ -88,12 +88,12 @@ export const api = {
           observer.error(new Error("data request error"));
         }
       }, 500);
-    });
+    }); */
 
-   /*  return from(
+    return from(
       fetch("http://10.10.1.115:3000/data/country/daily/"+area).then(res =>
         res.json()
       )
-    ); */
+    );
   }
 };
