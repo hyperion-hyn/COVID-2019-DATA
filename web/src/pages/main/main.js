@@ -119,7 +119,6 @@ const styles = theme => ({
   uploadVirusPanelGrid: {
     width: 370,
     height: "80%",
-    backgroundColor: "#ffffff",
     top: "1rem",
   },
 });
@@ -351,9 +350,11 @@ class Main extends Component {
             <UploadVirusPanel
               childLatitude={addingMaker.latitude}
               childLongitude={addingMaker.longitude}
-              callbackParent={(isShow) => {
-                this.setState({ addingMaker: undefined });
-                this.updateUploadPanelState(isShow);
+              callbackParent={(isMakerShow) => {
+                if(!isMakerShow){
+                  this.setState({ addingMaker: undefined });
+                }
+                this.updateUploadPanelState(false);
                 }}>
             </UploadVirusPanel>
           </Grid>
