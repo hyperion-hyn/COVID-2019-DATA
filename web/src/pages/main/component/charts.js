@@ -62,15 +62,15 @@ export default class Charts extends PureComponent {
         return {
             //backgroundColor: 'rgb(18, 128, 128)',
 
-            // grid: {
-            //   top: 30,
-            // },
+            grid: {
+              top: 30,
+            },
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
                 left: 'center',
-                top: '%',
+                bottom: '15%',
                 data: ['新增确诊', '新增死亡', '新增康复']
             },
             calculable: true,
@@ -152,7 +152,7 @@ export default class Charts extends PureComponent {
         let dateArray = array[3];
 
         return {
-            backgroundColor: 'rgb(128, 128, 128)',
+            //backgroundColor: 'rgb(128, 128, 128)',
             tooltip: {
                 trigger: 'axis'
             },

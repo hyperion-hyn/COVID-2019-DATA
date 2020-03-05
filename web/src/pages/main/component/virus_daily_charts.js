@@ -25,8 +25,8 @@ class VirusDailyPanel extends Component {
       var deadArray = dead.map(item =>
         item.area
       );
-      // area = deadArray[0] + "形势";
-      area = deadArray[0];
+      area = deadArray[0] + "形势";
+      // area = deadArray[0];
     }
     /* console.log(
       "[VirusDailyPanel] -->" +
@@ -48,7 +48,6 @@ class VirusDailyPanel extends Component {
 const mapStateToProps = (state, onwProps) => ({
   dailyData: state.virusDailyReducer,
 });
-
 
 export default connect(
   mapStateToProps,
