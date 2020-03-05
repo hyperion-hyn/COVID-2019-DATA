@@ -5,7 +5,8 @@ import { withStyles, Box, Typography } from "@material-ui/core";
 const styles = theme => ({
   root: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    backgroundColor: "white"
   }
 });
 
@@ -15,7 +16,9 @@ class VirusDailyPanel extends Component {
 
     return (
       <Box className={classes.root}>
-        <Typography >韩国情势:</Typography>
+        <Box pl={2} pt={1}>
+          <Typography style={{ fontSize: 18 }}>韩国情势:</Typography>
+        </Box>
         <Simple></Simple>
         <Simple></Simple>
       </Box>
