@@ -100,17 +100,6 @@ class VirusStatusPanel extends Component {
       }
     }
 
-    // this.state = tableSelectValue;
-
-    console.log(
-      "virusData.data result --> newArray: " +
-        newArray +
-        " daily data: mock_virus_status_daily_tick===" +
-        JSON.stringify(dailyData) +
-        "tableSelectValue: " + 
-        tableSelectValue
-    );
-
     return (
       <Grid
         container

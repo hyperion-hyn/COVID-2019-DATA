@@ -3,7 +3,7 @@ import { mergeMap, takeUntil, catchError, map } from "rxjs/operators";
 
 import { VirusStatusActions } from "../actions";
 import { api } from "../data/api";
-import { of } from "rxjs";
+import { of, Observable } from "rxjs";
 import ServerCode from "../config/server_code";
 
 export function onLoadContryVirusStatusEpics(action$) {
@@ -13,9 +13,23 @@ export function onLoadContryVirusStatusEpics(action$) {
     ofType(VirusStatusActions.LOAD_VIRUS_STATUS_DATA),
     mergeMap(action => {
       return api.requstCountryVirusStatus().pipe(
-        map(response => {
+        mergeMap(response => {
           if (response.code === ServerCode.SUCCESS) {
-            return VirusStatusActions.loadedVirusStatusData(response.data);
+            return new Observable(emitter => {
+              emitter.next(VirusStatusActions.loadedVirusStatusData(response.data));
+              if (response.data && response.data.virusList[0]) {
+                let areaName = response.data.virusList[0].area;
+
+                api.requestDailyVirusStatus(areaName).subscribe(response => {
+                  if (response.code === ServerCode.SUCCESS) {
+                    emitter.next(VirusStatusActions.loadedDailyVirus(response.data));
+                  }
+                  emitter.complete();
+                }, error => emitter.complete()
+                )
+              }
+
+            });
           } else {
             throw Error(response.msg);
           }
@@ -39,7 +53,7 @@ export function onLoadDailyVirusByContryEpics(action$) {
   return action$.pipe(
     ofType(VirusStatusActions.LOAD_DAILY_DATA),
     mergeMap(action => {
-      return api.requestDailyVirusStatus(action.data).pipe(
+      return api.requestDailyVirusStatus("韩国").pipe(
         map(response => {
           if (response.code === ServerCode.SUCCESS) {
             return VirusStatusActions.loadedDailyVirus(response.data);
