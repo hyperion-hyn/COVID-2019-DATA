@@ -41,7 +41,7 @@ class VirusStatusPanel extends Component {
     const { requestVirusData } = this.props;
     requestVirusData();
 
-    this.state = { value: "", listValue: [], filter: undefined };
+    this.state = { value: "", listValue: [], filter: undefined,times:0 };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -53,6 +53,7 @@ class VirusStatusPanel extends Component {
   }
 
   handleSelectVirus(id) {
+    
     const selectedIndex = this.state.listValue.indexOf(id);
     let newSelectedVirus = [];
 
@@ -80,8 +81,8 @@ class VirusStatusPanel extends Component {
   };
 
   render() {
-    const { classes, virusData, requestVirusDialyData, dialyData } = this.props;
-    const { filter } = this.state;
+    const { classes, virusData, requestVirusDialyData } = this.props;
+    const { filter,times } = this.state;
 
     let inputValue = this.state.value;
     let tableSelectValue = this.state.listValue;
@@ -97,7 +98,7 @@ class VirusStatusPanel extends Component {
       newArray = virusData.data.virusList;
       virusUpdateTime = virusData.data.virusUpdateTime;
       if (tableSelectValue.length === 0 && newArray && newArray[0]) {
-        tableSelectValue = [newArray[0].id];
+        tableSelectValue = [newArray[0].area];
       }
     }
     // console.log(
@@ -191,10 +192,10 @@ class VirusStatusPanel extends Component {
                         hover
                         onClick={(rowEntity, event) => {
                           requestVirusDialyData();
-                          this.handleSelectVirus(row.id);
+                          this.handleSelectVirus(row.area);
                         }}
                         key={row.area}
-                        selected={tableSelectValue.indexOf(row.id) !== -1}
+                        selected={tableSelectValue.indexOf(row.area) !== -1}
                       >
                         <TableCell component="th" scope="row" size="small">
                           {row.area}
