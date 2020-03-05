@@ -36,12 +36,12 @@ export default class Charts extends PureComponent {
                 <div className='parent'>
                     <ReactEcharts
                         option={this.newOption(dailyNew)}
-                        style={{ height: '200px', width: '100%' }}
+                        style={{ height: '180px', width: '100%' }}
                         theme={themeColor}
                         className='react_for_echarts' />
                     <ReactEcharts
                         option={this.totalOption(dailyTotal)}
-                        style={{ height: '200px', width: '100%' }}
+                        style={{ height: '220px', width: '100%' }}
                         theme={themeColor}
                         className='react_for_echarts' />
                 </div>
@@ -60,6 +60,8 @@ export default class Charts extends PureComponent {
         //console.log('[Charts] -->2, data:' + recoverdArray);
 
         return {
+            //backgroundColor: 'rgb(18, 128, 128)',
+
             // grid: {
             //   top: 30,
             // },
@@ -140,49 +142,6 @@ export default class Charts extends PureComponent {
         };
     }
 
-    editData = (data) => {
-        var dead, confirmed, recoverd;
-        let deadArray = [];
-        let confirmedArray = [];
-        let recoverdArray = [];
-        let dateArray = [];
-
-        if (data) {
-            if (data.dead) {
-                dead = data.dead;
-
-                deadArray = dead.map(item =>
-                    item.count
-                );
-            }
-
-            if (data.confirmed) {
-                confirmed = data.confirmed;
-
-                confirmedArray = confirmed.map(item =>
-                    item.count
-                );
-
-                dateArray = confirmed.map(item => {
-                    var date = new Date(item.date),
-                        month = date.getMonth()+1,
-                        day = date.getDate(),
-                        dateText =  month + "月" + day + "日";
-                        return dateText;
-                });
-            }
-
-            if (data.recoverd) {
-                recoverd = data.recoverd;
-
-                recoverdArray = recoverd.map(item =>
-                    item.count
-                );
-            }
-        }
-        return [deadArray, confirmedArray, recoverdArray, dateArray];
-    }
-
     totalOption = (data) => {
         //console.log('[Charts] -->2, dailyTotal: ' + data);
 
@@ -193,6 +152,7 @@ export default class Charts extends PureComponent {
         let dateArray = array[3];
 
         return {
+            backgroundColor: 'rgb(128, 128, 128)',
             tooltip: {
                 trigger: 'axis'
             },
@@ -245,5 +205,47 @@ export default class Charts extends PureComponent {
             ]
         };
     };
-    
+
+    editData = (data) => {
+        var dead, confirmed, recoverd;
+        let deadArray = [];
+        let confirmedArray = [];
+        let recoverdArray = [];
+        let dateArray = [];
+
+        if (data) {
+            if (data.dead) {
+                dead = data.dead;
+
+                deadArray = dead.map(item =>
+                    item.count
+                );
+            }
+
+            if (data.confirmed) {
+                confirmed = data.confirmed;
+
+                confirmedArray = confirmed.map(item =>
+                    item.count
+                );
+
+                dateArray = confirmed.map(item => {
+                    var date = new Date(item.date),
+                        month = date.getMonth()+1,
+                        day = date.getDate(),
+                        dateText =  month + "月" + day + "日";
+                        return dateText;
+                });
+            }
+
+            if (data.recoverd) {
+                recoverd = data.recoverd;
+
+                recoverdArray = recoverd.map(item =>
+                    item.count
+                );
+            }
+        }
+        return [deadArray, confirmedArray, recoverdArray, dateArray];
+    }
 }

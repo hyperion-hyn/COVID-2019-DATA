@@ -25,7 +25,8 @@ class VirusDailyPanel extends Component {
       var deadArray = dead.map(item =>
         item.area
       );
-      area = deadArray[0] + "情势:";
+      // area = deadArray[0] + "形势";
+      area = deadArray[0];
     }
     /* console.log(
       "[VirusDailyPanel] -->" +
@@ -36,7 +37,7 @@ class VirusDailyPanel extends Component {
     return (
       <Box className={classes.root}>
         <Box pl={2} pt={1}>
-          <Typography style={{ fontSize: 14 }}>{area}</Typography>
+          <Typography style={{height: '20px', fontSize: 14 }}>{area}</Typography>
         </Box>
         <Charts dailyData={dailyData}></Charts>
       </Box>
