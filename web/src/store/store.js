@@ -6,11 +6,16 @@ import rootEpic from "../epics";
 const epicMiddleware = createEpicMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default function configureStore() {
+function _configureStore() {
   const store = createStore(
     rootReducer,
-    composeEnhancers(applyMiddleware(epicMiddleware))
+    composeEnhancers(applyMiddleware(epicMiddleware)),
   );
   epicMiddleware.run(rootEpic);
   return store;
 }
+
+
+const store = _configureStore();
+
+export default store;

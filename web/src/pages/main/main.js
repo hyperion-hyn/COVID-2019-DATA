@@ -6,6 +6,10 @@ import {
   AppBar,
   Toolbar,
   ButtonBase,
+  FormControl,
+  Select,
+  MenuItem,
+  InputBase
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
@@ -23,14 +27,21 @@ import LanguageIcon from "@material-ui/icons/Language";
 
 import Pin from "./component/pin";
 import { easeCubic } from "d3-ease";
+import { FormattedMessage } from "react-intl";
 
-// function HomeIcon(props) {
-//   return (
-//     <SvgIcon {...props}>
-//       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-//     </SvgIcon>
-//   );
-// }
+import { LangaugeActions } from "../../actions/language";
+import { intlPayload, supportedLocales } from "../../locale";
+
+const BootstrapInput = withStyles(theme => ({
+  input: {
+    color: "white",
+    position: "relative",
+    fontSize: 16,
+    width: "auto",
+    minWidth: "64px",
+    textAlign: "center"
+  }
+}))(InputBase);
 
 const styles = theme => ({
   root: {
@@ -121,8 +132,12 @@ const styles = theme => ({
     width: 370,
     backgroundColor: "#ffffff",
     position: "fixed",
-    top: "4rem",
+    top: "4rem"
   },
+  languageFormControl: {
+    margin: 8,
+    paddingTop: 4
+  }
 });
 
 class Main extends Component {
@@ -134,7 +149,10 @@ class Main extends Component {
       width: "100%",
       height: "100%"
     },
-    addingMaker: undefined
+    addingMaker: undefined,
+    locales: {
+      open: false
+    }
   };
 
   geolocateStyle = {
@@ -188,6 +206,20 @@ class Main extends Component {
     this.setState({ addingMaker: undefined });
   };
 
+  _handleLocaleClose = () => {
+    this.setState({ locales: { open: false } });
+  };
+
+  _handleLocaleOpen = () => {
+    this.setState({ locales: { open: true } });
+  };
+
+  _handleChangeLocale = event => {
+    const lang = event.target.value;
+    sessionStorage.setItem("lang", lang);
+    this.props.changeLocale(lang);
+  };
+
   componentDidMount() {
     setTimeout(() => {
       // this._geolocateButtonRef.current._onClickGeolocate();
@@ -195,7 +227,7 @@ class Main extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, locale } = this.props;
     const { viewport, addingMaker } = this.state;
 
     return (
@@ -203,21 +235,43 @@ class Main extends Component {
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <Typography variant="h5" className={classes.title}>
-              全球疫情地图
+              <FormattedMessage id="title"/>
             </Typography>
 
-            <ButtonBase
-              variant="contained"
-              color="default"
-              className={classes.languageButton}
-            >
-              <LanguageIcon />
-              <Typography className={classes.languageText}>简体中文</Typography>
-            </ButtonBase>
+            <LanguageIcon />
+            <FormControl className={classes.languageFormControl}>
+              <Select
+                open={this.state.locales.open}
+                onClose={this._handleLocaleClose}
+                onOpen={this._handleLocaleOpen}
+                value={locale.lang}
+                onChange={this._handleChangeLocale}
+                IconComponent={() => {
+                  return <div />;
+                }}
+                input={
+                  <BootstrapInput name="locale" id="locale-customized-select" />
+                }
+              >
+                {supportedLocales.map(locale => {
+                  return (
+                    <MenuItem key={locale.lang} value={locale.lang}>
+                      {locale.desc}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
 
-            <svg aria-hidden="true" className={classes.githubIcon}>
-              <use xlinkHref="#icongit-copy"></use>
-            </svg>
+            <a
+              href="https://github.com/hyperion-hyn/COVID-2019-DATA"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg aria-hidden="true" className={classes.githubIcon}>
+                <use xlinkHref="#icongit-copy"></use>
+              </svg>
+            </a>
           </Toolbar>
         </AppBar>
 
@@ -257,7 +311,8 @@ class Main extends Component {
           <Grid item xs container className={classes.mapBox} justify="center">
             <MapGL
               {...viewport}
-              mapStyle="https://cn.tile.map3.network/ncov_v1.json"
+              // mapStyle="https://cn.tile.map3.network/ncov_v1.json"
+              mapStyle="http://10.10.1.115:9999/global_covid.json"
               onViewportChange={this._onViewportChange}
               mapOptions={{
                 localIdeographFontFamily:
@@ -282,7 +337,7 @@ class Main extends Component {
                   className={classes.addVirusButton}
                 >
                   <Typography variant="h6" className={classes.addVirusTip}>
-                    点击此处上报疫情信息
+                    <FormattedMessage id="click_to_add_virus_info" />
                   </Typography>
                 </ButtonBase>
               </Box>
@@ -327,7 +382,7 @@ class Main extends Component {
           onClose={this._onCloseAdding}
           closeOnClick={false}
           offsetTop={-56}
-        // offsetLeft={-24}
+          // offsetLeft={-24}
         >
           <Box
             onClick={() => {
@@ -351,15 +406,19 @@ class Main extends Component {
   }
 }
 
-// const mapStateToProps = (state, onwProps) => ({
-//   demoState: state.demo
-// });
+const mapStateToProps = (state, onwProps) => ({
+  locale: state.locale,
+  currentLocale: state.intl.locale
+});
 
-// const mapDispatchToProps = {
-//   requestDemoData: DemoActions.requestDemoData
-// };
+const mapDispatchToProps = {
+  changeLocale: LangaugeActions.changeLocale
+};
 
 //see https://react-redux.js.org/api/connect
-export default connect()(withStyles(styles)(Main));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Main));
 // mapStateToProps,
 // mapDispatchToProps
