@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  Grid,
-  Box,
-  Typography,
-  InputBase
-} from "@material-ui/core";
+import { Grid, Box, Typography, InputBase } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 import { VirusStatusActions } from "../../../actions/virus_status";
@@ -16,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Table from "@material-ui/core/Table";
 
 import SearchIcon from "@material-ui/icons/Search";
+import { FormattedMessage } from "react-intl";
 
 
 const styles = theme => ({
@@ -135,7 +131,9 @@ class VirusStatusPanel extends Component {
               marginTop: 4
             }}
           >
-            <Typography variant="h6">疫情统计</Typography>
+            <Typography variant="h6">
+              <FormattedMessage id="virus_stat" />
+            </Typography>
             <Box ml={2}></Box>
             <Typography variant="subtitle2" style={{ color: "grey" }}>
               更新时间：{virusUpdateTime}
