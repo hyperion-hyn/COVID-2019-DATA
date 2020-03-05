@@ -3,9 +3,6 @@ import {
   Grid,
   Box,
   Typography,
-  TextField,
-  Paper,
-  IconButton,
   InputBase
 } from "@material-ui/core";
 import { connect } from "react-redux";
@@ -44,9 +41,11 @@ class VirusStatusPanel extends Component {
     const { requestVirusData } = this.props;
     requestVirusData();
 
-    this.state = { value: "", listValue: [] };
+    this.state = { value: "", listValue: [], filter: undefined };
     this.handleChange = this.handleChange.bind(this);
   }
+
+  timeout = null;
 
   handleChange(event) {
     event.preventDefault();
@@ -65,9 +64,25 @@ class VirusStatusPanel extends Component {
     this.setState({ listValue: newSelectedVirus });
   }
 
+  _onFilterChange = value => {
+    const filter = value.currentTarget.value;
+
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    if (!filter) {
+      this.setState({ filter });
+    } else {
+      this.timeout = setTimeout(() => {
+        this.setState({ filter });
+      }, 1000);
+    }
+  };
+
   render() {
     const { classes, virusData, requestVirusDailyData, dailyData } = this.props;
-     
+    const { filter } = this.state;
+
     let inputValue = this.state.value;
     let tableSelectValue = this.state.listValue;
 
@@ -85,6 +100,7 @@ class VirusStatusPanel extends Component {
         tableSelectValue = [newArray[0].id];
       }
     }
+
     console.log(
       "virusData.data result --> newArray: " +
         newArray +
@@ -135,12 +151,18 @@ class VirusStatusPanel extends Component {
           <InputBase
             className={classes.input}
             placeholder="过滤国家/地区"
-            inputProps={{ "aria-label": "search google maps" }}
+            inputProps={{ "aria-label": "filter" }}
+            onChange={this._onFilterChange}
           />
         </Grid>
 
         <Box
-          style={{ backgroundColor: "#cccccc", height: 1, marginTop: 4, marginBottom: 2}}
+          style={{
+            backgroundColor: "#cccccc",
+            height: 1,
+            marginTop: 4,
+            marginBottom: 2
+          }}
         ></Box>
 
         <Grid item xs style={{ overflowY: "scroll" }}>
@@ -158,33 +180,40 @@ class VirusStatusPanel extends Component {
 
               <TableBody>
                 {newArray &&
-                  newArray.map(row => (
-                    <TableRow
-                      hover
-                      onClick={(rowEntity, event) => {
-                        requestVirusDailyData();
-                        this.handleSelectVirus(row.id);
-                      }}
-                      key={row.id}
-                      selected={tableSelectValue.indexOf(row.id) !== -1}
-                    >
-                      <TableCell component="th" scope="row" size="small">
-                        {row.area}
-                      </TableCell>
-                      <TableCell size="small" align="center">
-                        {row.newConfirmed}
-                      </TableCell>
-                      <TableCell size="small" align="center">
-                        {row.totalConfirmed}
-                      </TableCell>
-                      <TableCell size="small" align="center">
-                        {row.totalRecovered}
-                      </TableCell>
-                      <TableCell size="small" align="center">
-                        {row.totalDead}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  newArray
+                    .filter(row => {
+                      if (!filter) {
+                        return true;
+                      }
+                      return row.area.indexOf(filter) >= 0;
+                    })
+                    .map(row => (
+                      <TableRow
+                        hover
+                        onClick={(rowEntity, event) => {
+                          requestVirusDailyData();
+                          this.handleSelectVirus(row.id);
+                        }}
+                        key={row.area}
+                        selected={tableSelectValue.indexOf(row.id) !== -1}
+                      >
+                        <TableCell component="th" scope="row" size="small">
+                          {row.area}
+                        </TableCell>
+                        <TableCell size="small" align="center">
+                          {row.newConfirmed}
+                        </TableCell>
+                        <TableCell size="small" align="center">
+                          {row.totalConfirmed}
+                        </TableCell>
+                        <TableCell size="small" align="center">
+                          {row.totalRecovered}
+                        </TableCell>
+                        <TableCell size="small" align="center">
+                          {row.totalDead}
+                        </TableCell>
+                      </TableRow>
+                    ))}
               </TableBody>
             </Table>
           </TableContainer>

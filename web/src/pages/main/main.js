@@ -116,12 +116,11 @@ const styles = theme => ({
     color: "blue",
     cursor: "pointer"
   },
-  uploadVirusPanel: {
-    height: "80%",
+  uploadVirusPanelGrid: {
     width: 370,
+    height: "80%",
     backgroundColor: "#ffffff",
-    position: "fixed",
-    top: "4rem",
+    top: "1rem",
   },
 });
 
@@ -134,7 +133,8 @@ class Main extends Component {
       width: "100%",
       height: "100%"
     },
-    addingMaker: undefined
+    addingMaker: undefined,
+    isShowPanel:false,
   };
 
   geolocateStyle = {
@@ -196,12 +196,12 @@ class Main extends Component {
 
   render() {
     const { classes } = this.props;
-    const { viewport, addingMaker } = this.state;
+    const { viewport, addingMaker,isShowPanel } = this.state;
 
     return (
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
-          <Toolbar variant="dense">
+          <Toolbar>
             <Typography variant="h5" className={classes.title}>
               全球疫情地图
             </Typography>
@@ -286,10 +286,7 @@ class Main extends Component {
                   </Typography>
                 </ButtonBase>s
               </Box>
-              {/* <Box className={classes.uploadVirusPanel}>
-              <UploadVirusPanel abc={"enen"} callbackParent={this._uploadPanelCallback}>
-              </UploadVirusPanel>
-            </Box> */}
+              {this._uploadPanelView(isShowPanel)}
             </MapGL>
           </Grid>
         </Grid>
@@ -330,9 +327,7 @@ class Main extends Component {
         // offsetLeft={-24}
         >
           <Box
-            onClick={() => {
-              console.log("TODO xxx edit point");
-            }}
+            onClick={()=>{this.updateUploadPanelState(true)}}
           >
             <Typography color="textSecondary">
               拖动标记到疫情发生位置
@@ -346,8 +341,30 @@ class Main extends Component {
     );
   }
 
-  _uploadPanelCallback(callBack) {
-    console.log("child call = " + callBack);
+  _uploadPanelView(isShowPanel) {
+    const { classes } = this.props;
+    const { addingMaker } = this.state;
+    if (isShowPanel) {
+      return addingMaker && (
+        <Box className={classes.addVirusBox}>
+          <Grid className={classes.uploadVirusPanelGrid}>
+            <UploadVirusPanel
+              childLatitude={addingMaker.latitude}
+              childLongitude={addingMaker.longitude}
+              callbackParent={(isShow) => {
+                this.setState({ addingMaker: undefined });
+                this.updateUploadPanelState(isShow);
+                }}>
+            </UploadVirusPanel>
+          </Grid>
+        </Box>
+      )
+    }
+
+  }
+
+  updateUploadPanelState(isShowPanel) {
+    this.setState({isShowPanel:isShowPanel})
   }
 }
 

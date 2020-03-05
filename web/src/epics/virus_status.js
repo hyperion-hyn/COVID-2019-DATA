@@ -53,3 +53,28 @@ export function onLoadDailyVirusByContryEpics(action$) {
     })
   );
 }
+
+export function onUploadPoiInfoEpics(action$) {
+  console.log("epic api ");
+  return action$.pipe(
+    ofType(VirusStatusActions.UPLOAD_POI_DATA),
+    mergeMap(action => {
+      return api.uploadPoiInfo(action.data).pipe(
+        map(response => {
+          console.log("request api result== " + response.code + response.msg);
+          if (response.code === ServerCode.SUCCESS) {
+            return VirusStatusActions.uploadedPoiData(response.msg);
+          } else {
+            throw Error(response.msg);
+          }
+        }),
+        takeUntil(
+          action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
+        ),
+        catchError(error =>
+          of(VirusStatusActions.failToUploadedPoiData(error.message))
+        )
+      );
+    })
+  );
+}
