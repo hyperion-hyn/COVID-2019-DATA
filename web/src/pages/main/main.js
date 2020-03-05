@@ -119,7 +119,6 @@ const styles = theme => ({
   uploadVirusPanelGrid: {
     width: 370,
     height: "80%",
-    backgroundColor: "#ffffff",
     top: "1rem",
   },
 });

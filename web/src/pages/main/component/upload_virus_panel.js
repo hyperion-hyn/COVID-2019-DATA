@@ -21,13 +21,11 @@ import {
     Radio,
     Dialog,
     DialogTitle,
-    DialogActions
+    DialogActions,
+    Paper
 } from "@material-ui/core";
 
 const styles = theme => ({
-    root: {
-        backgroundColor: "#ffffff"
-    },
     topTitleFont: {
         marginLeft: 16,
         marginTop: 10,
@@ -68,7 +66,7 @@ const styles = theme => ({
         width: "20%"
     },
     submitButton: {
-        margin: 3,
+        marginTop: 7,
         width: "100%",
     },
     submitButtonFont: {
@@ -145,7 +143,7 @@ class UploadVirusPanel extends Component {
     }
 
     uploadSuccessDialog() {
-        const { uploadPoiResult, callbackParent,cancelledUploadedPoiDataApi } = this.props;
+        const { uploadPoiResult, callbackParent, cancelledUploadedPoiDataApi } = this.props;
         let isOpen = false;
         if (uploadPoiResult.msg === "success") {
             isOpen = true;
@@ -168,7 +166,7 @@ class UploadVirusPanel extends Component {
         )
     }
 
-    checkUploadData(){
+    checkUploadData() {
         const { isShowCheckDialog } = this.state;
         let dialogTitle = "请完善信息填写"
         return (
@@ -181,7 +179,7 @@ class UploadVirusPanel extends Component {
                 <DialogTitle id="alert-dialog-slide-title">{dialogTitle}</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
-                        this.setState({isShowCheckDialog: false})
+                        this.setState({ isShowCheckDialog: false })
                     }} color="primary">确定</Button>
                 </DialogActions>
             </Dialog>
@@ -193,9 +191,9 @@ class UploadVirusPanel extends Component {
         // 数据传递
         const { type, source, address, contact, ancestralHome, age, gender, symptom, travelHistory, remark, isMakeSure } = this.state;
         console.log("submit !!!!! ==== " + childLatitude + childLongitude + type + source + address + contact + ancestralHome + age + gender + symptom + travelHistory + remark + " isMakeSure " + isMakeSure)
-        if(address === "" || !isMakeSure){
-            this.setState({isShowCheckDialog: true})
-        }else{
+        if (address === "" || !isMakeSure) {
+            this.setState({ isShowCheckDialog: true })
+        } else {
             let uploadModel = new UploadInfoModel();
             uploadModel.lat = childLatitude;
             uploadModel.lon = childLongitude;
@@ -216,7 +214,7 @@ class UploadVirusPanel extends Component {
     render() {
         const { classes, callbackParent } = this.props;
         return (
-            <Grid item xs container justify="center">
+            <Paper variant="outlined">
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
                         <Grid item xs ><Typography className={classes.topTitleFont}>上报疫情信息</Typography></Grid>
@@ -281,11 +279,11 @@ class UploadVirusPanel extends Component {
                             onChange={(event) => {
                                 this.setState({ gender: event.target.value });
                             }}>
-                            <FormControlLabel value="男" control={<Radio />}
+                            <FormControlLabel value="male" control={<Radio size="small" color="primary"/>}
                                 label={<Typography className={classes.titleFont}>男</Typography>} />
-                            <FormControlLabel value="女" control={<Radio />}
+                            <FormControlLabel value="female" control={<Radio size="small" color="primary"/>}
                                 label={<Typography className={classes.titleFont}>女</Typography>} />
-                            <FormControlLabel value="不确定" control={<Radio />}
+                            <FormControlLabel value="unknow" control={<Radio size="small" color="primary"/>}
                                 label={<Typography className={classes.titleFont}>不确定</Typography>} />
                         </RadioGroup>
                     </Grid>
@@ -297,7 +295,7 @@ class UploadVirusPanel extends Component {
                             {/* <Button className={classes.submitButton} onClick={()=>{
                             this.uploadPoiInfo
                             }}> */}
-                            <Button className={classes.submitButton} onClick={this.uploadPoiInfo}>
+                            <Button variant="outlined" className={classes.submitButton} onClick={this.uploadPoiInfo}>
                                 <Typography className={classes.submitButtonFont}>提交</Typography>
                             </Button>
                         </Grid>
@@ -305,9 +303,12 @@ class UploadVirusPanel extends Component {
                     <Grid direction="column" container alignItems="center" >
                         <FormControlLabel
                             value="end"
-                            control={<Checkbox color="primary" onChange={(event)=>{
-                                this.setState({isMakeSure:event.target.checked})
-                            }} />}
+                            control={<Checkbox
+                                size="small"
+                                color="primary"
+                                onChange={(event) => {
+                                    this.setState({ isMakeSure: event.target.checked })
+                                }} />}
                             label={<Typography className={classes.titleFont}>我虔诚的保证提交的数据是真实的。</Typography>}
                             labelPlacement="end"
                         />
@@ -315,7 +316,7 @@ class UploadVirusPanel extends Component {
                 </Grid>
                 {this.uploadSuccessDialog()}
                 {this.checkUploadData()}
-            </Grid>
+            </Paper>
         );
     }
 }
