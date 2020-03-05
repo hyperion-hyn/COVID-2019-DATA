@@ -81,7 +81,7 @@ const styles = theme => ({
     width: "100%",
     // padding: theme.spacing(1),
     // overflow: 'hidden',
-    height: 320
+    height: 400
   },
   virusListBox: {
     backgroundColor: "#ffffff"
@@ -127,12 +127,10 @@ const styles = theme => ({
     color: "blue",
     cursor: "pointer"
   },
-  uploadVirusPanel: {
-    height: "80%",
+  uploadVirusPanelGrid: {
     width: 370,
-    backgroundColor: "#ffffff",
-    position: "fixed",
-    top: "4rem"
+    height: "80%",
+    top: "1rem",
   },
   languageFormControl: {
     margin: 8,
@@ -150,6 +148,8 @@ class Main extends Component {
       height: "100%"
     },
     addingMaker: undefined,
+    isShowPanel:false,
+    areaValue:"",
     locales: {
       open: false
     }
@@ -228,7 +228,7 @@ class Main extends Component {
 
   render() {
     const { classes, locale } = this.props;
-    const { viewport, addingMaker } = this.state;
+    const { viewport, addingMaker,isShowPanel } = this.state;
 
     return (
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
@@ -291,7 +291,7 @@ class Main extends Component {
             className={classes.virusBox}
           >
             <Grid item xs className={classes.virusBoxItem1}>
-              <VirusStatusPanel></VirusStatusPanel>
+              <VirusStatusPanel ></VirusStatusPanel>
             </Grid>
 
             <Box
@@ -304,7 +304,7 @@ class Main extends Component {
             ></Box>
 
             <Grid item className={classes.virusBoxItem2}>
-              <VirusDailyPanel></VirusDailyPanel>
+              <VirusDailyPanel ></VirusDailyPanel>
             </Grid>
           </Grid>
 
@@ -339,12 +339,9 @@ class Main extends Component {
                   <Typography variant="h6" className={classes.addVirusTip}>
                     <FormattedMessage id="click_to_add_virus_info" />
                   </Typography>
-                </ButtonBase>
+                </ButtonBase>s
               </Box>
-              {/* <Box className={classes.uploadVirusPanel}>
-              <UploadVirusPanel abc={"enen"} callbackParent={this._uploadPanelCallback}>
-              </UploadVirusPanel>
-            </Box> */}
+              {this._uploadPanelView(isShowPanel)}
             </MapGL>
           </Grid>
         </Grid>
@@ -385,9 +382,7 @@ class Main extends Component {
           // offsetLeft={-24}
         >
           <Box
-            onClick={() => {
-              console.log("TODO xxx edit point");
-            }}
+            onClick={()=>{this.updateUploadPanelState(true)}}
           >
             <Typography color="textSecondary">
               拖动标记到疫情发生位置
@@ -401,8 +396,32 @@ class Main extends Component {
     );
   }
 
-  _uploadPanelCallback(callBack) {
-    console.log("child call = " + callBack);
+  _uploadPanelView(isShowPanel) {
+    const { classes } = this.props;
+    const { addingMaker } = this.state;
+    if (isShowPanel) {
+      return addingMaker && (
+        <Box className={classes.addVirusBox}>
+          <Grid className={classes.uploadVirusPanelGrid}>
+            <UploadVirusPanel
+              childLatitude={addingMaker.latitude}
+              childLongitude={addingMaker.longitude}
+              callbackParent={(isMakerShow) => {
+                if(!isMakerShow){
+                  this.setState({ addingMaker: undefined });
+                }
+                this.updateUploadPanelState(false);
+                }}>
+            </UploadVirusPanel>
+          </Grid>
+        </Box>
+      )
+    }
+
+  }
+
+  updateUploadPanelState(isShowPanel) {
+    this.setState({isShowPanel:isShowPanel})
   }
 }
 

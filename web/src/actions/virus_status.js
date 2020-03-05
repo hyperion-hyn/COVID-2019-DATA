@@ -31,7 +31,7 @@ export class VirusStatusActions {
 
   static fetchDailyVirus = contry => ({
     type: VirusStatusActions.LOAD_DAILY_DATA,
-    contry
+    data: contry
   });
 
   static cancelDailyVirus = () => ({
@@ -45,5 +45,29 @@ export class VirusStatusActions {
   static loadedDailyVirus = data => ({
     type: VirusStatusActions.LOADED_DAILY_DATA,
     data
+  });
+
+  //upload poi data
+  static UPLOAD_POI_DATA = "upload_poi_data";
+  static UPLOADED_POI_DATA = "uploaded_poi_data";
+  static FAILED_UPLOAD_POI_DATA = "failed_upload_poi_data";
+  static CANCELLED_UPLOAD_POI_DATA = "cancelled_upload_poi_data";
+
+  static uploadPoiData = poiInfo => ({
+    type: VirusStatusActions.UPLOAD_POI_DATA,
+    data: poiInfo
+  });
+
+  static uploadedPoiData = result => ({
+    type: VirusStatusActions.UPLOADED_POI_DATA,
+    msg: result
+  });
+
+  static failToUploadedPoiData = msg => ({
+    type: VirusStatusActions.FAILED_UPLOAD_POI_DATA
+  });
+
+  static cancelledUploadedPoiData = () => ({
+    type: VirusStatusActions.CANCELLED_UPLOAD_POI_DATA,
   });
 }

@@ -6,13 +6,15 @@ import { intlReducer } from "react-intl-redux";
 import virusDailyReducer from "./virus_daily";
 import virusStatusReducer from "./virus_status";
 import { defaultLocale } from "../locale";
+import uploadPoiReducer from "./upload_poi";
 
 export default combineReducers({
   demo,
   locale,
   intl,
   virusDailyReducer,
-  virusStatusReducer
+  virusStatusReducer,
+  uploadPoiReducer
 });
 
 //wrap react-intl-redux reducers

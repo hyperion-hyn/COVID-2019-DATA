@@ -13,6 +13,7 @@ import Table from "@material-ui/core/Table";
 import SearchIcon from "@material-ui/icons/Search";
 import { FormattedMessage } from "react-intl";
 
+
 const styles = theme => ({
   root: {
     backgroundColor: "#ffffff",
@@ -37,7 +38,7 @@ class VirusStatusPanel extends Component {
     const { requestVirusData } = this.props;
     requestVirusData();
 
-    this.state = { value: "", listValue: [], filter: undefined };
+    this.state = { value: "", listValue: [], filter: undefined,times:0 };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -49,6 +50,7 @@ class VirusStatusPanel extends Component {
   }
 
   handleSelectVirus(id) {
+    
     const selectedIndex = this.state.listValue.indexOf(id);
     let newSelectedVirus = [];
 
@@ -76,11 +78,12 @@ class VirusStatusPanel extends Component {
   };
 
   render() {
-    const { classes, virusData, requestVirusDialyData, dialyData } = this.props;
-    const { filter } = this.state;
+
+    const { classes, virusData, requestVirusDailyData, dailyData } = this.props;
+    const { filter,times } = this.state;
 
     let inputValue = this.state.value;
-    let tableSelectValue = this.state.listValue;
+    var tableSelectValue = this.state.listValue;
 
     let newArray = [];
     let virusUpdateTime = "";
@@ -93,15 +96,20 @@ class VirusStatusPanel extends Component {
       newArray = virusData.data.virusList;
       virusUpdateTime = virusData.data.virusUpdateTime;
       if (tableSelectValue.length === 0 && newArray && newArray[0]) {
-        tableSelectValue = [newArray[0].id];
+        tableSelectValue = [newArray[0].area];
       }
     }
-    // console.log(
-    //   "virusData.data result  " +
-    //     newArray +
-    //     " daily data: mock_virus_status_daily_tick===" +
-    //     JSON.stringify(dialyData)
-    // );
+
+    // this.state = tableSelectValue;
+
+    console.log(
+      "virusData.data result --> newArray: " +
+        newArray +
+        " daily data: mock_virus_status_daily_tick===" +
+        JSON.stringify(dailyData) +
+        "tableSelectValue: " + 
+        tableSelectValue
+    );
 
     return (
       <Grid
@@ -188,11 +196,11 @@ class VirusStatusPanel extends Component {
                       <TableRow
                         hover
                         onClick={(rowEntity, event) => {
-                          requestVirusDialyData();
-                          this.handleSelectVirus(row.id);
+                          requestVirusDailyData(tableSelectValue);
+                          this.handleSelectVirus(row.area);
                         }}
                         key={row.area}
-                        selected={tableSelectValue.indexOf(row.id) !== -1}
+                        selected={tableSelectValue.indexOf(row.area) !== -1}
                       >
                         <TableCell component="th" scope="row" size="small">
                           {row.area}
@@ -222,12 +230,13 @@ class VirusStatusPanel extends Component {
 
 const mapStateToProps = (state, onwProps) => ({
   virusData: state.virusStatusReducer,
-  dialyData: state.virusDailyReducer
+  dailyData: state.virusDailyReducer,
+  area: state.tableSelectValue
 });
 
 const mapDispatchToProps = {
   requestVirusData: VirusStatusActions.fetchVirusData,
-  requestVirusDialyData: VirusStatusActions.fetchDailyVirus
+  requestVirusDailyData: VirusStatusActions.fetchDailyVirus
 };
 
 // export default withStyles(styles)(VirusStatusPanel);
