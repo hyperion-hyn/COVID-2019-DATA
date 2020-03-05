@@ -7,6 +7,8 @@ import { of } from "rxjs";
 import ServerCode from "../config/server_code";
 
 export function onLoadContryVirusStatusEpics(action$) {
+  console.log("[virus_status] epic api, onLoadContryVirusStatusEpics ");
+
   return action$.pipe(
     ofType(VirusStatusActions.LOAD_VIRUS_STATUS_DATA),
     mergeMap(action => {
@@ -32,10 +34,12 @@ export function onLoadContryVirusStatusEpics(action$) {
 }
 
 export function onLoadDailyVirusByContryEpics(action$) {
+  console.log("[virus_status] epic api, onLoadDailyVirusByContryEpics ");
+
   return action$.pipe(
     ofType(VirusStatusActions.LOAD_DAILY_DATA),
     mergeMap(action => {
-      return api.requestDailyVirusStatus().pipe(
+      return api.requestDailyVirusStatus(action.data).pipe(
         map(response => {
           if (response.code === ServerCode.SUCCESS) {
             return VirusStatusActions.loadedDailyVirus(response.data);
@@ -55,7 +59,7 @@ export function onLoadDailyVirusByContryEpics(action$) {
 }
 
 export function onUploadPoiInfoEpics(action$) {
-  console.log("epic api ");
+  console.log("[virus_status] epic api, onUploadPoiInfoEpics ");
   return action$.pipe(
     ofType(VirusStatusActions.UPLOAD_POI_DATA),
     mergeMap(action => {

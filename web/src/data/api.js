@@ -20,7 +20,7 @@ export const api = {
   },
 
   //each country virus status data list
-  requstCountryVirusStatusOld() {
+  /* requstCountryVirusStatusOld() {
     //request mock
     return new Observable(observer => {
       setTimeout(() => {
@@ -35,11 +35,11 @@ export const api = {
         }
       }, 500);
     });
-  },
+  }, */
 
   requstCountryVirusStatus() {
     // todo: test
-    return new Observable(observer => {
+    /* return new Observable(observer => {
       setTimeout(() => {
         const ramdom = Math.random() >= 0;
         if (ramdom) {
@@ -51,13 +51,13 @@ export const api = {
           observer.error(new Error("data request error"));
         }
       }, 500);
-    });
+    }); */
 
-    /* return from(
-      fetch("http://10.10.1.115:3000/data/country/latest").then(res =>
+    return from(
+      fetch("http://10.10.1.115:3000/data/country/latest"/* , {credentials: 'no-cors'} */).then(res =>
         res.json()
       )
-    ); */
+    );
   },
 
   uploadPoiInfo(data) {
@@ -74,7 +74,8 @@ export const api = {
   },
 
   //daily status data for charts.
-  requestDailyVirusStatus() {
+  requestDailyVirusStatus(area) {
+    // todo: test
     return new Observable(observer => {
       setTimeout(() => {
         const ramdom = Math.random() >= 0;
@@ -88,5 +89,11 @@ export const api = {
         }
       }, 500);
     });
+
+   /*  return from(
+      fetch("http://10.10.1.115:3000/data/country/daily/"+area).then(res =>
+        res.json()
+      )
+    ); */
   }
 };

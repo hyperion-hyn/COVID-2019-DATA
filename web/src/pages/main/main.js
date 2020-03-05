@@ -250,7 +250,7 @@ class Main extends Component {
             ></Box>
 
             <Grid item className={classes.virusBoxItem2}>
-              <VirusDailyPanel></VirusDailyPanel>
+              <VirusDailyPanel ></VirusDailyPanel>
             </Grid>
           </Grid>
 

@@ -17,6 +17,7 @@ import Table from "@material-ui/core/Table";
 
 import SearchIcon from "@material-ui/icons/Search";
 
+
 const styles = theme => ({
   root: {
     backgroundColor: "#ffffff",
@@ -84,7 +85,7 @@ class VirusStatusPanel extends Component {
     const { filter } = this.state;
 
     let inputValue = this.state.value;
-    let tableSelectValue = this.state.listValue;
+    var tableSelectValue = this.state.listValue;
 
     let newArray = [];
     let virusUpdateTime = "";
@@ -97,15 +98,19 @@ class VirusStatusPanel extends Component {
       newArray = virusData.data.virusList;
       virusUpdateTime = virusData.data.virusUpdateTime;
       if (tableSelectValue.length === 0 && newArray && newArray[0]) {
-        tableSelectValue = [newArray[0].id];
+        tableSelectValue = [newArray[0].area];
       }
     }
+
+    // this.state = tableSelectValue;
 
     console.log(
       "virusData.data result --> newArray: " +
         newArray +
         " daily data: mock_virus_status_daily_tick===" +
-        JSON.stringify(dailyData)
+        JSON.stringify(dailyData) +
+        "tableSelectValue: " + 
+        tableSelectValue
     );
 
     return (
@@ -192,10 +197,10 @@ class VirusStatusPanel extends Component {
                         hover
                         onClick={(rowEntity, event) => {
                           requestVirusDailyData();
-                          this.handleSelectVirus(row.id);
+                          this.handleSelectVirus(row.area);
                         }}
                         key={row.area}
-                        selected={tableSelectValue.indexOf(row.id) !== -1}
+                        selected={tableSelectValue.indexOf(row.area) !== -1}
                       >
                         <TableCell component="th" scope="row" size="small">
                           {row.area}
@@ -225,7 +230,8 @@ class VirusStatusPanel extends Component {
 
 const mapStateToProps = (state, onwProps) => ({
   virusData: state.virusStatusReducer,
-  dailyData: state.virusDailyReducer
+  dailyData: state.virusDailyReducer,
+  area: state.tableSelectValue
 });
 
 const mapDispatchToProps = {
