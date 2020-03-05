@@ -18,25 +18,25 @@ class VirusDailyPanel extends Component {
 
     var area;
     if (dailyData
-      &&dailyData.data
-      &&dailyData.data.dailyTotal
-      &&dailyData.data.dailyTotal.dead) {
+      && dailyData.data
+      && dailyData.data.dailyTotal
+      && dailyData.data.dailyTotal.dead) {
       var dead = dailyData.data.dailyTotal.dead;
       var deadArray = dead.map(item =>
-          item.area
-        );
+        item.area
+      );
       area = deadArray[0] + "情势:";
     }
-    console.log(
+    /* console.log(
       "[VirusDailyPanel] -->" +
       JSON.stringify(dailyData) +
       "\narea -->" + area
-    );
+    ); */
 
     return (
       <Box className={classes.root}>
         <Box pl={2} pt={1}>
-    <Typography style={{ fontSize: 14 }}>{area}</Typography>
+          <Typography style={{ fontSize: 14 }}>{area}</Typography>
         </Box>
         <Charts dailyData={dailyData}></Charts>
       </Box>

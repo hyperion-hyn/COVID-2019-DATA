@@ -61,7 +61,7 @@ export const api = {
   },
 
   uploadPoiInfo(data) {
-    console.log("request api " + JSON.stringify(data));
+    //console.log("request api " + JSON.stringify(data));
     return from(
       fetch("http://10.10.1.115:3000/covid-collector/event/collector", {
         body: JSON.stringify(data),

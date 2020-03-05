@@ -104,16 +104,15 @@ class VirusStatusPanel extends Component {
       }
     }
 
-    // this.state = tableSelectValue;
 
-    console.log(
+   /*  console.log(
       "virusData.data result --> newArray: " +
         newArray +
         " daily data: mock_virus_status_daily_tick===" +
         JSON.stringify(dailyData) +
         "tableSelectValue: " + 
         tableSelectValue
-    );
+    ); */
 
     return (
       <Grid
@@ -198,7 +197,8 @@ class VirusStatusPanel extends Component {
                       <TableRow
                         hover
                         onClick={(rowEntity, event) => {
-                          requestVirusDailyData(tableSelectValue);
+                          console.log('[virus_status_panel] --> click: ' + row.area);
+                          requestVirusDailyData(row.area);
                           this.handleSelectVirus(row.area);
                         }}
                         key={row.area}

@@ -11,36 +11,34 @@ export default class Charts extends PureComponent {
         if (dailyData.data) {
             data = dailyData.data;
 
-            console.log('[Charts] --> data:' + data);
+            //console.log('[Charts] --> data:' + data);
 
             if (data.dailyTotal) {
                 dailyTotal = data.dailyTotal;
-                console.log('[Charts] -->1, dailyTotal:' + dailyTotal);
+                //console.log('[Charts] -->1, dailyTotal:' + dailyTotal);
             } else {
-                console.log('[Charts] --> dailyTotal: is null');
+                //console.log('[Charts] --> dailyTotal: is null');
             }
 
             if (data.dailyNew) {
                 dailyNew = data.dailyNew;
-                console.log('[Charts] -->1, dailyNew:' + dailyNew);
+                //console.log('[Charts] -->1, dailyNew:' + dailyNew);
             } else {
-                console.log('[Charts] --> dailyNew: is null');
+                //console.log('[Charts] --> dailyNew: is null');
             }
         } else {
-            console.log('[Charts] --> data: is null');
+            //console.log('[Charts] --> data: is null');
         }
 
         var themeColor = 'dart';
         return (
             <div className='examples'>
                 <div className='parent'>
-
                     <ReactEcharts
                         option={this.newOption(dailyNew)}
                         style={{ height: '200px', width: '100%' }}
                         theme={themeColor}
                         className='react_for_echarts' />
-
                     <ReactEcharts
                         option={this.totalOption(dailyTotal)}
                         style={{ height: '200px', width: '100%' }}
@@ -53,43 +51,13 @@ export default class Charts extends PureComponent {
 
     newOption = (data) => {
 
-        var dead, confirmed, recoverd;
-        let deadArray = [];
-        let confirmedArray = [];
-        let recoverdArray = [];
-        let dateArray = [];
+        var array = this.editData(data);
+        let deadArray = array[0];
+        let confirmedArray = array[1];
+        let recoverdArray = array[2];
+        let dateArray = array[3];
 
-        if (data) {
-            if (data.dead) {
-                dead = data.dead;
-
-                deadArray = dead.map(item =>
-                    item.count
-                );
-            }
-
-            if (data.confirmed) {
-                confirmed = data.confirmed;
-
-                confirmedArray = confirmed.map(item =>
-                    item.count
-                );
-
-                dateArray = confirmed.map(item =>
-                    item.date
-                );
-            }
-            
-            if (data.recoverd) {
-                recoverd = data.recoverd;
-
-                recoverdArray = recoverd.map(item =>
-                    item.count
-                );
-            }
-        }
-
-        console.log('[Charts] -->2, data:' + recoverdArray);
+        //console.log('[Charts] -->2, data:' + recoverdArray);
 
         return {
             // grid: {
@@ -172,9 +140,7 @@ export default class Charts extends PureComponent {
         };
     }
 
-    totalOption = (data) => {
-        console.log('[Charts] -->2, dailyTotal: ' + data);
-
+    editData = (data) => {
         var dead, confirmed, recoverd;
         let deadArray = [];
         let confirmedArray = [];
@@ -197,11 +163,15 @@ export default class Charts extends PureComponent {
                     item.count
                 );
 
-                dateArray = confirmed.map(item =>
-                    item.date
-                );
+                dateArray = confirmed.map(item => {
+                    var date = new Date(item.date),
+                        month = date.getMonth()+1,
+                        day = date.getDate(),
+                        dateText =  month + "月" + day + "日";
+                        return dateText;
+                });
             }
-            
+
             if (data.recoverd) {
                 recoverd = data.recoverd;
 
@@ -210,6 +180,17 @@ export default class Charts extends PureComponent {
                 );
             }
         }
+        return [deadArray, confirmedArray, recoverdArray, dateArray];
+    }
+
+    totalOption = (data) => {
+        //console.log('[Charts] -->2, dailyTotal: ' + data);
+
+        var array = this.editData(data);
+        let deadArray = array[0];
+        let confirmedArray = array[1];
+        let recoverdArray = array[2];
+        let dateArray = array[3];
 
         return {
             tooltip: {
@@ -264,4 +245,5 @@ export default class Charts extends PureComponent {
             ]
         };
     };
+    
 }
