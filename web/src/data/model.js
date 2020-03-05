@@ -31,8 +31,35 @@ export class VirusStatusTotalModel{
     model.virusList = obj["virusList"];
     return model;
   }
+
   virusUpdateTime;
   virusList;
+}
+
+export class VirusStatusDailyModel {
+  static fromObject(obj) {
+    let model = new VirusStatusDailyModel();
+    model.dailyTotal = obj["dailyTotal"];
+    model.dailyNew = obj["dailyNew"];
+    return model;
+  }
+
+  dailyTotal;
+  dailyNew;
+}
+
+export class VirusStatusDailyItemModel {
+  static fromObject(obj) {
+    let model = new VirusStatusDailyItemModel();
+    model.dead = obj["dead"];
+    model.confirmed = obj["confirmed"];
+    model.recoverd = obj["recoverd"];
+    return model;
+  }
+
+  dead;
+  confirmed;
+  recoverd;
 }
 
 export class VirusStatusDailyNewTickModel {
@@ -66,7 +93,7 @@ export class VirusStatusDailyTotalTickModel {
     model.count = obj["count"];
     return model;
   }
-
+  
   id;
   isCountry;
   type; //dead, confirmed, recoverd

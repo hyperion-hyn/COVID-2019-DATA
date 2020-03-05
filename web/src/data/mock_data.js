@@ -2,7 +2,9 @@ import {
   VirusStatusModel,
   VirusStatusTotalModel,
   VirusStatusDailyNewTickModel,
-  VirusStatusDailyTotalTickModel
+  VirusStatusDailyTotalTickModel,
+  VirusStatusDailyModel,
+  VirusStatusDailyItemModel,
 } from "./model";
 
 export default {
@@ -11,7 +13,9 @@ export default {
     msg: "success",
     data: "This is data back from server"
   },
+
   demo_data_fail: { code: -1, msg: "request data fail from server." },
+  
   mock_virus_status_list: {
     code: 0,
     msg: "success",
@@ -245,9 +249,9 @@ export default {
   mock_virus_status_daily_tick: {
     code: 0,
     msg: "success",
-    data: {
+    data: VirusStatusDailyModel.fromObject({
       //daily total status
-      dailyTotal: {
+      dailyTotal: VirusStatusDailyItemModel.fromObject({
         dead: [
           VirusStatusDailyTotalTickModel.fromObject({
             id: 1,
@@ -302,9 +306,9 @@ export default {
             count: 21
           })
         ]
-      },
+      }),
       //daily new status
-      dailyNew: {
+      dailyNew: VirusStatusDailyItemModel.fromObject({
         dead: [
           VirusStatusDailyNewTickModel.fromObject({
             id: 1,
@@ -359,7 +363,8 @@ export default {
             count: 21
           })
         ]
-      }
-    }
+      })
+    })
   }
+
 };

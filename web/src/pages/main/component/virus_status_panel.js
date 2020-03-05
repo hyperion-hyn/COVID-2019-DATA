@@ -66,8 +66,8 @@ class VirusStatusPanel extends Component {
   }
 
   render() {
-    const { classes, virusData, requestVirusDialyData, dialyData } = this.props;
-
+    const { classes, virusData, requestVirusDailyData, dailyData } = this.props;
+     
     let inputValue = this.state.value;
     let tableSelectValue = this.state.listValue;
 
@@ -86,10 +86,10 @@ class VirusStatusPanel extends Component {
       }
     }
     console.log(
-      "virusData.data result  " +
+      "virusData.data result --> newArray: " +
         newArray +
         " daily data: mock_virus_status_daily_tick===" +
-        JSON.stringify(dialyData)
+        JSON.stringify(dailyData)
     );
 
     return (
@@ -162,7 +162,7 @@ class VirusStatusPanel extends Component {
                     <TableRow
                       hover
                       onClick={(rowEntity, event) => {
-                        requestVirusDialyData();
+                        requestVirusDailyData();
                         this.handleSelectVirus(row.id);
                       }}
                       key={row.id}
@@ -196,12 +196,12 @@ class VirusStatusPanel extends Component {
 
 const mapStateToProps = (state, onwProps) => ({
   virusData: state.virusStatusReducer,
-  dialyData: state.virusDailyReducer
+  dailyData: state.virusDailyReducer
 });
 
 const mapDispatchToProps = {
   requestVirusData: VirusStatusActions.fetchVirusData,
-  requestVirusDialyData: VirusStatusActions.fetchDailyVirus
+  requestVirusDailyData: VirusStatusActions.fetchDailyVirus
 };
 
 // export default withStyles(styles)(VirusStatusPanel);

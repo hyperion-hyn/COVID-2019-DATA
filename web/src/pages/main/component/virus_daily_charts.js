@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Simple from "../demo_charts/simple";
+import Charts from "./charts";
 import { withStyles, Box, Typography } from "@material-ui/core";
+import { connect } from "react-redux";
 
 const styles = theme => ({
   root: {
@@ -12,18 +13,31 @@ const styles = theme => ({
 
 class VirusDailyPanel extends Component {
   render() {
-    const { classes } = this.props;
+
+    const { classes, dailyData } = this.props;
+
+    console.log(
+      "virusData.data result  " +
+        " daily data: mock_virus_status_daily_tick===" +
+        JSON.stringify(dailyData)
+    );
 
     return (
       <Box className={classes.root}>
         <Box pl={2} pt={1}>
-          <Typography style={{ fontSize: 18 }}>韩国情势:</Typography>
+          <Typography style={{ fontSize: 14 }}>韩国情势:</Typography>
         </Box>
-        <Simple></Simple>
-        <Simple></Simple>
+        <Charts dailyData={dailyData}></Charts>
       </Box>
     );
   }
 }
 
-export default withStyles(styles)(VirusDailyPanel);
+const mapStateToProps = (state, onwProps) => ({
+  dailyData: state.virusDailyReducer
+});
+
+
+export default connect(
+  mapStateToProps,
+)(withStyles(styles)(VirusDailyPanel));

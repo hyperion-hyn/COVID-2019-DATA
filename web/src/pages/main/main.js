@@ -70,7 +70,7 @@ const styles = theme => ({
     width: "100%",
     // padding: theme.spacing(1),
     // overflow: 'hidden',
-    height: 320
+    height: 400
   },
   virusListBox: {
     backgroundColor: "#ffffff"
@@ -284,7 +284,7 @@ class Main extends Component {
                   <Typography variant="h6" className={classes.addVirusTip}>
                     点击此处上报疫情信息
                   </Typography>
-                </ButtonBase>
+                </ButtonBase>s
               </Box>
               {/* <Box className={classes.uploadVirusPanel}>
               <UploadVirusPanel abc={"enen"} callbackParent={this._uploadPanelCallback}>
