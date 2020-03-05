@@ -74,3 +74,18 @@ export class VirusStatusDailyTotalTickModel {
   date; //2019-2-1
   count; //10
 }
+
+export class UploadInfoModel {
+  lat;
+  lon;
+  type; //help,dead,confirm,cured
+  source; 
+  address; 
+  contact;
+  ancestral_home;
+  age;
+  gender;
+  symptom;
+  travel_history;
+  remark;
+}
