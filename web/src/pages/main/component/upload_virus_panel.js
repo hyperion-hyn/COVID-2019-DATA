@@ -218,7 +218,7 @@ class UploadVirusPanel extends Component {
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
                         <Grid item xs ><Typography className={classes.topTitleFont}>上报疫情信息</Typography></Grid>
-                        <IconButton onClick={() => callbackParent(false)}>
+                        <IconButton onClick={() => callbackParent(true)}>
                             <Close ></Close>
                         </IconButton>
                     </Grid>
