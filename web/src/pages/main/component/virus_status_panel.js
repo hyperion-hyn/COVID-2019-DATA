@@ -83,7 +83,7 @@ class VirusStatusPanel extends Component {
 
   render() {
 
-    const { classes, virusData, requestVirusDialyData } = this.props;
+    const { classes, virusData, requestVirusDailyData, dailyData } = this.props;
     const { filter,times } = this.state;
 
     let inputValue = this.state.value;
@@ -198,7 +198,7 @@ class VirusStatusPanel extends Component {
                       <TableRow
                         hover
                         onClick={(rowEntity, event) => {
-                          requestVirusDailyData();
+                          requestVirusDailyData(tableSelectValue);
                           this.handleSelectVirus(row.area);
                         }}
                         key={row.area}

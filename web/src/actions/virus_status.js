@@ -31,7 +31,7 @@ export class VirusStatusActions {
 
   static fetchDailyVirus = contry => ({
     type: VirusStatusActions.LOAD_DAILY_DATA,
-    contry
+    data: contry
   });
 
   static cancelDailyVirus = () => ({
