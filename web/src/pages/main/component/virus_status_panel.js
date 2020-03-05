@@ -185,7 +185,8 @@ class VirusStatusPanel extends Component {
                       <TableRow
                         hover
                         onClick={(rowEntity, event) => {
-                          requestVirusDailyData(tableSelectValue);
+                          console.log('[virus_status_panel] --> click: ' + row.area);
+                          requestVirusDailyData(row.area);
                           this.handleSelectVirus(row.area);
                         }}
                         key={row.area}
