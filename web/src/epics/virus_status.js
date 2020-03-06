@@ -87,7 +87,7 @@ export function onUploadPoiInfoEpics(action$) {
           action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
         ),
         catchError(error =>
-          of(VirusStatusActions.failToUploadedPoiData(error.message))
+          of(VirusStatusActions.failToUploadedPoiData("fail"))
         )
       );
     })

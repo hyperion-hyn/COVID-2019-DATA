@@ -63,8 +63,9 @@ export class VirusStatusActions {
     msg: result
   });
 
-  static failToUploadedPoiData = msg => ({
-    type: VirusStatusActions.FAILED_UPLOAD_POI_DATA
+  static failToUploadedPoiData = result => ({
+    type: VirusStatusActions.FAILED_UPLOAD_POI_DATA,
+    msg: result
   });
 
   static cancelledUploadedPoiData = () => ({
