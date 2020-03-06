@@ -1,6 +1,6 @@
 city,confirm,dead,heal,suspect,source,update_time
 Seoul,4,0,0,0,,20200305
-Busan,0,0,1,0,,20200305
+Busan,-1,0,1,0,,20200305
 Daegu,320,0,0,0,,20200305
 Incheon,0,0,0,0,,20200305
 Gwangju,1,0,0,0,,20200305
