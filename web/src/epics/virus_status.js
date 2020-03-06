@@ -15,21 +15,18 @@ export function onLoadContryVirusStatusEpics(action$) {
       return api.requstCountryVirusStatus().pipe(
         mergeMap(response => {
           if (response.code === ServerCode.SUCCESS) {
-            return new Observable(emitter => {
-              emitter.next(VirusStatusActions.loadedVirusStatusData(response.data));
-              if (response.data && response.data.virusList[0]) {
-                let areaName = response.data.virusList[0].area;
-
-                api.requestDailyVirusStatus(areaName).subscribe(response => {
-                  if (response.code === ServerCode.SUCCESS) {
-                    emitter.next(VirusStatusActions.loadedDailyVirus(response.data));
-                  }
-                  emitter.complete();
-                }, error => emitter.complete()
+            if (response.data && response.data.virusList[0]) {
+              return of(
+                VirusStatusActions.loadedVirusStatusData(response.data),
+                VirusStatusActions.fetchDailyVirus(
+                  response.data.virusList[0].area
                 )
-              }
-
-            });
+              );
+            } else {
+              return of(
+                VirusStatusActions.loadedVirusStatusData(response.data)
+              );
+            }
           } else {
             throw Error(response.msg);
           }

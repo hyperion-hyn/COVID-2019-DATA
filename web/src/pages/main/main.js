@@ -349,7 +349,7 @@ class Main extends Component {
                     <FormattedMessage id="click_to_add_virus_info" />
                   </Typography>
                 </ButtonBase>
-                s
+                
               </Box>
               {this._uploadPanelView(isShowPanel)}
             </MapGL>
