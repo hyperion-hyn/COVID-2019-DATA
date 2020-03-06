@@ -230,6 +230,11 @@ import {injectIntl } from "react-intl";
     };
 
     editData = (data) => {
+
+        const { locale } = this.props;
+
+        console.log('[Charts] --> editData: ' + locale.lang);
+
         var dead, confirmed, recoverd;
         let deadArray = [];
         let confirmedArray = [];
@@ -257,8 +262,9 @@ import {injectIntl } from "react-intl";
                         month = date.getMonth()+1,
                         day = date.getDate(),
                         dateText =  month + "-" + day;
-                        // dateText =  month + "月" + day + "日";
-
+                        if (locale.lang === 'zh') {
+                            dateText =  month + "月" + day + "日";
+                        }
                     return dateText;
                 }).reverse();
             }

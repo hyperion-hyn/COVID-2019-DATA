@@ -119,7 +119,6 @@ class UploadVirusPanel extends Component {
             });
         }
         
-
         return (
             <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                 <Grid item className={classes.gridTitle} direction="row" container>

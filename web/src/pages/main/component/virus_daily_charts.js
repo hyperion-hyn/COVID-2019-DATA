@@ -15,7 +15,7 @@ const styles = (theme) => ({
 class VirusDailyPanel extends Component {
   render() {
 
-    const { intl, classes, dailyData } = this.props;
+    const {locale, intl, classes, dailyData } = this.props;
 
     var area;
     if (dailyData
@@ -36,7 +36,7 @@ class VirusDailyPanel extends Component {
         <Box pl={2} pt={1}>
           <Typography style={{ height: '20px', fontSize: 14 }}>{area}</Typography>
         </Box>
-        <Charts dailyData={dailyData}></Charts>
+        <Charts dailyData={dailyData} locale={locale}></Charts>
       </Box>
     );
   }
@@ -44,6 +44,7 @@ class VirusDailyPanel extends Component {
 
 const mapStateToProps = (state, onwProps) => ({
   dailyData: state.virusDailyReducer,
+  locale: state.locale,
 });
 
 export default connect(
