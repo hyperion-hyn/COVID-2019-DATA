@@ -28,12 +28,11 @@ import LanguageIcon from "@material-ui/icons/Language";
 
 import Pin from "./component/pin";
 import { easeCubic } from "d3-ease";
-import { FormattedMessage } from "react-intl";
-
 import { LangaugeActions } from "../../actions/language";
 import { supportedLocales } from "../../locale";
 import { VirusStatusActions } from "../../actions";
 import Status from "../../config/status";
+import { injectIntl, FormattedMessage } from "react-intl";
 
 const BootstrapInput = withStyles(theme => ({
   input: {
@@ -423,7 +422,8 @@ class Main extends Component {
       classes,
       selectedVirus,
       cancelVirusDetail,
-      clearVirusDetail
+      clearVirusDetail,
+      intl,
     } = this.props;
     if (selectedVirus.status == Status.LOADING) {
       return (
@@ -455,7 +455,7 @@ class Main extends Component {
           offsetTop={-32}
         >
           <Typography color="textSecondary" variant={"body2"}>
-            {selectedVirus.msg ? `错误: ${selectedVirus.msg}` : "加载详情失败!"}
+            {selectedVirus.msg ? `${intl.formatMessage({id: 'error', })}${selectedVirus.msg}` : `${intl.formatMessage({id: 'load_detail_fail', })}`}
           </Typography>
         </Popup>
       );
@@ -479,7 +479,7 @@ class Main extends Component {
           {selectedVirus.data.source && (
             <Box display="flex" direction="column">
               <Typography color="textSecondary" variant={"body2"}>
-                信息来源:
+              <FormattedMessage id="infomation_sources" />
               </Typography>
 
               <a
@@ -499,7 +499,7 @@ class Main extends Component {
               className={classes.clickableTip}
               onClick={() => console.log("todo update poi info")}
             >
-              纠错
+              <FormattedMessage id="error_correction" />
             </Typography>
           </Box>
         </Popup>
@@ -509,48 +509,51 @@ class Main extends Component {
 
   _genDesc = model => {
     let dest;
+    const { intl } = this.props;
 
     if (model.type == "help") {
-      dest = "线索/求助信息";
+      dest = intl.formatMessage({id: 'clues_help_info', });
     } else if (model.type == "cured") {
-      dest = "已康复";
+      dest = intl.formatMessage({id: 'recovered', });
     } else if (model.type == "confirm") {
-      dest = "已确诊";
+      dest = intl.formatMessage({id: 'confirmed', });
     } else if (model.type == "dead") {
-      dest = "已死亡";
+      dest = intl.formatMessage({id: 'dead', });
     }
 
-    dest += `：发生在${model.address}`;
+    dest += '：'+`${intl.formatMessage({id: 'happened_at', })}${model.address}`;
 
     if (model.ancestral_home) {
-      dest += `，来自${model.ancestral_home}`;
+      dest += '，'+`${intl.formatMessage({id: 'from', })}${model.ancestral_home}`;
     }
     if (model.gender) {
-      dest += `，${this._getSex(model.gender)}`;
+      dest += '，'+`${this._getSex(model.gender)}`;
     }
     if (model.age) {
-      dest += `，${model.age}岁`;
+      dest += '，'+`${model.age}${intl.formatMessage({id: 'year_old', })}`;
     }
     if (model.symptom) {
-      dest += `，有${model.symptom}症状`;
+      dest += '，'+`${intl.formatMessage({id: 'have', })}${model.symptom}${intl.formatMessage({id: 'symptom', })}`;
     }
     if (model.travel_history) {
-      dest += `，到往过${model.travel_history}`;
+      dest += '，'+`${intl.formatMessage({id: 'to_past', })}${model.travel_history}`;
     }
     if (model.remark) {
-      dest += `，${model.remark}`;
+      dest += '，'+`${model.remark}`;
     }
     if (model.contact) {
-      dest += `，联系方式: ${model.contact}`;
+      dest += '，'+`${intl.formatMessage({id: 'contact', })}：${model.contact}`;
     }
     return dest;
   };
 
   _getSex(gender) {
+    const { intl } = this.props;
+
     if (gender == "female") {
-      return "女性";
+      return intl.formatMessage({id: 'female', });
     } else if (gender == "male") {
-      return "男性";
+      return intl.formatMessage({id: 'male', });
     } else {
       return "";
     }
@@ -603,6 +606,6 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Main));
+)(withStyles(styles)(injectIntl(Main)));
 // mapStateToProps,
 // mapDispatchToProps

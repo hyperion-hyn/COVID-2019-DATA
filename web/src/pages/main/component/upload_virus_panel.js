@@ -159,18 +159,19 @@ class UploadVirusPanel extends Component {
     }
 
     uploadResultDialog() {
-        const { uploadPoiResult, callbackParent, cancelledUploadedPoiDataApi } = this.props;
+
+        const { intl, uploadPoiResult, callbackParent, cancelledUploadedPoiDataApi } = this.props;
         let isOpen = false;
         let uploadResultText = "";
         let result = false;
         if (uploadPoiResult.msg === "success") {
             result = true;
             isOpen = true;
-            uploadResultText = "疫情信息提交成功"
+            uploadResultText = intl.formatMessage({id: 'upload_virus_info_success', });
         }else if(uploadPoiResult.msg === "fail"){
             result = false;
             isOpen = true;
-            uploadResultText = "网络异常，疫情信息提交失败！"
+            uploadResultText = intl.formatMessage({id: 'upload_virus_info_fail_network', });
         }
         return (
             <Dialog
@@ -224,7 +225,8 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">是否确认上报疫情信息</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" />
+</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         let uploadModel = new PoiInfoModel();
@@ -243,10 +245,12 @@ class UploadVirusPanel extends Component {
                         uploadPoiDataApi(uploadModel)
 
                         this.setState({ isShowDetermineDialog: false })
-                    }} color="primary">确定</Button>
+                    }} color="primary"><FormattedMessage id="ok" />
+                    </Button>
                     <Button onClick={() => {
                         this.setState({ isShowDetermineDialog: false })
-                    }} color="primary">取消</Button>
+                    }} color="primary"><FormattedMessage id="cancel" />
+                    </Button>
                 </DialogActions>
             </Dialog>
         )

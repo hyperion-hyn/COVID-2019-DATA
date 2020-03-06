@@ -49,6 +49,23 @@ const en_US = {
   'virus_info_submit_success': 'Virus information submitted successfully',
   'complete_info': 'Please complete the information',
   'guangdong_china': 'Guangdong, China',
+  'clues_help_info': 'Clues / help info',
+  'recovered': 'recovered',
+  'confirmed': 'confirmed',
+  'dead': 'dead',
+  'happened_at': 'happened at',
+  'from': 'from',
+  'have': 'have',
+  'symptom': 'symptom',
+  'to_past': 'to past',
+  'error_correction': 'Error correction',
+  'infomation_sources': 'Information Sources:',
+  'error': 'Error: ',
+  'load_detail_fail': 'Loading details failed!',
+  'cancel': 'Cancel!',
+  'is_confirmed_virus_info': 'Whether to confirm reporting of virus information',
+  'upload_virus_info_success': 'Virus information submitted successfully',
+  'upload_virus_info_fail_network': 'The network is abnormal and the submission of virus information failed！',
 }
 
 export default en_US
