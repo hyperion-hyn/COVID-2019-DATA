@@ -104,7 +104,6 @@ class UploadVirusPanel extends Component {
                 isMakeSure: false,
                 isShowDetermineDialog: false,
                 isShowReportDialog: false,
-                topTitleText: "上报疫情信息",
                 isUpdatePoi: false
             }
         } else {
@@ -123,7 +122,6 @@ class UploadVirusPanel extends Component {
                 isMakeSure: false,
                 isShowDetermineDialog: false,
                 isShowReportDialog: false,
-                topTitleText: "更新疫情信息",
                 isUpdatePoi: true
             }
         }
@@ -376,13 +374,19 @@ class UploadVirusPanel extends Component {
 
 
     render() {
-        const { topTitleText } = this.state;
+        const { isUpdatePoi } = this.state;
         const { intl, classes, callbackParent } = this.props;
+        let topTitleText = "";
+        if(isUpdatePoi){
+            topTitleText = "submit_virus_info";
+        }else{
+            topTitleText = "submit_virus_info";
+        }
         return (
             <Paper variant="outlined">
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
-                        <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id="submit_virus_info" /></Typography></Grid>
+                        <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id={topTitleText} /></Typography></Grid>
                         <IconButton onClick={() => callbackParent(true)}>
                             <Close ></Close>
                         </IconButton>
