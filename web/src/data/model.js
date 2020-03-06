@@ -24,7 +24,7 @@ export class VirusStatusModel {
   totalDead;
 }
 
-export class VirusStatusTotalModel{
+export class VirusStatusTotalModel {
   static fromObject(obj) {
     let model = new VirusStatusTotalModel();
     model.virusUpdateTime = obj["virusUpdateTime"];
@@ -93,7 +93,7 @@ export class VirusStatusDailyTotalTickModel {
     model.count = obj["count"];
     return model;
   }
-  
+
   id;
   isCountry;
   type; //dead, confirmed, recoverd
@@ -102,12 +102,33 @@ export class VirusStatusDailyTotalTickModel {
   count; //10
 }
 
-export class UploadInfoModel {
+export class PoiInfoModel {
+  static fromObject(obj) {
+    let model = new PoiInfoModel();
+    model.id = obj["id"];
+    model.lat = obj["lat"];
+    model.lon = obj["lng"];
+    model.type = obj["type"];
+    model.source = obj["source"];
+    model.address = obj["address"];
+    model.contact = obj["contact"];
+    model.ancestral_home = obj["ancestral_home"];
+    model.age = obj["age"];
+    model.gender = obj["gender"];
+    model.symptom = obj["symptom"];
+    model.travel_history = obj["travel_history"];
+    model.travel_history = obj["travel_history"];
+    model.remark = obj["remark"];
+
+    return model;
+  }
+
+  id;
   lat;
   lon;
   type; //help,dead,confirm,cured
-  source; 
-  address; 
+  source;
+  address;
   contact;
   ancestral_home;
   age;

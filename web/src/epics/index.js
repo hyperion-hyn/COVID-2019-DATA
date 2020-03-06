@@ -4,7 +4,8 @@ import { demoEpics } from "./demo";
 import {
   onLoadContryVirusStatusEpics,
   onLoadDailyVirusByContryEpics,
-  onUploadPoiInfoEpics
+  onUploadPoiInfoEpics,
+  onFetchVirusInfoModel
 } from "./virus_status";
 import { changeLocaleEpics } from "./locale";
 
@@ -13,5 +14,6 @@ export default combineEpics(
   changeLocaleEpics,
   onLoadContryVirusStatusEpics,
   onLoadDailyVirusByContryEpics,
-  onUploadPoiInfoEpics
+  onUploadPoiInfoEpics,
+  onFetchVirusInfoModel
 );

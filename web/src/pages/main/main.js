@@ -9,7 +9,8 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputBase
+  InputBase,
+  CircularProgress
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
@@ -31,6 +32,8 @@ import { FormattedMessage } from "react-intl";
 
 import { LangaugeActions } from "../../actions/language";
 import { supportedLocales } from "../../locale";
+import { VirusStatusActions } from "../../actions";
+import Status from "../../config/status";
 
 const BootstrapInput = withStyles(theme => ({
   input: {
@@ -123,7 +126,7 @@ const styles = theme => ({
     textShadow: "1px 1px 2px blue"
     // ['-webkit-text-stroke']: '1px grey'
   },
-  addingMarkTip: {
+  clickableTip: {
     cursor: "pointer"
   },
   uploadVirusPanelGrid: {
@@ -181,7 +184,10 @@ class Main extends Component {
     const feature = event.features[0];
     if (feature) {
       const pid = feature.properties["pid"];
-      console.log("pid is " + pid);
+      const lat = parseFloat(feature.properties["lat"]);
+      const lon = parseFloat(feature.properties["lon"]);
+      const { fetchVirusDetail } = this.props;
+      fetchVirusDetail(pid, lat, lon);
     }
   };
 
@@ -327,7 +333,7 @@ class Main extends Component {
             <MapGL
               {...viewport}
               // mapStyle="https://cn.tile.map3.network/ncov_v1.json"
-              mapStyle="http://10.10.1.115:9999/global_covid.json"
+              mapStyle="https://cn.tile.map3.network/global_covid.json"
               onViewportChange={this._onViewportChange}
               mapOptions={{
                 localIdeographFontFamily:
@@ -345,6 +351,8 @@ class Main extends Component {
                 showUserLocation={true}
               />
 
+              {this._renderSelectedPoiPopup()}
+
               {this._renderAddNewMaker()}
               {this._renderAddNewPopup()}
 
@@ -357,7 +365,6 @@ class Main extends Component {
                     <FormattedMessage id="click_to_add_virus_info" />
                   </Typography>
                 </ButtonBase>
-                
               </Box>
               {this._uploadPanelView(isShowPanel)}
             </MapGL>
@@ -410,7 +417,7 @@ class Main extends Component {
             <Typography
               color="primary"
               variant="body2"
-              className={classes.addingMarkTip}
+              className={classes.clickableTip}
             >
               {addingMaker.message}
             </Typography>
@@ -418,6 +425,144 @@ class Main extends Component {
         </Popup>
       )
     );
+  }
+
+  _renderSelectedPoiPopup = () => {
+    const {
+      classes,
+      selectedVirus,
+      cancelVirusDetail,
+      clearVirusDetail
+    } = this.props;
+    if (selectedVirus.status == Status.LOADING) {
+      return (
+        <Popup
+          longitude={selectedVirus.data.lon}
+          latitude={selectedVirus.data.lat}
+          onClose={() => cancelVirusDetail()}
+          closeOnClick={false}
+          offsetTop={-32}
+        >
+          <CircularProgress
+            size={24}
+            style={{
+              maringLeft: 16,
+              maringRight: 16,
+              maringTop: 4,
+              maringBottom: 4
+            }}
+          />
+        </Popup>
+      );
+    } else if (selectedVirus.status == Status.FAILED) {
+      return (
+        <Popup
+          longitude={selectedVirus.data.lon}
+          latitude={selectedVirus.data.lat}
+          onClose={() => cancelVirusDetail()}
+          closeOnClick={false}
+          offsetTop={-32}
+        >
+          <Typography color="textSecondary" variant={"body2"}>
+            {selectedVirus.msg ? `错误: ${selectedVirus.msg}` : "加载详情失败!"}
+          </Typography>
+        </Popup>
+      );
+    } else if (selectedVirus.status == Status.SUCCESS) {
+      return (
+        <Popup
+          longitude={selectedVirus.data.lon}
+          latitude={selectedVirus.data.lat}
+          onClose={() => clearVirusDetail()}
+          closeOnClick={false}
+          offsetTop={-32}
+        >
+          <Typography
+            color="textSecondary"
+            variant={"body2"}
+            style={{ maxWidth: 240 }}
+          >
+            {this._genDesc(selectedVirus.data)}
+          </Typography>
+
+          {selectedVirus.data.source && (
+            <Box display="flex" direction="column">
+              <Typography color="textSecondary" variant={"body2"}>
+                信息来源:
+              </Typography>
+
+              <a
+                href={selectedVirus.data.source}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {selectedVirus.data.source}
+              </a>
+            </Box>
+          )}
+
+          <Box display="flex" justifyContent="flex-end">
+            <Typography
+              variant={"body2"}
+              color="primary"
+              className={classes.clickableTip}
+              onClick={() => console.log("todo update poi info")}
+            >
+              纠错
+            </Typography>
+          </Box>
+        </Popup>
+      );
+    }
+  };
+
+  _genDesc = model => {
+    let dest;
+
+    if (model.type == "help") {
+      dest = "线索/求助信息";
+    } else if (model.type == "cured") {
+      dest = "已康复";
+    } else if (model.type == "confirm") {
+      dest = "已确诊";
+    } else if (model.type == "dead") {
+      dest = "已死亡";
+    }
+
+    dest += `：发生在${model.address}`;
+
+    if (model.ancestral_home) {
+      dest += `，来自${model.ancestral_home}`;
+    }
+    if (model.gender) {
+      dest += `，${this._getSex(model.gender)}`;
+    }
+    if (model.age) {
+      dest += `，${model.age}岁`;
+    }
+    if (model.symptom) {
+      dest += `，有${model.symptom}症状`;
+    }
+    if (model.travel_history) {
+      dest += `，到往过${model.travel_history}`;
+    }
+    if (model.remark) {
+      dest += `，${model.remark}`;
+    }
+    if (model.contact) {
+      dest += `，联系方式: ${model.contact}`;
+    }
+    return dest;
+  };
+
+  _getSex(gender) {
+    if (gender == "female") {
+      return "女性";
+    } else if (gender == "male") {
+      return "男性";
+    } else {
+      return "";
+    }
   }
 
   _uploadPanelView(isShowPanel) {
@@ -452,11 +597,15 @@ class Main extends Component {
 
 const mapStateToProps = (state, onwProps) => ({
   locale: state.locale,
-  currentLocale: state.intl.locale
+  currentLocale: state.intl.locale,
+  selectedVirus: state.virusDetailReducer
 });
 
 const mapDispatchToProps = {
-  changeLocale: LangaugeActions.changeLocale
+  changeLocale: LangaugeActions.changeLocale,
+  fetchVirusDetail: VirusStatusActions.fetchVirusModel,
+  clearVirusDetail: VirusStatusActions.cleartVirusModel,
+  cancelVirusDetail: VirusStatusActions.cancelLoadVirusModel
 };
 
 //see https://react-redux.js.org/api/connect

@@ -2,6 +2,8 @@ import { Observable, from } from "rxjs";
 
 import mock_data from "./mock_data";
 
+const domain = "http://d67ajkompfc3x.cloudfront.net/";
+
 export const api = {
   requestDemoData() {
     return new Observable(observer => {
@@ -54,22 +56,22 @@ export const api = {
     }); */
 
     return from(
-      fetch("http://d67ajkompfc3x.cloudfront.net/data/country/latest"/* , {credentials: 'no-cors'} */).then(res =>
-        res.json()
-      )
+      fetch(
+        `${domain}data/country/latest` /* , {credentials: 'no-cors'} */
+      ).then(res => res.json())
     );
   },
 
   uploadPoiInfo(data) {
     //console.log("request api " + JSON.stringify(data));
     return from(
-      fetch("http://d67ajkompfc3x.cloudfront.net/covid-collector/event/collector", {
+      fetch(`${domain}covid-collector/event/collector`, {
         body: JSON.stringify(data),
-        method: 'POST',
+        method: "POST",
         headers: new Headers({
-          'content-type': 'application/json'
-        }),
-      }).then(res =>res.json())
+          "content-type": "application/json"
+        })
+      }).then(res => res.json())
     );
   },
 
@@ -91,7 +93,13 @@ export const api = {
     }); */
 
     return from(
-      fetch("http://d67ajkompfc3x.cloudfront.net/data/country/daily/"+area).then(res =>
+      fetch(`${domain}data/country/daily/${area}`).then(res => res.json())
+    );
+  },
+
+  requestVirusInfo(pid) {
+    return from(
+      fetch(`${domain}covid-collector/event/detail/${pid}`).then(res =>
         res.json()
       )
     );
