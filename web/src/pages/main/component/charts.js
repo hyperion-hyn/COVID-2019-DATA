@@ -189,18 +189,21 @@ import {injectIntl } from "react-intl";
                     type: 'line',
                     smooth: true,
                     data: confirmedArray,
+                    symbol:'circle',
                 },
                 {
                     name: titleArray[1],
                     type: 'line',
                     smooth: true,
                     data: deadArray,
+                    symbol:'circle',
                 },
                 {
                     name: titleArray[2],
                     type: 'line',
                     smooth: true,
                     data: recoverdArray,
+                    symbol:'circle',
                 }
             ]
         };
