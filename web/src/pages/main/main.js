@@ -192,7 +192,6 @@ class Main extends Component {
     let addingMaker = {
       latitude: viewport.latitude,
       longitude: viewport.longitude,
-      message: "点击编辑疫情信息"
     };
 
     this.setState({ viewport, addingMaker });
@@ -397,14 +396,14 @@ class Main extends Component {
             }}
           >
             <Typography color="textSecondary" variant={"body2"}>
-              拖动标记到疫情发生位置
+            <FormattedMessage id="drag_marker_to_location_of_virus" />
             </Typography>
             <Typography
               color="primary"
               variant="body2"
               className={classes.addingMarkTip}
             >
-              {addingMaker.message}
+              <FormattedMessage id="click_to_edit_virus_info" />
             </Typography>
           </Box>
         </Popup>

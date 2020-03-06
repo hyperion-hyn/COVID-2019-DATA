@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Charts from "./charts";
 import { withStyles, Box, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
+import { injectIntl } from 'react-intl';
 
 const styles = (theme) => ({
   root: {
@@ -14,7 +15,7 @@ const styles = (theme) => ({
 class VirusDailyPanel extends Component {
   render() {
 
-    const { classes, dailyData } = this.props;
+    const { intl, classes, dailyData } = this.props;
 
     var area;
     if (dailyData
@@ -25,13 +26,15 @@ class VirusDailyPanel extends Component {
       var deadArray = dead.map(item =>
         item.area
       );
-      area = deadArray[0] + "形势";
+      area = deadArray[0] + ' ' + intl.formatMessage({
+        id: 'situation',
+      });
     }
 
     return (
       <Box className={classes.root}>
         <Box pl={2} pt={1}>
-          <Typography style={{height: '20px', fontSize: 14 }}>{area}</Typography>
+          <Typography style={{ height: '20px', fontSize: 14 }}>{area}</Typography>
         </Box>
         <Charts dailyData={dailyData}></Charts>
       </Box>
@@ -45,4 +48,4 @@ const mapStateToProps = (state, onwProps) => ({
 
 export default connect(
   mapStateToProps,
-)(withStyles(styles)(VirusDailyPanel));
+)(withStyles(styles)(injectIntl(VirusDailyPanel)));

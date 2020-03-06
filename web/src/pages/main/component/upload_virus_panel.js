@@ -24,6 +24,7 @@ import {
     DialogActions,
     Paper
 } from "@material-ui/core";
+import { injectIntl, FormattedMessage } from "react-intl";
 
 const styles = theme => ({
     topTitleFont: {
@@ -101,12 +102,27 @@ class UploadVirusPanel extends Component {
         }
     }
 
-    inputGridItem(titleText, placeholderText, hasStar, inputType) {
-        const { classes } = this.props;
+    inputGridItem( titleText, placeholderText, hasStar, inputType) {
+        const { intl, classes } = this.props;
+
+        var intlTitle = intl.formatMessage({
+            id: titleText, 
+          });
+        
+        var intlPlace;
+        if (hasStar) {
+            intlPlace = "";
+        } else {
+            intlPlace = intl.formatMessage({
+                id: placeholderText, 
+            });
+        }
+        
+
         return (
             <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                 <Grid item className={classes.gridTitle} direction="row" container>
-                    <Typography className={classes.titleFont}>{titleText}</Typography>
+                    <Typography className={classes.titleFont}>{intlTitle}</Typography>
                     {this.inputGridItemStar(hasStar)}
                 </Grid>
                 <TextField
@@ -137,7 +153,7 @@ class UploadVirusPanel extends Component {
                         }
                     }}
                     className={classes.classInputField}
-                    placeholder={placeholderText} />
+                    placeholder={intlPlace} />
             </Grid>
         )
     }
@@ -155,12 +171,13 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">{"疫情信息提交成功"}</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="virus_info_submit_success" /></DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         cancelledUploadedPoiDataApi();
                         callbackParent(false);
-                    }} color="primary">确定</Button>
+                    }} color="primary"><FormattedMessage id="ok" />
+                    </Button>
                 </DialogActions>
             </Dialog>
         )
@@ -168,7 +185,6 @@ class UploadVirusPanel extends Component {
 
     checkUploadData() {
         const { isShowCheckDialog } = this.state;
-        let dialogTitle = "请完善信息填写"
         return (
             <Dialog
                 open={isShowCheckDialog}
@@ -176,11 +192,11 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">{dialogTitle}</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="complete_info" /></DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         this.setState({ isShowCheckDialog: false })
-                    }} color="primary">确定</Button>
+                    }} color="primary"><FormattedMessage id="ok" /></Button>
                 </DialogActions>
             </Dialog>
         )
@@ -212,19 +228,20 @@ class UploadVirusPanel extends Component {
     }
 
     render() {
-        const { classes, callbackParent } = this.props;
+        const { intl, classes, callbackParent } = this.props;
         return (
             <Paper variant="outlined">
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
-                        <Grid item xs ><Typography className={classes.topTitleFont}>上报疫情信息</Typography></Grid>
+                        <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id="submit_virus_info" /></Typography></Grid>
                         <IconButton onClick={() => callbackParent(true)}>
                             <Close ></Close>
                         </IconButton>
                     </Grid>
                     <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                         <Grid direction="row" container className={classes.gridTitle}>
-                            <Typography className={classes.titleFont}>信息类型</Typography>
+                            <Typography className={classes.titleFont}><FormattedMessage id="info_type" />
+</Typography>
                             <Typography className={classes.starFont}>*</Typography>
                         </Grid>
                         {/* <Select value={age} onChange={handleChange} displayEmpty className={classes.selectEmpty}> */}
@@ -235,28 +252,33 @@ class UploadVirusPanel extends Component {
                                         this.setState({ type: event.target.value });
                                     }}>
                                     <MenuItem value={"help"}>
-                                        <Typography className={classes.propsInputField}>疑似感染/求助</Typography>
+                                        <Typography className={classes.propsInputField}><FormattedMessage id="infection_help" />
+</Typography>
                                     </MenuItem>
                                     <MenuItem value={"confirm"}>
-                                        <Typography className={classes.propsInputField}>确诊感染</Typography>
+                                        <Typography className={classes.propsInputField}><FormattedMessage id="confirmed_infection" />
+</Typography>
                                     </MenuItem>
                                     <MenuItem value={"cured"}>
-                                        <Typography className={classes.propsInputField}>治愈康复</Typography>
+                                        <Typography className={classes.propsInputField}><FormattedMessage id="healing" />
+</Typography>
                                     </MenuItem>
                                     <MenuItem value={"dead"}>
-                                        <Typography className={classes.propsInputField}>感染死亡</Typography>
+                                        <Typography className={classes.propsInputField}><FormattedMessage id="death_from_infection" />
+</Typography>
                                     </MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
                     </Grid>
-                    {this.inputGridItem("信息来源", "请输入该信息的权威出处", false, "source")}
-                    {this.inputGridItem("详细地址", "", true, "address")}
-                    {this.inputGridItem("联系方式", "请输入联系方式", false, "contact")}
-                    {this.inputGridItem("籍贯", "中国广州", false, "ancestralHome")}
+                    {this.inputGridItem("info_sources", "enter_author_source_for_info", false, "source")}
+                    {this.inputGridItem("address", "", true, "address")}
+                    {this.inputGridItem("contact", "enter_contact", false, "contact")}
+                    {this.inputGridItem("hometown", "guangdong_china", false, "ancestralHome")}
                     <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                         <Grid item className={classes.gridTitle}>
-                            <Typography className={classes.titleFont}>年龄</Typography>
+                            <Typography className={classes.titleFont}><FormattedMessage id="age" />
+</Typography>
                         </Grid>
                         <TextField
                             InputProps={{
@@ -268,11 +290,13 @@ class UploadVirusPanel extends Component {
                             onChange={(event) => {
                                 this.setState({ age: event.target.value });
                             }} />
-                        <Typography className={classes.titleFont}>岁</Typography>
+                        <Typography className={classes.titleFont}><FormattedMessage id="year_old" />
+</Typography>
                     </Grid>
                     <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                         <Grid item className={classes.gridTitle}>
-                            <Typography className={classes.titleFont}>性别</Typography>
+                            <Typography className={classes.titleFont}><FormattedMessage id="gender" />
+</Typography>
                         </Grid>
                         <RadioGroup aria-label="gender" name="gender1" row
                             value={this.state.gender}
@@ -280,23 +304,27 @@ class UploadVirusPanel extends Component {
                                 this.setState({ gender: event.target.value });
                             }}>
                             <FormControlLabel value="male" control={<Radio size="small" color="primary"/>}
-                                label={<Typography className={classes.titleFont}>男</Typography>} />
+                                label={<Typography className={classes.titleFont}><FormattedMessage id="male" />
+                                </Typography>} />
                             <FormControlLabel value="female" control={<Radio size="small" color="primary"/>}
-                                label={<Typography className={classes.titleFont}>女</Typography>} />
+                                label={<Typography className={classes.titleFont}><FormattedMessage id="female" />
+                                </Typography>} />
                             <FormControlLabel value="unknow" control={<Radio size="small" color="primary"/>}
-                                label={<Typography className={classes.titleFont}>不确定</Typography>} />
+                                label={<Typography className={classes.titleFont}><FormattedMessage id="unkonwn" />
+                                </Typography>} />
                         </RadioGroup>
                     </Grid>
-                    {this.inputGridItem("病情症状", "乏力，发烧38度", false, "symptom")}
-                    {this.inputGridItem("最近1月到访过的地方", "中国河北，韩国", false, "travelHistory")}
-                    {this.inputGridItem("其他补充", "其他信息补充", false, "remark")}
+                    {this.inputGridItem("condition_symptoms", "weakness_fever_38_degrees", false, "symptom")}
+                    {this.inputGridItem("places_visited_in_january", "hebei_china_south_korea", false, "travelHistory")}
+                    {this.inputGridItem("other_supplements", "additional_information", false, "remark")}
                     <Grid direction="column" container alignItems="center" >
                         <Grid item xs>
                             {/* <Button className={classes.submitButton} onClick={()=>{
                             this.uploadPoiInfo
                             }}> */}
                             <Button variant="outlined" className={classes.submitButton} onClick={this.uploadPoiInfo}>
-                                <Typography className={classes.submitButtonFont}>提交</Typography>
+                                <Typography className={classes.submitButtonFont}><FormattedMessage id="submit" />
+</Typography>
                             </Button>
                         </Grid>
                     </Grid>
@@ -309,7 +337,8 @@ class UploadVirusPanel extends Component {
                                 onChange={(event) => {
                                     this.setState({ isMakeSure: event.target.checked })
                                 }} />}
-                            label={<Typography className={classes.titleFont}>我虔诚的保证提交的数据是真实的。</Typography>}
+                            label={<Typography className={classes.titleFont}><FormattedMessage id="submit_detail_desc" />
+                            </Typography>}
                             labelPlacement="end"
                         />
                     </Grid>
@@ -333,4 +362,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(UploadVirusPanel));
+)(withStyles(styles)(injectIntl(UploadVirusPanel)));
