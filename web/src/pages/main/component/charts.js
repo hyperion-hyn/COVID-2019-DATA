@@ -41,18 +41,19 @@ import {injectIntl } from "react-intl";
         let confirmedArray = array[1];
         let recoverdArray = array[2];
         let dateArray = array[3];
+        let colorPalette = array[4];
         var titleArray = [
             intl.formatMessage({
                 id: 'new_diagnoses', 
               }),
             intl.formatMessage({
-                id: 'new_deaths', 
-            }),
-            intl.formatMessage({
                 id: 'new_rehabilitation', 
             }),
+            intl.formatMessage({
+                id: 'new_deaths', 
+            }),
         ];
-        
+
         return {
             //backgroundColor: 'rgb(18, 128, 128)',
 
@@ -81,6 +82,9 @@ import {injectIntl } from "react-intl";
             ],
             series: [
                 {
+                    itemStyle: {
+                        color: colorPalette[0]
+                    },
                     name: titleArray[0],
                     type: 'bar',
                     data: confirmedArray,
@@ -97,9 +101,12 @@ import {injectIntl } from "react-intl";
                     }
                 },
                 {
+                    itemStyle: {
+                        color: colorPalette[1]
+                    },
                     name: titleArray[1],
                     type: 'bar',
-                    data: deadArray,
+                    data: recoverdArray,
                     markPoint: {
                         data: [
                             { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
@@ -113,9 +120,12 @@ import {injectIntl } from "react-intl";
                     }
                 },
                 {
+                    itemStyle: {
+                        color: colorPalette[2]
+                    },
                     name: titleArray[2],
                     type: 'bar',
-                    data: recoverdArray,
+                    data: deadArray,
                     markPoint: {
                         data: [
                             { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
@@ -147,15 +157,16 @@ import {injectIntl } from "react-intl";
         let confirmedArray = array[1];
         let recoverdArray = array[2];
         let dateArray = array[3];
+        let colorPalette = array[4];
         var titleArray = [
             intl.formatMessage({
                 id: 'total_diagnoses', 
               }),
             intl.formatMessage({
-                id: 'total_deaths', 
+                id: 'total_rehabilitation', 
             }),
             intl.formatMessage({
-                id: 'total_rehabilitation', 
+                id: 'total_deaths', 
             }),
         ];
 
@@ -174,7 +185,6 @@ import {injectIntl } from "react-intl";
                 top: '3%',
                 containLabel: true
             },
-
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
@@ -185,6 +195,9 @@ import {injectIntl } from "react-intl";
             },
             series: [
                 {
+                    itemStyle: {
+                        color: colorPalette[0]
+                    },
                     name: titleArray[0],
                     type: 'line',
                     smooth: true,
@@ -192,17 +205,23 @@ import {injectIntl } from "react-intl";
                     symbol:'circle',
                 },
                 {
+                    itemStyle: {
+                        color: colorPalette[1]
+                    },
                     name: titleArray[1],
                     type: 'line',
                     smooth: true,
-                    data: deadArray,
+                    data: recoverdArray,
                     symbol:'circle',
                 },
                 {
+                    itemStyle: {
+                        color: colorPalette[2]
+                    },
                     name: titleArray[2],
                     type: 'line',
                     smooth: true,
-                    data: recoverdArray,
+                    data: deadArray,
                     symbol:'circle',
                 }
             ]
@@ -255,7 +274,13 @@ import {injectIntl } from "react-intl";
                 ).reverse();
             }
         }
-        return [deadArray, confirmedArray, recoverdArray, dateArray];
+
+        let colorPalette = [
+            'rgb(179,33,38)',
+            'rgb(80,143,151)',
+            'rgb(36,53,66)',
+        ];
+        return [deadArray, confirmedArray, recoverdArray, dateArray, colorPalette];
     }
 }
 
