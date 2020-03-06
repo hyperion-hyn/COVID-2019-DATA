@@ -65,8 +65,10 @@ const zh_CN = {
   'cancel': '取消!',
   'is_confirmed_virus_info': '是否确认上报疫情信息',
   'upload_virus_info_success': '疫情信息提交成功',
-  'upload_virus_info_fail_network': '网络异常，疫情信息提交失败！',
-  'hyperion': '海伯利安'
+  'upload_virus_info_fail_network': '网络异常，请重试！',
+  'hyperion': '海伯利安',
+  'report_virus_info_success': '疫情信息举报成功',
+  'update_virus_info_success': '疫情信息更新成功',
 }
 
 export default zh_CN

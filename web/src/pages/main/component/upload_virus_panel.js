@@ -222,18 +222,18 @@ class UploadVirusPanel extends Component {
         } else if (uploadPoiResult.msg === "UpdateSuccess") {
             result = true;
             isOpen = true;
-            uploadResultText = "疫情信息更新成功";
+            uploadResultText = intl.formatMessage({id: 'update_virus_info_success', });
         } else if (uploadPoiResult.msg === "ReportSuccess") {
             result = true;
             isOpen = true;
-            uploadResultText = "疫情信息举报成功";
+            uploadResultText = intl.formatMessage({id: 'report_virus_info_success', });
         } else if (uploadPoiResult.msg === "fail") {
             result = false;
             isOpen = true;
 
             console.log("fail result" + uploadPoiResult.errorMsg)
             if(uploadPoiResult.errorMsg === undefined || uploadPoiResult.errorMsg === ""){
-                uploadResultText = "网络异常，请重试！"
+                uploadResultText = intl.formatMessage({id: 'upload_virus_info_fail_network', });
             }else{
                 uploadResultText = uploadPoiResult.errorMsg
             }
@@ -339,16 +339,16 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">是否确认举报该疫情信息</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" /></DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         console.log("report poi");
                         reportPoiDataApi(childInitData);
                         this.setState({ isShowReportDialog: false });
-                    }} color="primary">确定</Button>
+                    }} color="primary"><FormattedMessage id="ok" /></Button>
                     <Button onClick={() => {
                         this.setState({ isShowReportDialog: false })
-                    }} color="primary">取消</Button>
+                    }} color="primary"><FormattedMessage id="cancel" /></Button>
                 </DialogActions>
             </Dialog>
         )
