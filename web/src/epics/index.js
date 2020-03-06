@@ -5,6 +5,8 @@ import {
   onLoadContryVirusStatusEpics,
   onLoadDailyVirusByContryEpics,
   onUploadPoiInfoEpics,
+  onUpdatePoiInfoEpics,
+  onReportPoiInfoEpics,
   onFetchVirusInfoModel
 } from "./virus_status";
 import { changeLocaleEpics } from "./locale";
@@ -15,5 +17,7 @@ export default combineEpics(
   onLoadContryVirusStatusEpics,
   onLoadDailyVirusByContryEpics,
   onUploadPoiInfoEpics,
+  onUpdatePoiInfoEpics,
+  onReportPoiInfoEpics,
   onFetchVirusInfoModel
 );

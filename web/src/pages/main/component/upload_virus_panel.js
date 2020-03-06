@@ -74,25 +74,56 @@ const styles = theme => ({
         fontSize: "14px",
         color: "#333333"
     },
+    reportGrid: {
+        marginTop: 10
+    },
+    reportTitleFont: {
+        fontSize: "11px",
+        color: "#1E90FF"
+    },
 })
 
 class UploadVirusPanel extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            type: "help",
-            source: "",
-            address: "",
-            contact: "",
-            ancestralHome: "",
-            age: "",
-            gender: "",
-            symptom: "",
-            travelHistory: "",
-            remark: "",
-            isShowCheckDialog: false,
-            isMakeSure: false,
-            isShowDetermineDialog:false,
+
+        const { childInitData } = this.props;
+        if (childInitData === undefined) {
+            this.state = {
+                type: "help",
+                source: "",
+                address: "",
+                contact: "",
+                ancestralHome: "",
+                age: "",
+                gender: "",
+                symptom: "",
+                travelHistory: "",
+                remark: "",
+                isShowCheckDialog: false,
+                isMakeSure: false,
+                isShowDetermineDialog: false,
+                isShowReportDialog: false,
+                isUpdatePoi: false
+            }
+        } else {
+            this.state = {
+                type: childInitData.type,
+                source: childInitData.source,
+                address: childInitData.address,
+                contact: childInitData.contact,
+                ancestralHome: childInitData.ancestralHome,
+                age: childInitData.age,
+                gender: childInitData.gender,
+                symptom: childInitData.symptom,
+                travelHistory: childInitData.travelHistory,
+                remark: childInitData.remark,
+                isShowCheckDialog: false,
+                isMakeSure: false,
+                isShowDetermineDialog: false,
+                isShowReportDialog: false,
+                isUpdatePoi: true
+            }
         }
     }
 
@@ -103,8 +134,8 @@ class UploadVirusPanel extends Component {
         }
     }
 
-    inputGridItem( titleText, placeholderText, hasStar, inputType) {
-        const { intl, classes } = this.props;
+    inputGridItem(titleText, placeholderText, hasStar, inputType) {
+        const { classes,intl } = this.props;
 
         var intlTitle = intl.formatMessage({
             id: titleText, 
@@ -119,6 +150,25 @@ class UploadVirusPanel extends Component {
             });
         }
         
+        let initValue = "";
+        switch (inputType) {
+            case "source": initValue = this.state.source;
+                break;
+            case "address": initValue = this.state.address;
+                break;
+            case "contact": initValue = this.state.contact;
+                break;
+            case "ancestralHome": initValue = this.state.ancestralHome;
+                break;
+            case "age": initValue = this.state.age;
+                break;
+            case "symptom": initValue = this.state.symptom;
+                break;
+            case "travelHistory": initValue = this.state.travelHistory;
+                break;
+            case "remark": initValue = this.state.remark;
+                break;
+        }
         return (
             <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                 <Grid item className={classes.gridTitle} direction="row" container>
@@ -152,6 +202,7 @@ class UploadVirusPanel extends Component {
                                 break;
                         }
                     }}
+                    value={initValue}
                     className={classes.classInputField}
                     placeholder={intlPlace} />
             </Grid>
@@ -164,14 +215,28 @@ class UploadVirusPanel extends Component {
         let isOpen = false;
         let uploadResultText = "";
         let result = false;
-        if (uploadPoiResult.msg === "success") {
+        if (uploadPoiResult.msg === "UploadSuccess") {
             result = true;
             isOpen = true;
             uploadResultText = intl.formatMessage({id: 'upload_virus_info_success', });
-        }else if(uploadPoiResult.msg === "fail"){
+        } else if (uploadPoiResult.msg === "UpdateSuccess") {
+            result = true;
+            isOpen = true;
+            uploadResultText = "疫情信息更新成功";
+        } else if (uploadPoiResult.msg === "ReportSuccess") {
+            result = true;
+            isOpen = true;
+            uploadResultText = "疫情信息举报成功";
+        } else if (uploadPoiResult.msg === "fail") {
             result = false;
             isOpen = true;
-            uploadResultText = intl.formatMessage({id: 'upload_virus_info_fail_network', });
+
+            console.log("fail result" + uploadPoiResult.errorMsg)
+            if(uploadPoiResult.errorMsg === undefined || uploadPoiResult.errorMsg === ""){
+                uploadResultText = "网络异常，请重试！"
+            }else{
+                uploadResultText = uploadPoiResult.errorMsg
+            }
         }
         return (
             <Dialog
@@ -184,7 +249,7 @@ class UploadVirusPanel extends Component {
                 <DialogActions>
                     <Button onClick={() => {
                         cancelledUploadedPoiDataApi();
-                        if(result){
+                        if (result) {
                             callbackParent(false);
                         }
                     }} color="primary"><FormattedMessage id="ok" /></Button>
@@ -212,12 +277,15 @@ class UploadVirusPanel extends Component {
         )
     }
 
-    determineSubmitDialog(){
-        const { uploadPoiDataApi, childLatitude, childLongitude } = this.props;
+    determineSubmitDialog() {
+        const { childInitData, updatePoiDataApi, uploadPoiDataApi, childLatitude, childLongitude } = this.props;
         // 数据传递
-        const { isShowDetermineDialog, type, source, address, contact, ancestralHome, age, gender, symptom, travelHistory, remark, isMakeSure } = this.state;
-        console.log("submit !!!!! ==== " + childLatitude + childLongitude + type + source + address + contact + ancestralHome + age + gender + symptom + travelHistory + remark + " isMakeSure " + isMakeSure)
-        
+        const { isUpdatePoi, isShowDetermineDialog, type, source, address, contact, ancestralHome, age, gender, symptom, travelHistory, remark, isMakeSure } = this.state;
+        console.log("ready submit !!!!! ==== isUpdatePoi== " + isUpdatePoi + " data == "
+            + childLatitude + childLongitude + type + source + address + contact
+            + ancestralHome + age + gender + symptom + travelHistory + remark
+            + " isMakeSure " + isMakeSure)
+
         return (
             <Dialog
                 open={isShowDetermineDialog}
@@ -242,7 +310,12 @@ class UploadVirusPanel extends Component {
                         uploadModel.symptom = symptom;
                         uploadModel.travel_history = travelHistory;
                         uploadModel.remark = remark;
-                        uploadPoiDataApi(uploadModel)
+                        if (isUpdatePoi) {
+                            uploadModel.id = childInitData.id;
+                            updatePoiDataApi(uploadModel)
+                        } else {
+                            uploadPoiDataApi(uploadModel)
+                        }
 
                         this.setState({ isShowDetermineDialog: false })
                     }} color="primary"><FormattedMessage id="ok" />
@@ -256,9 +329,34 @@ class UploadVirusPanel extends Component {
         )
     }
 
+    determineReportDialog() {
+        const { reportPoiDataApi,childInitData } = this.props;
+        const { isShowReportDialog } = this.state;
+        return (
+            <Dialog
+                open={isShowReportDialog}
+                keepMounted
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle id="alert-dialog-slide-title">是否确认举报该疫情信息</DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => {
+                        console.log("report poi");
+                        reportPoiDataApi(childInitData);
+                        this.setState({ isShowReportDialog: false });
+                    }} color="primary">确定</Button>
+                    <Button onClick={() => {
+                        this.setState({ isShowReportDialog: false })
+                    }} color="primary">取消</Button>
+                </DialogActions>
+            </Dialog>
+        )
+    }
+
     uploadPoiInfo = () => {
         const { isShowDetermineDialog, isShowCheckDialog, isMakeSure, address } = this.state;
-        
+
         if (address === "" || !isMakeSure) {
             this.setState({ isShowCheckDialog: true })
         } else {
@@ -266,21 +364,46 @@ class UploadVirusPanel extends Component {
         }
     }
 
+    reportPoiInfo() {
+        const { isShowReportDialog, classes, callbackParent, childInitData, reportPoiDataApi } = this.props;
+
+        if (childInitData) {
+            return (
+                <Grid direction="column" container alignItems="center" className={classes.reportGrid} >
+                    <Button
+                        onClick={(event) => {
+                            this.setState({isShowReportDialog: true});
+                        }}>
+                        <Typography className={classes.reportTitleFont}>报告该消息是虚假疫情信息</Typography>
+                    </Button>
+                </Grid>
+            )
+        }
+    }
+
+
+
     render() {
+        const { isUpdatePoi } = this.state;
         const { intl, classes, callbackParent } = this.props;
+        let topTitleText = "";
+        if(isUpdatePoi){
+            topTitleText = "update_virus_info";
+        }else{
+            topTitleText = "submit_virus_info";
+        }
         return (
             <Paper variant="outlined">
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
-                        <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id="submit_virus_info" /></Typography></Grid>
+                        <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id={topTitleText} /></Typography></Grid>
                         <IconButton onClick={() => callbackParent(true)}>
                             <Close ></Close>
                         </IconButton>
                     </Grid>
                     <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                         <Grid direction="row" container className={classes.gridTitle}>
-                            <Typography className={classes.titleFont}><FormattedMessage id="info_type" />
-</Typography>
+                            <Typography className={classes.titleFont}><FormattedMessage id="info_type" /></Typography>
                             <Typography className={classes.starFont}>*</Typography>
                         </Grid>
                         {/* <Select value={age} onChange={handleChange} displayEmpty className={classes.selectEmpty}> */}
@@ -367,6 +490,7 @@ class UploadVirusPanel extends Component {
                             </Button>
                         </Grid>
                     </Grid>
+                    {this.reportPoiInfo()}
                     <Grid direction="column" container alignItems="center" >
                         <FormControlLabel
                             value="end"
@@ -385,6 +509,7 @@ class UploadVirusPanel extends Component {
                 {this.uploadResultDialog()}
                 {this.checkUploadData()}
                 {this.determineSubmitDialog()}
+                {this.determineReportDialog()}
             </Paper>
         );
     }
@@ -395,7 +520,9 @@ const mapStateToProps = (state, onwProps) => ({
 });
 
 const mapDispatchToProps = {
+    updatePoiDataApi: VirusStatusActions.updatePoiData,
     uploadPoiDataApi: VirusStatusActions.uploadPoiData,
+    reportPoiDataApi: VirusStatusActions.reportPoiData,
     cancelledUploadedPoiDataApi: VirusStatusActions.cancelledUploadedPoiData,
 };
 

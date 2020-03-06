@@ -20,6 +20,7 @@ const en_US = {
   'countries_regions': 'Countries',
   'situation': 'situation',
   'submit_virus_info': 'Reporting virus information',
+  'update_virus_info': 'Updating virus information',
   'info_type': 'Information type',
   'infection_help': 'Suspected infection / help',
   'confirmed_infection': 'Confirmed infection',
@@ -66,6 +67,7 @@ const en_US = {
   'is_confirmed_virus_info': 'Whether to confirm reporting of virus information',
   'upload_virus_info_success': 'Virus information submitted successfully',
   'upload_virus_info_fail_network': 'The network is abnormal and the submission of virus information failed！',
+  'hyperion': 'hyperion'
 }
 
 export default en_US

@@ -19,6 +19,7 @@ const zh_CN = {
   'countries_regions': '国家',
   'situation': '形势',
   'submit_virus_info': '上报疫情信息',
+  'update_virus_info': '更新疫情信息',
   'info_type': '信息类型',
   'infection_help': '疑似感染/求助',
   'confirmed_infection': '确诊感染',
@@ -65,6 +66,7 @@ const zh_CN = {
   'is_confirmed_virus_info': '是否确认上报疫情信息',
   'upload_virus_info_success': '疫情信息提交成功',
   'upload_virus_info_fail_network': '网络异常，疫情信息提交失败！',
+  'hyperion': '海伯利安'
 }
 
 export default zh_CN

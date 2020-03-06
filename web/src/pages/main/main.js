@@ -133,9 +133,23 @@ const styles = theme => ({
     height: "80%",
     top: "1rem"
   },
+  uploadVirusPanelBox: {
+    margin: "auto",
+    width: "100%",
+    position: "absolute",
+    display: "flex",
+    "justify-content": "center",
+    top: "1rem",
+  },
   languageFormControl: {
     margin: 8,
     paddingTop: 4
+  },
+  waterMask: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    "text-shadow": "1px 1px 2px black",
   }
 });
 
@@ -196,7 +210,7 @@ class Main extends Component {
 
     let addingMaker = {
       latitude: viewport.latitude,
-      longitude: viewport.longitude,
+      longitude: viewport.longitude
     };
 
     this.setState({ viewport, addingMaker });
@@ -322,6 +336,8 @@ class Main extends Component {
           <Grid item xs container className={classes.mapBox} justify="center">
             <MapGL
               {...viewport}
+              maxZoom={19}
+              minZoom={1.1}
               // mapStyle="https://cn.tile.map3.network/ncov_v1.json"
               mapStyle="https://cn.tile.map3.network/global_covid.json"
               onViewportChange={this._onViewportChange}
@@ -340,6 +356,8 @@ class Main extends Component {
                 trackUserLocation={false}
                 showUserLocation={true}
               />
+
+              {this._renderWaterMask()}
 
               {this._renderSelectedPoiPopup()}
 
@@ -363,6 +381,24 @@ class Main extends Component {
       </Grid>
     );
   }
+
+  _renderWaterMask = () => {
+    const { classes } = this.props;
+    return (
+      <Box className={classes.waterMask}>
+        <Typography variant="h6">
+          <a
+            href="https://www.hyn.space/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{color: 'white', fontSize: 14, textDecoration: 'none'}}
+          >
+            @<FormattedMessage id="hyperion" />
+          </a>
+        </Typography>
+      </Box>
+    );
+  };
 
   _renderAddNewMaker() {
     const { addingMaker } = this.state;
@@ -402,7 +438,7 @@ class Main extends Component {
             }}
           >
             <Typography color="textSecondary" variant={"body2"}>
-            <FormattedMessage id="drag_marker_to_location_of_virus" />
+              <FormattedMessage id="drag_marker_to_location_of_virus" />
             </Typography>
             <Typography
               color="primary"
@@ -418,6 +454,9 @@ class Main extends Component {
   }
 
   _renderSelectedPoiPopup = () => {
+    const {
+      childInitData
+    } = this.state
     const {
       classes,
       selectedVirus,
@@ -497,7 +536,11 @@ class Main extends Component {
               variant={"body2"}
               color="primary"
               className={classes.clickableTip}
-              onClick={() => console.log("todo update poi info")}
+              onClick={() => {
+                console.log("todo update poi info");
+                this.setState({childInitData: selectedVirus.data});
+                this.updateUploadPanelState(true)
+              }}
             >
               <FormattedMessage id="error_correction" />
             </Typography>
@@ -561,25 +604,36 @@ class Main extends Component {
 
   _uploadPanelView(isShowPanel) {
     const { classes } = this.props;
-    const { addingMaker } = this.state;
+    const { addingMaker,childInitData } = this.state;
+
+    let latitude,longitude;
+    if(addingMaker){
+      latitude = addingMaker.latitude;
+      longitude = addingMaker.longitude;
+    }else if(childInitData){
+      latitude = childInitData.lat;
+      longitude = childInitData.lon;
+    }
     if (isShowPanel) {
       return (
-        addingMaker && (
-          <Box className={classes.addVirusBox}>
+        // addingMaker && (
+          <Box className={classes.uploadVirusPanelBox}>
             <Grid className={classes.uploadVirusPanelGrid}>
               <UploadVirusPanel
-                childLatitude={addingMaker.latitude}
-                childLongitude={addingMaker.longitude}
+                childInitData={childInitData}
+                childLatitude={latitude}
+                childLongitude={longitude}
                 callbackParent={isMakerShow => {
                   if (!isMakerShow) {
                     this.setState({ addingMaker: undefined });
                   }
+                  this.setState({childInitData:undefined});
                   this.updateUploadPanelState(false);
                 }}
               ></UploadVirusPanel>
             </Grid>
           </Box>
-        )
+        // )
       );
     }
   }
