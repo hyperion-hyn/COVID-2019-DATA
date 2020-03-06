@@ -90,7 +90,8 @@ class UploadVirusPanel extends Component {
             travelHistory: "",
             remark: "",
             isShowCheckDialog: false,
-            isMakeSure: false
+            isMakeSure: false,
+            isShowDetermineDialog:false,
         }
     }
 
@@ -142,11 +143,19 @@ class UploadVirusPanel extends Component {
         )
     }
 
-    uploadSuccessDialog() {
+    uploadResultDialog() {
         const { uploadPoiResult, callbackParent, cancelledUploadedPoiDataApi } = this.props;
         let isOpen = false;
+        let uploadResultText = "";
+        let result = false;
         if (uploadPoiResult.msg === "success") {
+            result = true;
             isOpen = true;
+            uploadResultText = "疫情信息提交成功"
+        }else if(uploadPoiResult.msg === "fail"){
+            result = false;
+            isOpen = true;
+            uploadResultText = "网络异常，疫情信息提交失败！"
         }
         return (
             <Dialog
@@ -155,11 +164,13 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">{"疫情信息提交成功"}</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title">{uploadResultText}</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         cancelledUploadedPoiDataApi();
-                        callbackParent(false);
+                        if(result){
+                            callbackParent(false);
+                        }
                     }} color="primary">确定</Button>
                 </DialogActions>
             </Dialog>
@@ -186,28 +197,54 @@ class UploadVirusPanel extends Component {
         )
     }
 
-    uploadPoiInfo = () => {
+    determineSubmitDialog(){
         const { uploadPoiDataApi, childLatitude, childLongitude } = this.props;
         // 数据传递
-        const { type, source, address, contact, ancestralHome, age, gender, symptom, travelHistory, remark, isMakeSure } = this.state;
+        const { isShowDetermineDialog, type, source, address, contact, ancestralHome, age, gender, symptom, travelHistory, remark, isMakeSure } = this.state;
         console.log("submit !!!!! ==== " + childLatitude + childLongitude + type + source + address + contact + ancestralHome + age + gender + symptom + travelHistory + remark + " isMakeSure " + isMakeSure)
+        
+        return (
+            <Dialog
+                open={isShowDetermineDialog}
+                keepMounted
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle id="alert-dialog-slide-title">是否确认上报疫情信息</DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => {
+                        let uploadModel = new PoiInfoModel();
+                        uploadModel.lat = childLatitude;
+                        uploadModel.lon = childLongitude;
+                        uploadModel.type = type;
+                        uploadModel.source = source;
+                        uploadModel.address = address;
+                        uploadModel.contact = contact;
+                        uploadModel.ancestralHome = ancestralHome;
+                        uploadModel.age = age;
+                        uploadModel.gender = gender;
+                        uploadModel.symptom = symptom;
+                        uploadModel.travel_history = travelHistory;
+                        uploadModel.remark = remark;
+                        uploadPoiDataApi(uploadModel)
+
+                        this.setState({ isShowDetermineDialog: false })
+                    }} color="primary">确定</Button>
+                    <Button onClick={() => {
+                        this.setState({ isShowDetermineDialog: false })
+                    }} color="primary">取消</Button>
+                </DialogActions>
+            </Dialog>
+        )
+    }
+
+    uploadPoiInfo = () => {
+        const { isShowDetermineDialog, isShowCheckDialog, isMakeSure, address } = this.state;
+        
         if (address === "" || !isMakeSure) {
             this.setState({ isShowCheckDialog: true })
         } else {
-            let uploadModel = new PoiInfoModel();
-            uploadModel.lat = childLatitude;
-            uploadModel.lon = childLongitude;
-            uploadModel.type = type;
-            uploadModel.source = source;
-            uploadModel.address = address;
-            uploadModel.contact = contact;
-            uploadModel.ancestralHome = ancestralHome;
-            uploadModel.age = age;
-            uploadModel.gender = gender;
-            uploadModel.symptom = symptom;
-            uploadModel.travel_history = travelHistory;
-            uploadModel.remark = remark;
-            uploadPoiDataApi(uploadModel)
+            this.setState({ isShowDetermineDialog: true })
         }
     }
 
@@ -314,8 +351,9 @@ class UploadVirusPanel extends Component {
                         />
                     </Grid>
                 </Grid>
-                {this.uploadSuccessDialog()}
+                {this.uploadResultDialog()}
                 {this.checkUploadData()}
+                {this.determineSubmitDialog()}
             </Paper>
         );
     }
