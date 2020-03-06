@@ -2,8 +2,7 @@ import { Observable, from } from "rxjs";
 
 import mock_data from "./mock_data";
 
-const domain = "https://covid.hyn.space/";
-const testDomain = "http://10.10.1.115:3000/";
+const domain = "https://covid.hyn.space/api/";
 
 export const api = {
   requestDemoData() {
@@ -79,7 +78,7 @@ export const api = {
   updatePoiInfo(data) {
     console.log("request updatePoiInfo api " + JSON.stringify(data));
     return from(
-      fetch(`${testDomain}covid-collector/event/detail/${data.id}`, {
+      fetch(`${domain}covid-collector/event/detail/${data.id}`, {
         body: JSON.stringify(data),
         method: "POST",
         headers: new Headers({
@@ -92,7 +91,7 @@ export const api = {
   reportPoiInfo(data) {
     console.log("request reportPoiInfo api " + JSON.stringify(data));
     return from(
-      fetch(`${testDomain}covid-collector/event/detail/${data.id}/delete-mark`, {
+      fetch(`${domain}covid-collector/event/detail/${data.id}/delete-mark`, {
         body: JSON.stringify(data),
         method: "POST",
         headers: new Headers({

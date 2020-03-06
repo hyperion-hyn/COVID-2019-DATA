@@ -229,7 +229,13 @@ class UploadVirusPanel extends Component {
         } else if (uploadPoiResult.msg === "fail") {
             result = false;
             isOpen = true;
-            uploadResultText = uploadPoiResult.errorMsg
+
+            console.log("fail result" + uploadPoiResult.errorMsg)
+            if(uploadPoiResult.errorMsg === undefined || uploadPoiResult.errorMsg === ""){
+                uploadResultText = "网络异常，请重试！"
+            }else{
+                uploadResultText = uploadPoiResult.errorMsg
+            }
         }
         return (
             <Dialog
