@@ -54,7 +54,7 @@ export const api = {
     }); */
 
     return from(
-      fetch("http://10.10.1.115:3000/data/country/latest"/* , {credentials: 'no-cors'} */).then(res =>
+      fetch("http://d67ajkompfc3x.cloudfront.net/data/country/latest"/* , {credentials: 'no-cors'} */).then(res =>
         res.json()
       )
     );
@@ -63,7 +63,7 @@ export const api = {
   uploadPoiInfo(data) {
     //console.log("request api " + JSON.stringify(data));
     return from(
-      fetch("http://10.10.1.115:3000/covid-collector/event/collector", {
+      fetch("http://d67ajkompfc3x.cloudfront.net/covid-collector/event/collector", {
         body: JSON.stringify(data),
         method: 'POST',
         headers: new Headers({
@@ -91,7 +91,7 @@ export const api = {
     }); */
 
     return from(
-      fetch("http://10.10.1.115:3000/data/country/daily/"+area).then(res =>
+      fetch("http://d67ajkompfc3x.cloudfront.net/data/country/daily/"+area).then(res =>
         res.json()
       )
     );
