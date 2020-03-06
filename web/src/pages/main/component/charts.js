@@ -242,7 +242,7 @@ import {injectIntl } from "react-intl";
 
                 deadArray = dead.map(item =>
                     item.count
-                );
+                ).reverse();
             }
 
             if (data.confirmed) {
@@ -250,7 +250,7 @@ import {injectIntl } from "react-intl";
 
                 confirmedArray = confirmed.map(item =>
                     item.count
-                );
+                ).reverse();
 
                 dateArray = confirmed.map(item => {
                     var date = new Date(item.date),
@@ -260,7 +260,7 @@ import {injectIntl } from "react-intl";
                         // dateText =  month + "月" + day + "日";
 
                     return dateText;
-                });
+                }).reverse();
             }
 
             if (data.recoverd) {
@@ -268,7 +268,7 @@ import {injectIntl } from "react-intl";
 
                 recoverdArray = recoverd.map(item =>
                     item.count
-                );
+                ).reverse();
             }
         }
         return [deadArray, confirmedArray, recoverdArray, dateArray];
