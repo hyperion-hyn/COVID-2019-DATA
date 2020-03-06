@@ -137,6 +137,12 @@ const styles = theme => ({
   languageFormControl: {
     margin: 8,
     paddingTop: 4
+  },
+  waterMask: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    "text-shadow": "1px 1px 2px black",
   }
 });
 
@@ -197,7 +203,7 @@ class Main extends Component {
 
     let addingMaker = {
       latitude: viewport.latitude,
-      longitude: viewport.longitude,
+      longitude: viewport.longitude
     };
 
     this.setState({ viewport, addingMaker });
@@ -323,6 +329,8 @@ class Main extends Component {
           <Grid item xs container className={classes.mapBox} justify="center">
             <MapGL
               {...viewport}
+              maxZoom={19}
+              minZoom={1.1}
               // mapStyle="https://cn.tile.map3.network/ncov_v1.json"
               mapStyle="https://cn.tile.map3.network/global_covid.json"
               onViewportChange={this._onViewportChange}
@@ -341,6 +349,8 @@ class Main extends Component {
                 trackUserLocation={false}
                 showUserLocation={true}
               />
+
+              {this._renderWaterMask()}
 
               {this._renderSelectedPoiPopup()}
 
@@ -364,6 +374,24 @@ class Main extends Component {
       </Grid>
     );
   }
+
+  _renderWaterMask = () => {
+    const { classes } = this.props;
+    return (
+      <Box className={classes.waterMask}>
+        <Typography variant="h6">
+          <a
+            href="https://www.hyn.space/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{color: 'white', fontSize: 14, textDecoration: 'none'}}
+          >
+            @<FormattedMessage id="hyperion" />
+          </a>
+        </Typography>
+      </Box>
+    );
+  };
 
   _renderAddNewMaker() {
     const { addingMaker } = this.state;
@@ -403,7 +431,7 @@ class Main extends Component {
             }}
           >
             <Typography color="textSecondary" variant={"body2"}>
-            <FormattedMessage id="drag_marker_to_location_of_virus" />
+              <FormattedMessage id="drag_marker_to_location_of_virus" />
             </Typography>
             <Typography
               color="primary"

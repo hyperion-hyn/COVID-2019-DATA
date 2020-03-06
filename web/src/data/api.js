@@ -2,7 +2,7 @@ import { Observable, from } from "rxjs";
 
 import mock_data from "./mock_data";
 
-const domain = "https://covid.hyn.space/";
+const domain = "https://covid.hyn.space/api/";
 
 export const api = {
   requestDemoData() {

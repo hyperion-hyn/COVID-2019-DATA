@@ -48,6 +48,7 @@ const zh_CN = {
   'virus_info_submit_success': '疫情信息提交成功',
   'complete_info': '请完善信息填写',
   'guangdong_china': '中国广东',
+  'hyperion': '海伯利安'
 }
 
 export default zh_CN
