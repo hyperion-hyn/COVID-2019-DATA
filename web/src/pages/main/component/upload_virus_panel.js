@@ -78,20 +78,42 @@ const styles = theme => ({
 class UploadVirusPanel extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            type: "help",
-            source: "",
-            address: "",
-            contact: "",
-            ancestralHome: "",
-            age: "",
-            gender: "",
-            symptom: "",
-            travelHistory: "",
-            remark: "",
-            isShowCheckDialog: false,
-            isMakeSure: false,
-            isShowDetermineDialog:false,
+
+        const { childInitData } = this.props;
+        if(childInitData === undefined){
+            this.state = {
+                type: "help",
+                source: "",
+                address: "",
+                contact: "",
+                ancestralHome: "",
+                age: "",
+                gender: "",
+                symptom: "",
+                travelHistory: "",
+                remark: "",
+                isShowCheckDialog: false,
+                isMakeSure: false,
+                isShowDetermineDialog:false,
+                topTitleText: "上报疫情信息"
+            }
+        } else {
+            this.state = {
+                type: childInitData.type,
+                source: childInitData.source,
+                address: childInitData.address,
+                contact: childInitData.contact,
+                ancestralHome: childInitData.ancestralHome,
+                age: childInitData.age,
+                gender: childInitData.gender,
+                symptom: childInitData.symptom,
+                travelHistory: childInitData.travelHistory,
+                remark: childInitData.remark,
+                isShowCheckDialog: false,
+                isMakeSure: false,
+                isShowDetermineDialog:false,
+                topTitleText: "更新疫情信息"
+            }
         }
     }
 
@@ -104,6 +126,25 @@ class UploadVirusPanel extends Component {
 
     inputGridItem(titleText, placeholderText, hasStar, inputType) {
         const { classes } = this.props;
+        let initValue = "";
+        switch (inputType) {
+            case "source": initValue = this.state.source;
+                break;
+            case "address": initValue = this.state.address;
+                break;
+            case "contact": initValue = this.state.contact;
+                break;
+            case "ancestralHome": initValue = this.state.ancestralHome;
+                break;
+            case "age": initValue = this.state.age;
+                break;
+            case "symptom": initValue = this.state.symptom;
+                break;
+            case "travelHistory": initValue = this.state.travelHistory;
+                break;
+            case "remark": initValue = this.state.remark;
+                break;
+        }
         return (
             <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                 <Grid item className={classes.gridTitle} direction="row" container>
@@ -137,6 +178,7 @@ class UploadVirusPanel extends Component {
                                 break;
                         }
                     }}
+                    value={initValue}
                     className={classes.classInputField}
                     placeholder={placeholderText} />
             </Grid>
@@ -250,11 +292,12 @@ class UploadVirusPanel extends Component {
 
     render() {
         const { classes, callbackParent } = this.props;
+        const { topTitleText } = this.state;
         return (
             <Paper variant="outlined">
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
-                        <Grid item xs ><Typography className={classes.topTitleFont}>上报疫情信息</Typography></Grid>
+                        <Grid item xs ><Typography className={classes.topTitleFont}>{topTitleText}</Typography></Grid>
                         <IconButton onClick={() => callbackParent(true)}>
                             <Close ></Close>
                         </IconButton>

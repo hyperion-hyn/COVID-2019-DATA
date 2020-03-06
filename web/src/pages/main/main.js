@@ -131,6 +131,14 @@ const styles = theme => ({
     height: "80%",
     top: "1rem"
   },
+  uploadVirusPanelBox: {
+    margin: "auto",
+    width: "100%",
+    position: "absolute",
+    display: "flex",
+    "justify-content": "center",
+    top: "1rem",
+  },
   languageFormControl: {
     margin: 8,
     paddingTop: 4
@@ -418,7 +426,7 @@ class Main extends Component {
     if (isShowPanel) {
       return (
         addingMaker && (
-          <Box className={classes.addVirusBox}>
+          <Box className={classes.uploadVirusPanelBox}>
             <Grid className={classes.uploadVirusPanelGrid}>
               <UploadVirusPanel
                 childLatitude={addingMaker.latitude}
