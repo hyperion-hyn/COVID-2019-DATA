@@ -53,7 +53,7 @@ export function onLoadDailyVirusByContryEpics(action$) {
   return action$.pipe(
     ofType(VirusStatusActions.LOAD_DAILY_DATA),
     mergeMap(action => {
-      return api.requestDailyVirusStatus("韩国").pipe(
+      return api.requestDailyVirusStatus(action.data).pipe(
         map(response => {
           if (response.code === ServerCode.SUCCESS) {
             return VirusStatusActions.loadedDailyVirus(response.data);

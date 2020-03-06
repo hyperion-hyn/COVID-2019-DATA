@@ -165,7 +165,7 @@ class VirusStatusPanel extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell>国家/地区</TableCell>
-                  <TableCell align="center">新增</TableCell>
+                  {/* <TableCell align="center">新增</TableCell> */}
                   <TableCell align="center">确诊</TableCell>
                   <TableCell align="center">康复</TableCell>
                   <TableCell align="center">死亡</TableCell>
@@ -195,9 +195,9 @@ class VirusStatusPanel extends Component {
                         <TableCell component="th" scope="row" size="small">
                           {row.area}
                         </TableCell>
-                        <TableCell size="small" align="center">
+                        {/* <TableCell size="small" align="center">
                           {row.newConfirmed}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell size="small" align="center">
                           {row.totalConfirmed}
                         </TableCell>
