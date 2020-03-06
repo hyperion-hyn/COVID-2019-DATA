@@ -49,6 +49,8 @@ export class VirusStatusActions {
 
   //upload poi data
   static UPLOAD_POI_DATA = "upload_poi_data";
+  static UPDATE_POI_DATA = "update_poi_data";
+  static REPORT_POI_DATA = "report_poi_data";
   static UPLOADED_POI_DATA = "uploaded_poi_data";
   static FAILED_UPLOAD_POI_DATA = "failed_upload_poi_data";
   static CANCELLED_UPLOAD_POI_DATA = "cancelled_upload_poi_data";
@@ -58,14 +60,25 @@ export class VirusStatusActions {
     data: poiInfo
   });
 
+  static updatePoiData = poiInfo => ({
+    type: VirusStatusActions.UPDATE_POI_DATA,
+    data: poiInfo
+  });
+
+  static reportPoiData = poiInfo => ({
+    type: VirusStatusActions.REPORT_POI_DATA,
+    data: poiInfo
+  });
+
   static uploadedPoiData = result => ({
     type: VirusStatusActions.UPLOADED_POI_DATA,
     msg: result
   });
 
-  static failToUploadedPoiData = result => ({
+  static failToUploadedPoiData = (result,errorMsg) => ({
     type: VirusStatusActions.FAILED_UPLOAD_POI_DATA,
-    msg: result
+    msg: result,
+    errorMsg: errorMsg
   });
 
   static cancelledUploadedPoiData = () => ({

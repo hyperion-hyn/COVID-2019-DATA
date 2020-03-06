@@ -134,6 +134,14 @@ const styles = theme => ({
     height: "80%",
     top: "1rem"
   },
+  uploadVirusPanelBox: {
+    margin: "auto",
+    width: "100%",
+    position: "absolute",
+    display: "flex",
+    "justify-content": "center",
+    top: "1rem",
+  },
   languageFormControl: {
     margin: 8,
     paddingTop: 4
@@ -448,6 +456,9 @@ class Main extends Component {
 
   _renderSelectedPoiPopup = () => {
     const {
+      childInitData
+    } = this.state
+    const {
       classes,
       selectedVirus,
       cancelVirusDetail,
@@ -525,7 +536,11 @@ class Main extends Component {
               variant={"body2"}
               color="primary"
               className={classes.clickableTip}
-              onClick={() => console.log("todo update poi info")}
+              onClick={() => {
+                console.log("todo update poi info");
+                this.setState({childInitData: selectedVirus.data});
+                this.updateUploadPanelState(true)
+              }}
             >
               纠错
             </Typography>
@@ -586,25 +601,36 @@ class Main extends Component {
 
   _uploadPanelView(isShowPanel) {
     const { classes } = this.props;
-    const { addingMaker } = this.state;
+    const { addingMaker,childInitData } = this.state;
+
+    let latitude,longitude;
+    if(addingMaker){
+      latitude = addingMaker.latitude;
+      longitude = addingMaker.longitude;
+    }else if(childInitData){
+      latitude = childInitData.lat;
+      longitude = childInitData.lon;
+    }
     if (isShowPanel) {
       return (
-        addingMaker && (
-          <Box className={classes.addVirusBox}>
+        // addingMaker && (
+          <Box className={classes.uploadVirusPanelBox}>
             <Grid className={classes.uploadVirusPanelGrid}>
               <UploadVirusPanel
-                childLatitude={addingMaker.latitude}
-                childLongitude={addingMaker.longitude}
+                childInitData={childInitData}
+                childLatitude={latitude}
+                childLongitude={longitude}
                 callbackParent={isMakerShow => {
                   if (!isMakerShow) {
                     this.setState({ addingMaker: undefined });
                   }
+                  this.setState({childInitData:undefined});
                   this.updateUploadPanelState(false);
                 }}
               ></UploadVirusPanel>
             </Grid>
           </Box>
-        )
+        // )
       );
     }
   }
