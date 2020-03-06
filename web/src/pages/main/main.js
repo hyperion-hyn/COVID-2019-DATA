@@ -200,7 +200,7 @@ class Main extends Component {
     let viewport = {
       ...this.state.viewport
     };
-    const minZoom = 15;
+    const minZoom = 13;
     if (this.state.viewport.zoom < minZoom) {
       viewport.zoom = minZoom;
       viewport.transitionDuration = 1000;
@@ -247,7 +247,7 @@ class Main extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      // this._geolocateButtonRef.current._onClickGeolocate();
+      this._geolocateButtonRef.current._onClickGeolocate();
     }, 1000);
   }
 
