@@ -153,7 +153,7 @@ export function onFetchVirusInfoModel(action$) {
         map(response => {
           if (response.code === ServerCode.SUCCESS) {
             return VirusStatusActions.loadedVirusModel(
-              PoiInfoModel.fromObject(response.data[0])
+              PoiInfoModel.fromObject(response.data)
             );
           } else {
             throw Error(response.msg);

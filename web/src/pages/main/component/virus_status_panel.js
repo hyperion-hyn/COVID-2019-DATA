@@ -9,9 +9,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Table from "@material-ui/core/Table";
-
 import SearchIcon from "@material-ui/icons/Search";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 
 
 const styles = theme => ({
@@ -38,7 +37,7 @@ class VirusStatusPanel extends Component {
     const { requestVirusData } = this.props;
     requestVirusData();
 
-    this.state = { value: "", listValue: [], filter: undefined,times:0 };
+    this.state = { value: "", listValue: [], filter: undefined, times: 0 };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -50,7 +49,7 @@ class VirusStatusPanel extends Component {
   }
 
   handleSelectVirus(id) {
-    
+
     const selectedIndex = this.state.listValue.indexOf(id);
     let newSelectedVirus = [];
 
@@ -79,8 +78,8 @@ class VirusStatusPanel extends Component {
 
   render() {
 
-    const { classes, virusData, requestVirusDailyData, dailyData } = this.props;
-    const { filter,times } = this.state;
+    const { intl, classes, virusData, requestVirusDailyData, dailyData } = this.props;
+    const {filter, times } = this.state;
 
     let inputValue = this.state.value;
     var tableSelectValue = this.state.listValue;
@@ -99,6 +98,10 @@ class VirusStatusPanel extends Component {
         tableSelectValue = [newArray[0].area];
       }
     }
+
+    var intlContent = intl.formatMessage({
+      id: 'filter_countries_regions', 
+    });
 
     return (
       <Grid
@@ -126,7 +129,7 @@ class VirusStatusPanel extends Component {
             </Typography>
             <Box ml={2}></Box>
             <Typography variant="subtitle2" style={{ color: "grey" }}>
-              更新时间：{virusUpdateTime}
+              <FormattedMessage id="update_date" />{virusUpdateTime}
             </Typography>
           </Box>
         </Grid>
@@ -144,7 +147,9 @@ class VirusStatusPanel extends Component {
           <SearchIcon style={{ color: "grey", marginLeft: "1rem" }} />
           <InputBase
             className={classes.input}
-            placeholder="过滤国家/地区"
+            placeholder={
+              intlContent
+            }
             inputProps={{ "aria-label": "filter" }}
             onChange={this._onFilterChange}
           />
@@ -164,11 +169,10 @@ class VirusStatusPanel extends Component {
             <Table size="small" stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell>国家/地区</TableCell>
-                  {/* <TableCell align="center">新增</TableCell> */}
-                  <TableCell align="center">确诊</TableCell>
-                  <TableCell align="center">康复</TableCell>
-                  <TableCell align="center">死亡</TableCell>
+                  <TableCell><FormattedMessage id="countries_regions" /></TableCell>
+                  <TableCell align="center"><FormattedMessage id="diagnoses" /></TableCell>
+                  <TableCell align="center"><FormattedMessage id="deaths" /></TableCell>
+                  <TableCell align="center"><FormattedMessage id="rehabilitation" /></TableCell>
                 </TableRow>
               </TableHead>
 
@@ -195,9 +199,6 @@ class VirusStatusPanel extends Component {
                         <TableCell component="th" scope="row" size="small">
                           {row.area}
                         </TableCell>
-                        {/* <TableCell size="small" align="center">
-                          {row.newConfirmed}
-                        </TableCell> */}
                         <TableCell size="small" align="center">
                           {row.totalConfirmed}
                         </TableCell>
@@ -221,7 +222,6 @@ class VirusStatusPanel extends Component {
 const mapStateToProps = (state, onwProps) => ({
   virusData: state.virusStatusReducer,
   dailyData: state.virusDailyReducer,
-  area: state.tableSelectValue
 });
 
 const mapDispatchToProps = {
@@ -233,4 +233,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(VirusStatusPanel));
+)(withStyles(styles)(injectIntl(VirusStatusPanel)));

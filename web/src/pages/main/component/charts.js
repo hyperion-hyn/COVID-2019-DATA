@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import ReactEcharts from 'echarts-for-react';
+import {injectIntl } from "react-intl";
 
-export default class Charts extends PureComponent {
+
+ class Charts extends PureComponent {
 
     render() {
-        const { dailyData } = this.props;
+        const {intl, dailyData } = this.props;
 
         var data, dailyTotal, dailyNew;
 
@@ -35,13 +37,13 @@ export default class Charts extends PureComponent {
             <div className='examples'>
                 <div className='parent'>
                     <ReactEcharts
-                        option={this.newOption(dailyNew)}
+                        option={this.newOption(intl, dailyNew)}
                         style={{ height: '180px', width: '100%' }}
                         theme={themeColor}
                         className='react_for_echarts' />
                     <ReactEcharts
-                        option={this.totalOption(dailyTotal)}
-                        style={{ height: '220px', width: '100%' }}
+                        option={this.totalOption(intl, dailyTotal)}
+                        style={{ height: '200px', width: '100%' }}
                         theme={themeColor}
                         className='react_for_echarts' />
                 </div>
@@ -49,16 +51,24 @@ export default class Charts extends PureComponent {
         );
     }
 
-    newOption = (data) => {
+    newOption = (intl, data) => {
 
         var array = this.editData(data);
         let deadArray = array[0];
         let confirmedArray = array[1];
         let recoverdArray = array[2];
         let dateArray = array[3];
-
-        //console.log('[Charts] -->2, data:' + recoverdArray);
-
+        var titleArray = [
+            intl.formatMessage({
+                id: 'new_diagnoses', 
+              }),
+            intl.formatMessage({
+                id: 'new_deaths', 
+            }),
+            intl.formatMessage({
+                id: 'new_rehabilitation', 
+            }),
+        ];
         return {
             //backgroundColor: 'rgb(18, 128, 128)',
 
@@ -70,8 +80,8 @@ export default class Charts extends PureComponent {
             },
             legend: {
                 left: 'center',
-                bottom: '15%',
-                data: ['新增确诊', '新增死亡', '新增康复']
+                bottom: '12%',
+                data: titleArray
             },
             calculable: true,
             xAxis: [
@@ -88,7 +98,7 @@ export default class Charts extends PureComponent {
             ],
             series: [
                 {
-                    name: '新增确诊',
+                    name: titleArray[0],
                     type: 'bar',
                     data: confirmedArray,
                     // data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
@@ -105,7 +115,7 @@ export default class Charts extends PureComponent {
                     }
                 },
                 {
-                    name: '新增死亡',
+                    name: titleArray[1],
                     type: 'bar',
                     data: deadArray,
                     // data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
@@ -122,7 +132,7 @@ export default class Charts extends PureComponent {
                     }
                 },
                 {
-                    name: '新增康复',
+                    name: titleArray[2],
                     type: 'bar',
                     data: recoverdArray,
                     // data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
@@ -142,7 +152,7 @@ export default class Charts extends PureComponent {
         };
     }
 
-    totalOption = (data) => {
+    totalOption = (intl, data) => {
         //console.log('[Charts] -->2, dailyTotal: ' + data);
 
         var array = this.editData(data);
@@ -150,6 +160,18 @@ export default class Charts extends PureComponent {
         let confirmedArray = array[1];
         let recoverdArray = array[2];
         let dateArray = array[3];
+
+        var titleArray = [
+            intl.formatMessage({
+                id: 'total_diagnoses', 
+              }),
+            intl.formatMessage({
+                id: 'total_deaths', 
+            }),
+            intl.formatMessage({
+                id: 'total_rehabilitation', 
+            }),
+        ];
 
         return {
             //backgroundColor: 'rgb(128, 128, 128)',
@@ -159,7 +181,7 @@ export default class Charts extends PureComponent {
             legend: {
                 left: 'center',
                 bottom: '30',
-                data: ['确诊总数', '死亡总数', '康复总数']
+                data: titleArray
             },
             grid: {
                 left: '3%',
@@ -179,25 +201,26 @@ export default class Charts extends PureComponent {
             },
             series: [
                 {
-                    name: '确诊总数',
+                    //step: 'start',
+                    name: titleArray[0],
                     type: 'line',
-                    stack: '总量',
+                    //stack: '总量',
                     smooth: true,
                     data: confirmedArray,
                     //data: [120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210]
                 },
                 {
-                    name: '死亡总数',
+                    name: titleArray[1],
                     type: 'line',
-                    stack: '总量',
+                    //stack: '总量',
                     smooth: true,
                     data: deadArray,
                     //data: [220, 182, 191, 234, 290, 330, 310, 182, 191, 234, 290, 330, 310]
                 },
                 {
-                    name: '康复总数',
+                    name: titleArray[2],
                     type: 'line',
-                    stack: '总量',
+                    //stack: '总量',
                     smooth: true,
                     data: recoverdArray,
                     //data: [150, 232, 201, 154, 190, 330, 410, 232, 201, 154, 190, 330, 410]
@@ -207,6 +230,11 @@ export default class Charts extends PureComponent {
     };
 
     editData = (data) => {
+
+        const { locale } = this.props;
+
+        console.log('[Charts] --> editData: ' + locale.lang);
+
         var dead, confirmed, recoverd;
         let deadArray = [];
         let confirmedArray = [];
@@ -219,7 +247,7 @@ export default class Charts extends PureComponent {
 
                 deadArray = dead.map(item =>
                     item.count
-                );
+                ).reverse();
             }
 
             if (data.confirmed) {
@@ -227,15 +255,18 @@ export default class Charts extends PureComponent {
 
                 confirmedArray = confirmed.map(item =>
                     item.count
-                );
+                ).reverse();
 
                 dateArray = confirmed.map(item => {
                     var date = new Date(item.date),
                         month = date.getMonth()+1,
                         day = date.getDate(),
-                        dateText =  month + "月" + day + "日";
-                        return dateText;
-                });
+                        dateText =  month + "-" + day;
+                        if (locale.lang === 'zh') {
+                            dateText =  month + "月" + day + "日";
+                        }
+                    return dateText;
+                }).reverse();
             }
 
             if (data.recoverd) {
@@ -243,9 +274,11 @@ export default class Charts extends PureComponent {
 
                 recoverdArray = recoverd.map(item =>
                     item.count
-                );
+                ).reverse();
             }
         }
         return [deadArray, confirmedArray, recoverdArray, dateArray];
     }
 }
+
+export default injectIntl( Charts );

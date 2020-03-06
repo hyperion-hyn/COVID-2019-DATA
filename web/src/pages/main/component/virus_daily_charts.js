@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import Charts from "./charts";
 import { withStyles, Box, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
+import { injectIntl } from 'react-intl';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: "100%",
     height: "100%",
@@ -14,7 +15,7 @@ const styles = theme => ({
 class VirusDailyPanel extends Component {
   render() {
 
-    const { classes, dailyData } = this.props;
+    const {locale, intl, classes, dailyData } = this.props;
 
     var area;
     if (dailyData
@@ -25,21 +26,17 @@ class VirusDailyPanel extends Component {
       var deadArray = dead.map(item =>
         item.area
       );
-      area = deadArray[0] + "形势";
-      // area = deadArray[0];
+      area = deadArray[0] + ' ' + intl.formatMessage({
+        id: 'situation',
+      });
     }
-    /* console.log(
-      "[VirusDailyPanel] -->" +
-      JSON.stringify(dailyData) +
-      "\narea -->" + area
-    ); */
 
     return (
       <Box className={classes.root}>
         <Box pl={2} pt={1}>
-          <Typography style={{height: '20px', fontSize: 14 }}>{area}</Typography>
+          <Typography style={{ height: '20px', fontSize: 14 }}>{area}</Typography>
         </Box>
-        <Charts dailyData={dailyData}></Charts>
+        <Charts dailyData={dailyData} locale={locale}></Charts>
       </Box>
     );
   }
@@ -47,8 +44,9 @@ class VirusDailyPanel extends Component {
 
 const mapStateToProps = (state, onwProps) => ({
   dailyData: state.virusDailyReducer,
+  locale: state.locale,
 });
 
 export default connect(
   mapStateToProps,
-)(withStyles(styles)(VirusDailyPanel));
+)(withStyles(styles)(injectIntl(VirusDailyPanel)));
