@@ -20,6 +20,7 @@ const en_US = {
   'countries_regions': 'Countries',
   'situation': 'situation',
   'submit_virus_info': 'Reporting virus information',
+  'update_virus_info': 'Updating virus information',
   'info_type': 'Information type',
   'infection_help': 'Suspected infection / help',
   'confirmed_infection': 'Confirmed infection',

@@ -384,7 +384,7 @@ class UploadVirusPanel extends Component {
         const { intl, classes, callbackParent } = this.props;
         let topTitleText = "";
         if(isUpdatePoi){
-            topTitleText = "submit_virus_info";
+            topTitleText = "update_virus_info";
         }else{
             topTitleText = "submit_virus_info";
         }

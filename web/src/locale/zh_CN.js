@@ -19,6 +19,7 @@ const zh_CN = {
   'countries_regions': '国家',
   'situation': '形势',
   'submit_virus_info': '上报疫情信息',
+  'update_virus_info': '更新疫情信息',
   'info_type': '信息类型',
   'infection_help': '疑似感染/求助',
   'confirmed_infection': '确诊感染',
