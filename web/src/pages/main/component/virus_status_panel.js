@@ -38,7 +38,7 @@ class VirusStatusPanel extends Component {
     const { requestVirusData } = this.props;
     requestVirusData();
 
-    this.state = { value: "", listValue: [], filter: undefined,times:0 };
+    this.state = { value: "", listValue: [], filter: undefined, times: 0 };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -50,7 +50,7 @@ class VirusStatusPanel extends Component {
   }
 
   handleSelectVirus(id) {
-    
+
     const selectedIndex = this.state.listValue.indexOf(id);
     let newSelectedVirus = [];
 
@@ -80,7 +80,7 @@ class VirusStatusPanel extends Component {
   render() {
 
     const { classes, virusData, requestVirusDailyData, dailyData } = this.props;
-    const { filter,times } = this.state;
+    const { filter, times } = this.state;
 
     let inputValue = this.state.value;
     var tableSelectValue = this.state.listValue;
@@ -221,7 +221,6 @@ class VirusStatusPanel extends Component {
 const mapStateToProps = (state, onwProps) => ({
   virusData: state.virusStatusReducer,
   dailyData: state.virusDailyReducer,
-  area: state.tableSelectValue
 });
 
 const mapDispatchToProps = {

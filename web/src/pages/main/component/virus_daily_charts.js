@@ -3,7 +3,7 @@ import Charts from "./charts";
 import { withStyles, Box, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: "100%",
     height: "100%",
@@ -26,13 +26,7 @@ class VirusDailyPanel extends Component {
         item.area
       );
       area = deadArray[0] + "形势";
-      // area = deadArray[0];
     }
-    /* console.log(
-      "[VirusDailyPanel] -->" +
-      JSON.stringify(dailyData) +
-      "\narea -->" + area
-    ); */
 
     return (
       <Box className={classes.root}>

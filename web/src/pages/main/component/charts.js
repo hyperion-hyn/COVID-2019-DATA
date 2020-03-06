@@ -41,7 +41,7 @@ export default class Charts extends PureComponent {
                         className='react_for_echarts' />
                     <ReactEcharts
                         option={this.totalOption(dailyTotal)}
-                        style={{ height: '220px', width: '100%' }}
+                        style={{ height: '200px', width: '100%' }}
                         theme={themeColor}
                         className='react_for_echarts' />
                 </div>
@@ -70,7 +70,7 @@ export default class Charts extends PureComponent {
             },
             legend: {
                 left: 'center',
-                bottom: '15%',
+                bottom: '12%',
                 data: ['新增确诊', '新增死亡', '新增康复']
             },
             calculable: true,
@@ -234,7 +234,7 @@ export default class Charts extends PureComponent {
                         month = date.getMonth()+1,
                         day = date.getDate(),
                         dateText =  month + "月" + day + "日";
-                        return dateText;
+                    return dateText;
                 });
             }
 
