@@ -74,10 +74,11 @@ const zh_CN = {
 export default zh_CN
 
 /*
-<FormattedMessage id="is_confirmed_virus_info" />
-
 import { injectIntl, FormattedMessage } from "react-intl";
+
+<FormattedMessage id="is_confirmed_virus_info" />
 
 intl.formatMessage({id: 'mykey1', })
 
+http://www.uxhzz.com/2017/07/10/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BD%E9%99%85%E5%9E%8B%E6%A0%BC%E5%BC%8F%E5%8C%96-react-intl/
 */
