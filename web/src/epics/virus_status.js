@@ -1,10 +1,11 @@
 import { ofType } from "redux-observable";
-import { mergeMap, takeUntil, catchError, map } from "rxjs/operators";
+import { mergeMap, takeUntil, catchError, map, delay } from "rxjs/operators";
 
 import { VirusStatusActions } from "../actions";
 import { api } from "../data/api";
 import { of, Observable } from "rxjs";
 import ServerCode from "../config/server_code";
+import { PoiInfoModel } from "../data/model";
 
 export function onLoadContryVirusStatusEpics(action$) {
   console.log("[virus_status] epic api, onLoadContryVirusStatusEpics ");
@@ -88,6 +89,31 @@ export function onUploadPoiInfoEpics(action$) {
         ),
         catchError(error =>
           of(VirusStatusActions.failToUploadedPoiData(error.message))
+        )
+      );
+    })
+  );
+}
+
+export function onFetchVirusInfoModel(action$) {
+  return action$.pipe(
+    ofType(VirusStatusActions.FETCH_VIRUS_INFO_MODEL),
+    mergeMap(action => {
+      return api.requestVirusInfo(action.data.pid).pipe(
+        map(response => {
+          if (response.code === ServerCode.SUCCESS) {
+            return VirusStatusActions.loadedVirusModel(
+              PoiInfoModel.fromObject(response.data[0])
+            );
+          } else {
+            throw Error(response.msg);
+          }
+        }),
+        takeUntil(
+          action$.pipe(ofType(VirusStatusActions.CANCELLED_VIRUS_INFO_MODEL))
+        ),
+        catchError(error =>
+          of(VirusStatusActions.failedLoadVirusModel(error.message))
         )
       );
     })

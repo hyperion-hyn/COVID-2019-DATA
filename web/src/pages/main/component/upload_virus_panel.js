@@ -3,7 +3,7 @@ import { Grid, Box, Typography, TextField } from "@material-ui/core";
 import { VirusStatusActions } from "../../../actions/virus_status";
 import { connect } from "react-redux";
 import { Close } from '@material-ui/icons';
-import { UploadInfoModel } from "../../../data/model"
+import { PoiInfoModel } from "../../../data/model"
 import {
     withStyles,
     TableRow,
@@ -194,7 +194,7 @@ class UploadVirusPanel extends Component {
         if (address === "" || !isMakeSure) {
             this.setState({ isShowCheckDialog: true })
         } else {
-            let uploadModel = new UploadInfoModel();
+            let uploadModel = new PoiInfoModel();
             uploadModel.lat = childLatitude;
             uploadModel.lon = childLongitude;
             uploadModel.type = type;
