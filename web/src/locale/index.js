@@ -18,9 +18,12 @@ export function findLocale(lang) {
   return locale;
 }
 
-let lang = sessionStorage.getItem("lang");
-if (!lang) {
-  lang = navigator.language.split("-")[0];
+export function currentLang() {
+  let lang = sessionStorage.getItem("lang");
+  if (!lang) {
+    lang = navigator.language.split("-")[0];
+  }
+  return lang;
 }
 
-export const defaultLocale = findLocale(lang);
+export const defaultLocale = findLocale(currentLang());
