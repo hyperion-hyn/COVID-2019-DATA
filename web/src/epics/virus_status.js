@@ -1,10 +1,11 @@
 import { ofType } from "redux-observable";
-import { mergeMap, takeUntil, catchError, map } from "rxjs/operators";
+import { mergeMap, takeUntil, catchError, map, delay } from "rxjs/operators";
 
 import { VirusStatusActions } from "../actions";
 import { api } from "../data/api";
 import { of, Observable } from "rxjs";
 import ServerCode from "../config/server_code";
+import { PoiInfoModel } from "../data/model";
 
 export function onLoadContryVirusStatusEpics(action$) {
   console.log("[virus_status] epic api, onLoadContryVirusStatusEpics ");
@@ -15,21 +16,18 @@ export function onLoadContryVirusStatusEpics(action$) {
       return api.requstCountryVirusStatus().pipe(
         mergeMap(response => {
           if (response.code === ServerCode.SUCCESS) {
-            return new Observable(emitter => {
-              emitter.next(VirusStatusActions.loadedVirusStatusData(response.data));
-              if (response.data && response.data.virusList[0]) {
-                let areaName = response.data.virusList[0].area;
-
-                api.requestDailyVirusStatus(areaName).subscribe(response => {
-                  if (response.code === ServerCode.SUCCESS) {
-                    emitter.next(VirusStatusActions.loadedDailyVirus(response.data));
-                  }
-                  emitter.complete();
-                }, error => emitter.complete()
+            if (response.data && response.data.virusList[0]) {
+              return of(
+                VirusStatusActions.loadedVirusStatusData(response.data),
+                VirusStatusActions.fetchDailyVirus(
+                  response.data.virusList[0].area
                 )
-              }
-
-            });
+              );
+            } else {
+              return of(
+                VirusStatusActions.loadedVirusStatusData(response.data)
+              );
+            }
           } else {
             throw Error(response.msg);
           }
@@ -90,7 +88,32 @@ export function onUploadPoiInfoEpics(action$) {
           action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
         ),
         catchError(error =>
-          of(VirusStatusActions.failToUploadedPoiData(error.message))
+          of(VirusStatusActions.failToUploadedPoiData("fail"))
+        )
+      );
+    })
+  );
+}
+
+export function onFetchVirusInfoModel(action$) {
+  return action$.pipe(
+    ofType(VirusStatusActions.FETCH_VIRUS_INFO_MODEL),
+    mergeMap(action => {
+      return api.requestVirusInfo(action.data.pid).pipe(
+        map(response => {
+          if (response.code === ServerCode.SUCCESS) {
+            return VirusStatusActions.loadedVirusModel(
+              PoiInfoModel.fromObject(response.data)
+            );
+          } else {
+            throw Error(response.msg);
+          }
+        }),
+        takeUntil(
+          action$.pipe(ofType(VirusStatusActions.CANCELLED_VIRUS_INFO_MODEL))
+        ),
+        catchError(error =>
+          of(VirusStatusActions.failedLoadVirusModel(error.message))
         )
       );
     })

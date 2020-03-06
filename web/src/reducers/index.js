@@ -5,6 +5,7 @@ import locale from "./locales";
 import { intlReducer } from "react-intl-redux";
 import virusDailyReducer from "./virus_daily";
 import virusStatusReducer from "./virus_status";
+import virusDetailReducer from "./virus_detail";
 import { defaultLocale } from "../locale";
 import uploadPoiReducer from "./upload_poi";
 
@@ -14,7 +15,8 @@ export default combineReducers({
   intl,
   virusDailyReducer,
   virusStatusReducer,
-  uploadPoiReducer
+  uploadPoiReducer,
+  virusDetailReducer
 });
 
 //wrap react-intl-redux reducers

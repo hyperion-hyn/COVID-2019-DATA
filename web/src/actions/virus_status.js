@@ -63,11 +63,42 @@ export class VirusStatusActions {
     msg: result
   });
 
-  static failToUploadedPoiData = msg => ({
-    type: VirusStatusActions.FAILED_UPLOAD_POI_DATA
+  static failToUploadedPoiData = result => ({
+    type: VirusStatusActions.FAILED_UPLOAD_POI_DATA,
+    msg: result
   });
 
   static cancelledUploadedPoiData = () => ({
-    type: VirusStatusActions.CANCELLED_UPLOAD_POI_DATA,
+    type: VirusStatusActions.CANCELLED_UPLOAD_POI_DATA
+  });
+
+  //detail
+  static FETCH_VIRUS_INFO_MODEL = "fetch_virus_info_model";
+  static LOADED_VIRUS_INFO_MODEL = "loaded_virus_info_model";
+  static FAILED_VIRUS_INFO_MODEL = "failed_virus_info_model";
+  static CANCELLED_VIRUS_INFO_MODEL = "cancelled_virus_info_model";
+  static CLEARE_VIRUS_INFO_MODEL = "clear_virus_info_model";
+
+  static fetchVirusModel = (pid, lat, lon) => ({
+    type: VirusStatusActions.FETCH_VIRUS_INFO_MODEL,
+    data: { pid, lat, lon }
+  });
+
+  static loadedVirusModel = model => ({
+    type: VirusStatusActions.LOADED_VIRUS_INFO_MODEL,
+    model
+  });
+
+  static failedLoadVirusModel = msg => ({
+    type: VirusStatusActions.FAILED_VIRUS_INFO_MODEL,
+    msg
+  });
+
+  static cancelLoadVirusModel = () => ({
+    type: VirusStatusActions.CANCELLED_VIRUS_INFO_MODEL
+  });
+
+  static cleartVirusModel = () => ({
+    type: VirusStatusActions.CLEARE_VIRUS_INFO_MODEL
   });
 }
