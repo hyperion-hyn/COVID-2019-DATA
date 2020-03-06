@@ -30,7 +30,7 @@ import { easeCubic } from "d3-ease";
 import { FormattedMessage } from "react-intl";
 
 import { LangaugeActions } from "../../actions/language";
-import { intlPayload, supportedLocales } from "../../locale";
+import { supportedLocales } from "../../locale";
 
 const BootstrapInput = withStyles(theme => ({
   input: {
@@ -124,13 +124,12 @@ const styles = theme => ({
     // ['-webkit-text-stroke']: '1px grey'
   },
   addingMarkTip: {
-    color: "blue",
     cursor: "pointer"
   },
   uploadVirusPanelGrid: {
     width: 370,
     height: "80%",
-    top: "1rem",
+    top: "1rem"
   },
   languageFormControl: {
     margin: 8,
@@ -148,8 +147,8 @@ class Main extends Component {
       height: "100%"
     },
     addingMaker: undefined,
-    isShowPanel:false,
-    areaValue:"",
+    isShowPanel: false,
+    areaValue: "",
     locales: {
       open: false
     }
@@ -168,6 +167,14 @@ class Main extends Component {
     viewport["width"] = "100%";
     viewport["height"] = "100%";
     this.setState({ viewport });
+  };
+
+  _onMapClick = event => {
+    const feature = event.features[0];
+    if (feature) {
+      const pid = feature.properties["pid"];
+      console.log("pid is " + pid);
+    }
   };
 
   _onAddVirus = () => {
@@ -228,14 +235,14 @@ class Main extends Component {
 
   render() {
     const { classes, locale } = this.props;
-    const { viewport, addingMaker,isShowPanel } = this.state;
+    const { viewport, addingMaker, isShowPanel } = this.state;
 
     return (
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <Typography variant="h5" className={classes.title}>
-              <FormattedMessage id="title"/>
+              <FormattedMessage id="title" />
             </Typography>
 
             <LanguageIcon />
@@ -291,7 +298,7 @@ class Main extends Component {
             className={classes.virusBox}
           >
             <Grid item xs className={classes.virusBoxItem1}>
-              <VirusStatusPanel ></VirusStatusPanel>
+              <VirusStatusPanel></VirusStatusPanel>
             </Grid>
 
             <Box
@@ -304,7 +311,7 @@ class Main extends Component {
             ></Box>
 
             <Grid item className={classes.virusBoxItem2}>
-              <VirusDailyPanel ></VirusDailyPanel>
+              <VirusDailyPanel></VirusDailyPanel>
             </Grid>
           </Grid>
 
@@ -319,6 +326,8 @@ class Main extends Component {
                   "'Noto Sans', 'Noto Sans CJK SC', sans-serif",
                 attributionControl: false
               }}
+              interactiveLayerIds={["covid_event_poi"]}
+              onClick={this._onMapClick}
             >
               <GeolocateControl
                 style={this.geolocateStyle}
@@ -339,7 +348,8 @@ class Main extends Component {
                   <Typography variant="h6" className={classes.addVirusTip}>
                     <FormattedMessage id="click_to_add_virus_info" />
                   </Typography>
-                </ButtonBase>s
+                </ButtonBase>
+                s
               </Box>
               {this._uploadPanelView(isShowPanel)}
             </MapGL>
@@ -382,12 +392,18 @@ class Main extends Component {
           // offsetLeft={-24}
         >
           <Box
-            onClick={()=>{this.updateUploadPanelState(true)}}
+            onClick={() => {
+              this.updateUploadPanelState(true);
+            }}
           >
-            <Typography color="textSecondary">
+            <Typography color="textSecondary" variant={"body2"}>
               拖动标记到疫情发生位置
             </Typography>
-            <Typography color="primary" className={classes.addingMarkTip}>
+            <Typography
+              color="primary"
+              variant="body2"
+              className={classes.addingMarkTip}
+            >
               {addingMaker.message}
             </Typography>
           </Box>
@@ -400,28 +416,29 @@ class Main extends Component {
     const { classes } = this.props;
     const { addingMaker } = this.state;
     if (isShowPanel) {
-      return addingMaker && (
-        <Box className={classes.addVirusBox}>
-          <Grid className={classes.uploadVirusPanelGrid}>
-            <UploadVirusPanel
-              childLatitude={addingMaker.latitude}
-              childLongitude={addingMaker.longitude}
-              callbackParent={(isMakerShow) => {
-                if(!isMakerShow){
-                  this.setState({ addingMaker: undefined });
-                }
-                this.updateUploadPanelState(false);
-                }}>
-            </UploadVirusPanel>
-          </Grid>
-        </Box>
-      )
+      return (
+        addingMaker && (
+          <Box className={classes.addVirusBox}>
+            <Grid className={classes.uploadVirusPanelGrid}>
+              <UploadVirusPanel
+                childLatitude={addingMaker.latitude}
+                childLongitude={addingMaker.longitude}
+                callbackParent={isMakerShow => {
+                  if (!isMakerShow) {
+                    this.setState({ addingMaker: undefined });
+                  }
+                  this.updateUploadPanelState(false);
+                }}
+              ></UploadVirusPanel>
+            </Grid>
+          </Box>
+        )
+      );
     }
-
   }
 
   updateUploadPanelState(isShowPanel) {
-    this.setState({isShowPanel:isShowPanel})
+    this.setState({ isShowPanel: isShowPanel });
   }
 }
 
