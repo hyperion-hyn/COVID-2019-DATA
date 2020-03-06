@@ -1,7 +1,6 @@
 const en_US = {
   'title': 'COVID-19 MAP',
   'click_to_add_virus_info': 'Click here to report the virus info',
-  // 'virus_stat': 'The virus of statistical',
   'virus_stat': 'Virus Statistical',
   'page_doest_not_exist': 'Sorry, the page does not exist!',
   'drag_marker_to_location_of_virus': 'Drag the marker to the location of the virus',
@@ -20,6 +19,7 @@ const en_US = {
   'countries_regions': 'Countries',
   'situation': 'situation',
   'submit_virus_info': 'Reporting virus information',
+  'update_virus_info': 'Updating virus information',
   'info_type': 'Information type',
   'infection_help': 'Suspected infection / help',
   'confirmed_infection': 'Confirmed infection',
@@ -49,7 +49,26 @@ const en_US = {
   'virus_info_submit_success': 'Virus information submitted successfully',
   'complete_info': 'Please complete the information',
   'guangdong_china': 'Guangdong, China',
-  'hyperion': 'hyperion'
+  'clues_help_info': 'Clues / help info',
+  'recovered': 'recovered',
+  'confirmed': 'confirmed',
+  'dead': 'dead',
+  'happened_at': 'happened at',
+  'from': 'from',
+  'have': 'have',
+  'symptom': 'symptom',
+  'to_past': 'to past',
+  'error_correction': 'Error correction',
+  'infomation_sources': 'Information Sources:',
+  'error': 'Error: ',
+  'load_detail_fail': 'Loading details failed!',
+  'cancel': 'Cancel!',
+  'is_confirmed_virus_info': 'Whether to confirm reporting of virus information',
+  'upload_virus_info_success': 'Virus information submitted successfully',
+  'upload_virus_info_fail_network': 'Network exception, please try again！',
+  'hyperion': 'hyperion',
+  'report_virus_info_success': 'Virus information reported successfully',
+  'update_virus_info_success': 'Virus information updated successfully',
 }
 
 export default en_US

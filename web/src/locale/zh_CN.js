@@ -19,6 +19,7 @@ const zh_CN = {
   'countries_regions': '国家',
   'situation': '形势',
   'submit_virus_info': '上报疫情信息',
+  'update_virus_info': '更新疫情信息',
   'info_type': '信息类型',
   'infection_help': '疑似感染/求助',
   'confirmed_infection': '确诊感染',
@@ -48,15 +49,34 @@ const zh_CN = {
   'virus_info_submit_success': '疫情信息提交成功',
   'complete_info': '请完善信息填写',
   'guangdong_china': '中国广东',
-  'hyperion': '海伯利安'
+  'clues_help_info': '线索/求助信息',
+  'recovered': '已康复',
+  'confirmed': '已确诊',
+  'dead': '已死亡',
+  'happened_at': '发生在',
+  'from': '来自',
+  'have': '有',
+  'symptom': '症状',
+  'to_past': '到往过',
+  'error_correction': '纠错',
+  'infomation_sources': '信息来源:',
+  'error': '错误: ',
+  'load_detail_fail': '加载详情失败!',
+  'cancel': '取消!',
+  'is_confirmed_virus_info': '是否确认上报疫情信息',
+  'upload_virus_info_success': '疫情信息提交成功',
+  'upload_virus_info_fail_network': '网络异常，请重试！',
+  'hyperion': '海伯利安',
+  'report_virus_info_success': '疫情信息举报成功',
+  'update_virus_info_success': '疫情信息更新成功',
 }
 
 export default zh_CN
 
 /*
-<FormattedMessage id="infection_help" />
+<FormattedMessage id="is_confirmed_virus_info" />
 
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 
 intl.formatMessage({id: 'mykey1', })
 

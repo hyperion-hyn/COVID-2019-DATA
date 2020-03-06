@@ -104,7 +104,6 @@ class UploadVirusPanel extends Component {
                 isMakeSure: false,
                 isShowDetermineDialog: false,
                 isShowReportDialog: false,
-                topTitleText: "上报疫情信息",
                 isUpdatePoi: false
             }
         } else {
@@ -123,7 +122,6 @@ class UploadVirusPanel extends Component {
                 isMakeSure: false,
                 isShowDetermineDialog: false,
                 isShowReportDialog: false,
-                topTitleText: "更新疫情信息",
                 isUpdatePoi: true
             }
         }
@@ -212,26 +210,33 @@ class UploadVirusPanel extends Component {
     }
 
     uploadResultDialog() {
-        const { uploadPoiResult, callbackParent, cancelledUploadedPoiDataApi } = this.props;
+
+        const { intl, uploadPoiResult, callbackParent, cancelledUploadedPoiDataApi } = this.props;
         let isOpen = false;
         let uploadResultText = "";
         let result = false;
         if (uploadPoiResult.msg === "UploadSuccess") {
             result = true;
             isOpen = true;
-            uploadResultText = "疫情信息提交成功";
+            uploadResultText = intl.formatMessage({id: 'upload_virus_info_success', });
         } else if (uploadPoiResult.msg === "UpdateSuccess") {
             result = true;
             isOpen = true;
-            uploadResultText = "疫情信息更新成功";
+            uploadResultText = intl.formatMessage({id: 'update_virus_info_success', });
         } else if (uploadPoiResult.msg === "ReportSuccess") {
             result = true;
             isOpen = true;
-            uploadResultText = "疫情信息举报成功";
+            uploadResultText = intl.formatMessage({id: 'report_virus_info_success', });
         } else if (uploadPoiResult.msg === "fail") {
             result = false;
             isOpen = true;
-            uploadResultText = uploadPoiResult.errorMsg
+
+            console.log("fail result" + uploadPoiResult.errorMsg)
+            if(uploadPoiResult.errorMsg === undefined || uploadPoiResult.errorMsg === ""){
+                uploadResultText = intl.formatMessage({id: 'upload_virus_info_fail_network', });
+            }else{
+                uploadResultText = uploadPoiResult.errorMsg
+            }
         }
         return (
             <Dialog
@@ -288,7 +293,8 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">是否确认上报疫情信息</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" />
+</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         let uploadModel = new PoiInfoModel();
@@ -312,10 +318,12 @@ class UploadVirusPanel extends Component {
                         }
 
                         this.setState({ isShowDetermineDialog: false })
-                    }} color="primary">确定</Button>
+                    }} color="primary"><FormattedMessage id="ok" />
+                    </Button>
                     <Button onClick={() => {
                         this.setState({ isShowDetermineDialog: false })
-                    }} color="primary">取消</Button>
+                    }} color="primary"><FormattedMessage id="cancel" />
+                    </Button>
                 </DialogActions>
             </Dialog>
         )
@@ -331,16 +339,16 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">是否确认举报该疫情信息</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" /></DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         console.log("report poi");
                         reportPoiDataApi(childInitData);
                         this.setState({ isShowReportDialog: false });
-                    }} color="primary">确定</Button>
+                    }} color="primary"><FormattedMessage id="ok" /></Button>
                     <Button onClick={() => {
                         this.setState({ isShowReportDialog: false })
-                    }} color="primary">取消</Button>
+                    }} color="primary"><FormattedMessage id="cancel" /></Button>
                 </DialogActions>
             </Dialog>
         )
@@ -376,13 +384,19 @@ class UploadVirusPanel extends Component {
 
 
     render() {
-        const { topTitleText } = this.state;
+        const { isUpdatePoi } = this.state;
         const { intl, classes, callbackParent } = this.props;
+        let topTitleText = "";
+        if(isUpdatePoi){
+            topTitleText = "update_virus_info";
+        }else{
+            topTitleText = "submit_virus_info";
+        }
         return (
             <Paper variant="outlined">
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
-                        <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id="submit_virus_info" /></Typography></Grid>
+                        <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id={topTitleText} /></Typography></Grid>
                         <IconButton onClick={() => callbackParent(true)}>
                             <Close ></Close>
                         </IconButton>
