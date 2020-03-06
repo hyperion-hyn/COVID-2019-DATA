@@ -100,17 +100,6 @@ class VirusStatusPanel extends Component {
       }
     }
 
-    // this.state = tableSelectValue;
-
-    console.log(
-      "virusData.data result --> newArray: " +
-        newArray +
-        " daily data: mock_virus_status_daily_tick===" +
-        JSON.stringify(dailyData) +
-        "tableSelectValue: " + 
-        tableSelectValue
-    );
-
     return (
       <Grid
         container
@@ -176,7 +165,7 @@ class VirusStatusPanel extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell>国家/地区</TableCell>
-                  <TableCell align="center">新增</TableCell>
+                  {/* <TableCell align="center">新增</TableCell> */}
                   <TableCell align="center">确诊</TableCell>
                   <TableCell align="center">康复</TableCell>
                   <TableCell align="center">死亡</TableCell>
@@ -196,7 +185,8 @@ class VirusStatusPanel extends Component {
                       <TableRow
                         hover
                         onClick={(rowEntity, event) => {
-                          requestVirusDailyData(tableSelectValue);
+                          console.log('[virus_status_panel] --> click: ' + row.area);
+                          requestVirusDailyData(row.area);
                           this.handleSelectVirus(row.area);
                         }}
                         key={row.area}
@@ -205,9 +195,9 @@ class VirusStatusPanel extends Component {
                         <TableCell component="th" scope="row" size="small">
                           {row.area}
                         </TableCell>
-                        <TableCell size="small" align="center">
+                        {/* <TableCell size="small" align="center">
                           {row.newConfirmed}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell size="small" align="center">
                           {row.totalConfirmed}
                         </TableCell>
