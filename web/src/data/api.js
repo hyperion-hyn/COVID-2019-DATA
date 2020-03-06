@@ -3,6 +3,7 @@ import { Observable, from } from "rxjs";
 import mock_data from "./mock_data";
 
 const domain = "http://d67ajkompfc3x.cloudfront.net/";
+const testDomain = "http://10.10.1.115:3000/";
 
 export const api = {
   requestDemoData() {
@@ -66,6 +67,32 @@ export const api = {
     //console.log("request api " + JSON.stringify(data));
     return from(
       fetch(`${domain}covid-collector/event/collector`, {
+        body: JSON.stringify(data),
+        method: "POST",
+        headers: new Headers({
+          "content-type": "application/json"
+        })
+      }).then(res => res.json())
+    );
+  },
+
+  updatePoiInfo(data) {
+    console.log("request updatePoiInfo api " + JSON.stringify(data));
+    return from(
+      fetch(`${testDomain}covid-collector/event/detail/${data.id}`, {
+        body: JSON.stringify(data),
+        method: "POST",
+        headers: new Headers({
+          "content-type": "application/json"
+        })
+      }).then(res => res.json())
+    );
+  },
+
+  reportPoiInfo(data) {
+    console.log("request reportPoiInfo api " + JSON.stringify(data));
+    return from(
+      fetch(`${testDomain}covid-collector/event/detail/${data.id}/delete-mark`, {
         body: JSON.stringify(data),
         method: "POST",
         headers: new Headers({

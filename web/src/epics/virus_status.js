@@ -79,7 +79,7 @@ export function onUploadPoiInfoEpics(action$) {
         map(response => {
           console.log("request api result== " + response.code + response.msg);
           if (response.code === ServerCode.SUCCESS) {
-            return VirusStatusActions.uploadedPoiData(response.msg);
+            return VirusStatusActions.uploadedPoiData("UploadSuccess");
           } else {
             throw Error(response.msg);
           }
@@ -88,7 +88,57 @@ export function onUploadPoiInfoEpics(action$) {
           action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
         ),
         catchError(error =>
-          of(VirusStatusActions.failToUploadedPoiData("fail"))
+          of(VirusStatusActions.failToUploadedPoiData("fail",error.msg))
+        )
+      );
+    })
+  );
+}
+
+export function onUpdatePoiInfoEpics(action$) {
+  console.log("[virus_status] epic api, onUpdatePoiInfoEpics ");
+  return action$.pipe(
+    ofType(VirusStatusActions.UPDATE_POI_DATA),
+    mergeMap(action => {
+      return api.updatePoiInfo(action.data).pipe(
+        map(response => {
+          console.log("request api result== " + response.code + response.msg);
+          if (response.code === ServerCode.SUCCESS) {
+            return VirusStatusActions.uploadedPoiData("UpdateSuccess");
+          } else {
+            throw Error(response.msg);
+          }
+        }),
+        takeUntil(
+          action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
+        ),
+        catchError(error =>
+          of(VirusStatusActions.failToUploadedPoiData("fail",error.msg))
+        )
+      );
+    })
+  );
+}
+
+export function onReportPoiInfoEpics(action$) {
+  console.log("[virus_status] epic api, onReportPoiInfoEpics ");
+  return action$.pipe(
+    ofType(VirusStatusActions.REPORT_POI_DATA),
+    mergeMap(action => {
+      return api.reportPoiInfo(action.data).pipe(
+        map(response => {
+          console.log("request api result== " + response.code + response.msg);
+          if (response.code === ServerCode.SUCCESS) {
+            return VirusStatusActions.uploadedPoiData("ReportSuccess");
+          } else {
+            throw Error(response.msg);
+          }
+        }),
+        takeUntil(
+          action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
+        ),
+        catchError(error =>
+          of(VirusStatusActions.failToUploadedPoiData("fail",error.msg))
         )
       );
     })
