@@ -17,7 +17,7 @@ class App extends Component {
         <IntlProvider>
           <Router basename="/">
             <Switch>
-              <Route exact={true} path="/" component={Main} />
+              <Route path="/" component={Main} />
               <Route exact={true} path="/demo" component={Demo} />
               <Route component={NotFindPage} />
             </Switch>

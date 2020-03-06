@@ -50,6 +50,7 @@ const en_US = {
   'virus_info_submit_success': 'Virus information submitted successfully',
   'complete_info': 'Please complete the information',
   'guangdong_china': 'Guangdong, China',
+  'hyperion': 'hyperion'
 }
 
 export default en_US
