@@ -107,7 +107,7 @@ export class PoiInfoModel {
     let model = new PoiInfoModel();
     model.id = obj["id"];
     model.lat = obj["lat"];
-    model.lon = obj["lng"];
+    model.lon = obj["lon"];
     model.type = obj["type"];
     model.source = obj["source"];
     model.address = obj["address"];
