@@ -5,7 +5,6 @@ const initState = {
   status: Status.IDLE,
   data: {},
   msg: "",
-  errorMsg:""
 };
 
 export default function uploadPoiReducer(state = initState, action) {
@@ -13,13 +12,13 @@ export default function uploadPoiReducer(state = initState, action) {
     case VirusStatusActions.UPLOAD_POI_DATA:
     case VirusStatusActions.UPDATE_POI_DATA:
     case VirusStatusActions.REPORT_POI_DATA:
-      return { state: Status.LOADING };
+      return { status: Status.LOADING };
     case VirusStatusActions.UPLOADED_POI_DATA:
-      return { state: Status.SUCCESS, msg: action.msg };
+      return { status: Status.SUCCESS, msg: action.msg, data: action.data };
     case VirusStatusActions.CANCELLED_UPLOAD_POI_DATA:
-      return { state: Status.CANCELED };
+      return { status: Status.CANCELED };
     case VirusStatusActions.FAILED_UPLOAD_POI_DATA:
-      return { state: Status.FAILED, msg: action.msg, errorMsg:action.errorMsg };
+      return { status: Status.FAILED, msg: action.msg };
     default:
       return state;
   }

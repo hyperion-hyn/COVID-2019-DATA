@@ -79,7 +79,7 @@ export function onUploadPoiInfoEpics(action$) {
         map(response => {
           console.log("request api result== " + response.code + response.msg);
           if (response.code === ServerCode.SUCCESS) {
-            return VirusStatusActions.uploadedPoiData("UploadSuccess");
+            return VirusStatusActions.uploadedPoiData(VirusStatusActions.UPLOAD_POI_DATA);
           } else {
             throw Error(response.msg);
           }
@@ -104,7 +104,7 @@ export function onUpdatePoiInfoEpics(action$) {
         map(response => {
           console.log("request api result== " + response.code + response.msg);
           if (response.code === ServerCode.SUCCESS) {
-            return VirusStatusActions.uploadedPoiData("UpdateSuccess");
+            return VirusStatusActions.uploadedPoiData(VirusStatusActions.UPDATE_POI_DATA);
           } else {
             throw Error(response.msg);
           }
@@ -129,7 +129,7 @@ export function onReportPoiInfoEpics(action$) {
         map(response => {
           console.log("request api result== " + response.code + response.msg);
           if (response.code === ServerCode.SUCCESS) {
-            return VirusStatusActions.uploadedPoiData("ReportSuccess");
+            return VirusStatusActions.uploadedPoiData(VirusStatusActions.REPORT_POI_DATA);
           } else {
             throw Error(response.msg);
           }

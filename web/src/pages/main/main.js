@@ -10,8 +10,10 @@ import {
   Select,
   MenuItem,
   InputBase,
-  CircularProgress
+  CircularProgress,
+  Snackbar
 } from "@material-ui/core";
+import { Alert } from '@material-ui/lab';
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 import MapGL, {
@@ -48,7 +50,6 @@ const BootstrapInput = withStyles(theme => ({
 
 const styles = theme => ({
   root: {
-    // backgroundColor: "#FF0000",
     width: "100vw",
     height: "100vh"
   },
@@ -155,6 +156,7 @@ const styles = theme => ({
 });
 
 class Main extends Component {
+
   state = {
     viewport: {
       latitude: 23.10901,
@@ -254,7 +256,7 @@ class Main extends Component {
 
   render() {
     const { classes, locale } = this.props;
-    const { viewport, addingMaker, isShowPanel } = this.state;
+    const { viewport, isShowPanel } = this.state;
 
     return (
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
@@ -376,11 +378,26 @@ class Main extends Component {
                 </ButtonBase>
               </Box>
               {this._uploadPanelView(isShowPanel)}
+              {this._renderUploadSnackbarView()}
             </MapGL>
           </Grid>
         </Grid>
       </Grid>
     );
+  }
+
+  _renderUploadSnackbarView() {
+    const { isShowSnackbar, snackbarEntity } = this.state;
+
+    return (
+      isShowSnackbar && (
+        <Snackbar open={isShowSnackbar} autoHideDuration={3000}
+          onClose={() => {
+            this.setState({ isShowSnackbar: false })
+          }}>
+          <Alert severity={snackbarEntity.severity}>{snackbarEntity.uploadResultText}</Alert>
+        </Snackbar>
+      ));
   }
 
   _renderWaterMask = () => {
@@ -392,7 +409,7 @@ class Main extends Component {
             href="https://www.hyn.space/"
             target="_blank"
             rel="noopener noreferrer"
-            style={{color: 'white', fontSize: 14, textDecoration: 'none'}}
+            style={{ color: 'white', fontSize: 14, textDecoration: 'none' }}
           >
             @<FormattedMessage id="hyperion" />
           </a>
@@ -403,6 +420,7 @@ class Main extends Component {
 
   _renderAddNewMaker() {
     const { addingMaker } = this.state;
+    
     return (
       addingMaker && (
         <Marker
@@ -418,11 +436,13 @@ class Main extends Component {
         </Marker>
       )
     );
+
   }
 
   _renderAddNewPopup() {
     const { addingMaker } = this.state;
     const { classes } = this.props;
+
     return (
       addingMaker && (
         <Popup
@@ -431,7 +451,7 @@ class Main extends Component {
           onClose={this._onCloseAdding}
           closeOnClick={false}
           offsetTop={-56}
-          // offsetLeft={-24}
+        // offsetLeft={-24}
         >
           <Box
             onClick={() => {
@@ -452,18 +472,17 @@ class Main extends Component {
         </Popup>
       )
     );
+
   }
 
   _renderSelectedPoiPopup = () => {
-    const {
-      childInitData
-    } = this.state
     const {
       classes,
       selectedVirus,
       cancelVirusDetail,
       clearVirusDetail
     } = this.props;
+
     if (selectedVirus.status == Status.LOADING) {
       return (
         <Popup
@@ -537,8 +556,7 @@ class Main extends Component {
               color="primary"
               className={classes.clickableTip}
               onClick={() => {
-                console.log("todo update poi info");
-                this.setState({childInitData: selectedVirus.data});
+                this.setState({ childInitData: selectedVirus.data });
                 this.updateUploadPanelState(true)
               }}
             >
@@ -600,37 +618,54 @@ class Main extends Component {
   }
 
   _uploadPanelView(isShowPanel) {
-    const { classes } = this.props;
-    const { addingMaker,childInitData } = this.state;
+    const { classes, clearVirusDetail, cancelledUploadedPoiDataApi } = this.props;
+    const { addingMaker, childInitData } = this.state;
 
-    let latitude,longitude;
-    if(addingMaker){
+    let latitude, longitude;
+    if (addingMaker) {
       latitude = addingMaker.latitude;
       longitude = addingMaker.longitude;
-    }else if(childInitData){
+    } else if (childInitData) {
       latitude = childInitData.lat;
       longitude = childInitData.lon;
     }
     if (isShowPanel) {
       return (
-        // addingMaker && (
-          <Box className={classes.uploadVirusPanelBox}>
-            <Grid className={classes.uploadVirusPanelGrid}>
-              <UploadVirusPanel
-                childInitData={childInitData}
-                childLatitude={latitude}
-                childLongitude={longitude}
-                callbackParent={isMakerShow => {
-                  if (!isMakerShow) {
-                    this.setState({ addingMaker: undefined });
-                  }
-                  this.setState({childInitData:undefined});
-                  this.updateUploadPanelState(false);
-                }}
-              ></UploadVirusPanel>
-            </Grid>
-          </Box>
-        // )
+        <Box className={classes.uploadVirusPanelBox}>
+          <Grid className={classes.uploadVirusPanelGrid}>
+            <UploadVirusPanel
+              childInitData={childInitData}
+              childLatitude={latitude}
+              childLongitude={longitude}
+              callbackParent={(isMakerShow, snackbarEntity) => {
+                if (!snackbarEntity) {//close panel
+                  this.setState({
+                    childInitData: undefined,
+                    isShowPanel: false,
+                    isShowSnackbar: false,
+                    snackbarEntity: undefined
+                  });
+                } else if (!isMakerShow) {//submit poi
+                  this.setState({
+                    addingMaker: undefined,
+                    childInitData: undefined,
+                    isShowPanel: false,
+                    isShowSnackbar: true,
+                    snackbarEntity: snackbarEntity
+                  });
+                } else {//update poi and report poi
+                  clearVirusDetail();
+                  this.setState({
+                    childInitData: undefined,
+                    isShowPanel: false,
+                    isShowSnackbar: true,
+                    snackbarEntity: snackbarEntity
+                  });
+                }
+              }}
+            ></UploadVirusPanel>
+          </Grid>
+        </Box>
       );
     }
   }
@@ -643,14 +678,16 @@ class Main extends Component {
 const mapStateToProps = (state, onwProps) => ({
   locale: state.locale,
   currentLocale: state.intl.locale,
-  selectedVirus: state.virusDetailReducer
+  selectedVirus: state.virusDetailReducer,
+  uploadPoiResult: state.uploadPoiReducer,
 });
 
 const mapDispatchToProps = {
   changeLocale: LangaugeActions.changeLocale,
   fetchVirusDetail: VirusStatusActions.fetchVirusModel,
   clearVirusDetail: VirusStatusActions.cleartVirusModel,
-  cancelVirusDetail: VirusStatusActions.cancelLoadVirusModel
+  cancelVirusDetail: VirusStatusActions.cancelLoadVirusModel,
+  cancelledUploadedPoiDataApi: VirusStatusActions.cancelledUploadedPoiData,
 };
 
 //see https://react-redux.js.org/api/connect
@@ -658,5 +695,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(Main));
-// mapStateToProps,
-// mapDispatchToProps

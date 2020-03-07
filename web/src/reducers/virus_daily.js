@@ -10,13 +10,13 @@ const initState = {
 export default function virusDailyReducer(state = initState, action) {
   switch (action.type) {
     case VirusStatusActions.LOAD_DAILY_DATA:
-      return { state: Status.LOADING };
+      return { status: Status.LOADING };
     case VirusStatusActions.LOADED_DAILY_DATA:
-      return { state: Status.SUCCESS, data: action.data };
+      return { status: Status.SUCCESS, data: action.data };
     case VirusStatusActions.CANCELLED_DAILY_DATA:
-      return { state: Status.CANCELED };
+      return { status: Status.CANCELED };
     case VirusStatusActions.FAILED_DAILY_DATA:
-      return { state: Status.FAILED, msg: action.msg };
+      return { status: Status.FAILED, msg: action.msg };
     default:
       return state;
   }

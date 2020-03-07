@@ -70,9 +70,9 @@ export class VirusStatusActions {
     data: poiInfo
   });
 
-  static uploadedPoiData = result => ({
+  static uploadedPoiData = (resultType) => ({
     type: VirusStatusActions.UPLOADED_POI_DATA,
-    msg: result
+    msg: resultType
   });
 
   static failToUploadedPoiData = (result,errorMsg) => ({

@@ -4,12 +4,9 @@ import { VirusStatusActions } from "../../../actions/virus_status";
 import { connect } from "react-redux";
 import { Close } from '@material-ui/icons';
 import { PoiInfoModel } from "../../../data/model"
+import Status from "../../../config/status";
 import {
     withStyles,
-    TableRow,
-    TableBody,
-    TableCell,
-    Table,
     MenuItem,
     Select,
     FormControl,
@@ -86,8 +83,8 @@ const styles = theme => ({
 class UploadVirusPanel extends Component {
     constructor(props) {
         super(props);
-
         const { childInitData } = this.props;
+
         if (childInitData === undefined) {
             this.state = {
                 type: "help",
@@ -104,7 +101,8 @@ class UploadVirusPanel extends Component {
                 isMakeSure: false,
                 isShowDetermineDialog: false,
                 isShowReportDialog: false,
-                isUpdatePoi: false
+                isUpdatePoi: false,
+                isShowSnackbar: false
             }
         } else {
             this.state = {
@@ -122,7 +120,8 @@ class UploadVirusPanel extends Component {
                 isMakeSure: false,
                 isShowDetermineDialog: false,
                 isShowReportDialog: false,
-                isUpdatePoi: true
+                isUpdatePoi: true,
+                isShowSnackbar: false
             }
         }
     }
@@ -135,21 +134,21 @@ class UploadVirusPanel extends Component {
     }
 
     inputGridItem(titleText, placeholderText, hasStar, inputType) {
-        const { classes,intl } = this.props;
+        const { classes, intl } = this.props;
 
         var intlTitle = intl.formatMessage({
-            id: titleText, 
-          });
-        
+            id: titleText,
+        });
+
         var intlPlace;
         if (hasStar) {
             intlPlace = "";
         } else {
             intlPlace = intl.formatMessage({
-                id: placeholderText, 
+                id: placeholderText,
             });
         }
-        
+
         let initValue = "";
         switch (inputType) {
             case "source": initValue = this.state.source;
@@ -206,54 +205,6 @@ class UploadVirusPanel extends Component {
                     className={classes.classInputField}
                     placeholder={intlPlace} />
             </Grid>
-        )
-    }
-
-    uploadResultDialog() {
-        const { uploadPoiResult, callbackParent, cancelledUploadedPoiDataApi } = this.props;
-        let isOpen = false;
-        let uploadResultText = "";
-        let result = false;
-        if (uploadPoiResult.msg === "UploadSuccess") {
-            result = true;
-            isOpen = true;
-            uploadResultText = "疫情信息提交成功";
-        } else if (uploadPoiResult.msg === "UpdateSuccess") {
-            result = true;
-            isOpen = true;
-            uploadResultText = "疫情信息更新成功";
-        } else if (uploadPoiResult.msg === "ReportSuccess") {
-            result = true;
-            isOpen = true;
-            uploadResultText = "疫情信息举报成功";
-        } else if (uploadPoiResult.msg === "fail") {
-            result = false;
-            isOpen = true;
-
-            console.log("fail result" + uploadPoiResult.errorMsg)
-            if(uploadPoiResult.errorMsg === undefined || uploadPoiResult.errorMsg === ""){
-                uploadResultText = "网络异常，请重试！"
-            }else{
-                uploadResultText = uploadPoiResult.errorMsg
-            }
-        }
-        return (
-            <Dialog
-                open={isOpen}
-                keepMounted
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle id="alert-dialog-slide-title">{uploadResultText}</DialogTitle>
-                <DialogActions>
-                    <Button onClick={() => {
-                        cancelledUploadedPoiDataApi();
-                        if (result) {
-                            callbackParent(false);
-                        }
-                    }} color="primary"><FormattedMessage id="ok" /></Button>
-                </DialogActions>
-            </Dialog>
         )
     }
 
@@ -326,7 +277,7 @@ class UploadVirusPanel extends Component {
     }
 
     determineReportDialog() {
-        const { reportPoiDataApi,childInitData } = this.props;
+        const { reportPoiDataApi, childInitData } = this.props;
         const { isShowReportDialog } = this.state;
         return (
             <Dialog
@@ -338,7 +289,6 @@ class UploadVirusPanel extends Component {
                 <DialogTitle id="alert-dialog-slide-title">是否确认举报该疫情信息</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
-                        console.log("report poi");
                         reportPoiDataApi(childInitData);
                         this.setState({ isShowReportDialog: false });
                     }} color="primary">确定</Button>
@@ -351,7 +301,7 @@ class UploadVirusPanel extends Component {
     }
 
     uploadPoiInfo = () => {
-        const { isShowDetermineDialog, isShowCheckDialog, isMakeSure, address } = this.state;
+        const { isMakeSure, address } = this.state;
 
         if (address === "" || !isMakeSure) {
             this.setState({ isShowCheckDialog: true })
@@ -361,14 +311,14 @@ class UploadVirusPanel extends Component {
     }
 
     reportPoiInfo() {
-        const { isShowReportDialog, classes, callbackParent, childInitData, reportPoiDataApi } = this.props;
+        const { classes, childInitData } = this.props;
 
         if (childInitData) {
             return (
                 <Grid direction="column" container alignItems="center" className={classes.reportGrid} >
                     <Button
                         onClick={(event) => {
-                            this.setState({isShowReportDialog: true});
+                            this.setState({ isShowReportDialog: true });
                         }}>
                         <Typography className={classes.reportTitleFont}>报告该消息是虚假疫情信息</Typography>
                     </Button>
@@ -377,23 +327,58 @@ class UploadVirusPanel extends Component {
         }
     }
 
+    componentDidUpdate() {
+        const { callbackParent, uploadPoiResult } = this.props;
+        const { isUpdatePoi } = this.state;
 
+        if (uploadPoiResult.status != Status.IDLE
+            && uploadPoiResult.status != Status.LOADING
+            && uploadPoiResult.status != Status.CANCELED) {
+
+            let uploadResultText = "";
+            let severity = "";
+            if (uploadPoiResult.status === Status.SUCCESS) {
+                severity = "success";
+                if (uploadPoiResult.msg === VirusStatusActions.UPLOAD_POI_DATA) {
+                    uploadResultText = "疫情信息提交成功";
+                } else if (uploadPoiResult.msg === VirusStatusActions.UPDATE_POI_DATA) {
+                    uploadResultText = "疫情信息更新成功"
+                } else if (uploadPoiResult.msg === VirusStatusActions.REPORT_POI_DATA) {
+                    uploadResultText = "疫情信息举报成功"
+                }
+            } else if (uploadPoiResult.status === Status.FAILED) {
+                if (uploadPoiResult.msg === undefined) {
+                    uploadResultText = "网络异常，请重试！"
+                }
+                severity = "error";
+            }
+
+            let snackbarEntity = { severity: severity, uploadResultText: uploadResultText }
+            callbackParent(isUpdatePoi, snackbarEntity);
+        }
+    }
+
+    componentWillUnmount() {
+        const { cancelledUploadedPoiDataApi } = this.props;
+        cancelledUploadedPoiDataApi();
+    }
 
     render() {
         const { isUpdatePoi } = this.state;
-        const { intl, classes, callbackParent } = this.props;
+        const { classes, callbackParent } = this.props;
         let topTitleText = "";
-        if(isUpdatePoi){
+        if (isUpdatePoi) {
             topTitleText = "update_virus_info";
-        }else{
+        } else {
             topTitleText = "submit_virus_info";
         }
+
         return (
             <Paper variant="outlined">
                 <Grid direction="column" container>
                     <Grid direction="row" container alignItems="center">
                         <Grid item xs ><Typography className={classes.topTitleFont}><FormattedMessage id={topTitleText} /></Typography></Grid>
-                        <IconButton onClick={() => callbackParent(true)}>
+                        <IconButton onClick={() => callbackParent(true, undefined)}>
                             <Close ></Close>
                         </IconButton>
                     </Grid>
@@ -411,19 +396,19 @@ class UploadVirusPanel extends Component {
                                     }}>
                                     <MenuItem value={"help"}>
                                         <Typography className={classes.propsInputField}><FormattedMessage id="infection_help" />
-</Typography>
+                                        </Typography>
                                     </MenuItem>
                                     <MenuItem value={"confirm"}>
                                         <Typography className={classes.propsInputField}><FormattedMessage id="confirmed_infection" />
-</Typography>
+                                        </Typography>
                                     </MenuItem>
                                     <MenuItem value={"cured"}>
                                         <Typography className={classes.propsInputField}><FormattedMessage id="healing" />
-</Typography>
+                                        </Typography>
                                     </MenuItem>
                                     <MenuItem value={"dead"}>
                                         <Typography className={classes.propsInputField}><FormattedMessage id="death_from_infection" />
-</Typography>
+                                        </Typography>
                                     </MenuItem>
                                 </Select>
                             </FormControl>
@@ -436,7 +421,7 @@ class UploadVirusPanel extends Component {
                     <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                         <Grid item className={classes.gridTitle}>
                             <Typography className={classes.titleFont}><FormattedMessage id="age" />
-</Typography>
+                            </Typography>
                         </Grid>
                         <TextField
                             InputProps={{
@@ -449,25 +434,25 @@ class UploadVirusPanel extends Component {
                                 this.setState({ age: event.target.value });
                             }} />
                         <Typography className={classes.titleFont}><FormattedMessage id="year_old" />
-</Typography>
+                        </Typography>
                     </Grid>
                     <Grid direction="row" container alignItems="center" className={classes.gridRow}>
                         <Grid item className={classes.gridTitle}>
                             <Typography className={classes.titleFont}><FormattedMessage id="gender" />
-</Typography>
+                            </Typography>
                         </Grid>
                         <RadioGroup aria-label="gender" name="gender1" row
                             value={this.state.gender}
                             onChange={(event) => {
                                 this.setState({ gender: event.target.value });
                             }}>
-                            <FormControlLabel value="male" control={<Radio size="small" color="primary"/>}
+                            <FormControlLabel value="male" control={<Radio size="small" color="primary" />}
                                 label={<Typography className={classes.titleFont}><FormattedMessage id="male" />
                                 </Typography>} />
-                            <FormControlLabel value="female" control={<Radio size="small" color="primary"/>}
+                            <FormControlLabel value="female" control={<Radio size="small" color="primary" />}
                                 label={<Typography className={classes.titleFont}><FormattedMessage id="female" />
                                 </Typography>} />
-                            <FormControlLabel value="unknow" control={<Radio size="small" color="primary"/>}
+                            <FormControlLabel value="unknow" control={<Radio size="small" color="primary" />}
                                 label={<Typography className={classes.titleFont}><FormattedMessage id="unkonwn" />
                                 </Typography>} />
                         </RadioGroup>
@@ -482,7 +467,7 @@ class UploadVirusPanel extends Component {
                             }}> */}
                             <Button variant="outlined" className={classes.submitButton} onClick={this.uploadPoiInfo}>
                                 <Typography className={classes.submitButtonFont}><FormattedMessage id="submit" />
-</Typography>
+                                </Typography>
                             </Button>
                         </Grid>
                     </Grid>
@@ -502,7 +487,6 @@ class UploadVirusPanel extends Component {
                         />
                     </Grid>
                 </Grid>
-                {this.uploadResultDialog()}
                 {this.checkUploadData()}
                 {this.determineSubmitDialog()}
                 {this.determineReportDialog()}
