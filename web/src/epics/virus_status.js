@@ -20,7 +20,7 @@ export function onLoadContryVirusStatusEpics(action$) {
               return of(
                 VirusStatusActions.loadedVirusStatusData(response.data),
                 VirusStatusActions.fetchDailyVirus(
-                  response.data.virusList[0].area
+                  response.data.virusList[0].key
                 )
               );
             } else {

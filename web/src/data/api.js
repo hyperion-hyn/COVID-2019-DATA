@@ -1,6 +1,7 @@
 import { Observable, from } from "rxjs";
 
 import mock_data from "./mock_data";
+import {currentLang} from "../locale/index"
 
 const domain = "https://covid.hyn.space/api/";
 // const domain = "http://10.10.1.115:3000/api/";
@@ -58,13 +59,12 @@ export const api = {
 
     return from(
       fetch(
-        `${domain}data/country/latest` /* , {credentials: 'no-cors'} */
+        `${domain}data/country/latest?lang=${currentLang()}` /* , {credentials: 'no-cors'} */
       ).then(res => res.json())
     );
   },
 
   uploadPoiInfo(data) {
-    //console.log("request api " + JSON.stringify(data));
     return from(
       fetch(`${domain}covid-collector/event/collector`, {
         body: JSON.stringify(data),

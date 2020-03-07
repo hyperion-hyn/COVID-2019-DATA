@@ -2,6 +2,7 @@ export class VirusStatusModel {
   static fromObject(obj) {
     let model = new VirusStatusModel();
     model.id = obj["id"];
+    model.key = obj["key"];
     model.isCountry = obj["isCountry"];
     model.area = obj["area"];
     model.newConfirmed = obj["newConfirmed"];
@@ -14,6 +15,7 @@ export class VirusStatusModel {
   }
 
   id;
+  key;
   isCountry;
   area;
   newConfirmed;

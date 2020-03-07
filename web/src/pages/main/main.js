@@ -248,9 +248,9 @@ class Main extends Component {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      this._geolocateButtonRef.current._onClickGeolocate();
-    }, 1000);
+    // setTimeout(() => {
+    //   this._geolocateButtonRef.current._onClickGeolocate();
+    // }, 1000);
   }
 
   render() {

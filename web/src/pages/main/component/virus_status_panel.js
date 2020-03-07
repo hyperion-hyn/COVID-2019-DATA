@@ -95,7 +95,7 @@ class VirusStatusPanel extends Component {
       newArray = virusData.data.virusList;
       virusUpdateTime = virusData.data.virusUpdateTime;
       if (tableSelectValue.length === 0 && newArray && newArray[0]) {
-        tableSelectValue = [newArray[0].area];
+        tableSelectValue = [newArray[0].key];
       }
     }
 
@@ -189,12 +189,12 @@ class VirusStatusPanel extends Component {
                       <TableRow
                         hover
                         onClick={(rowEntity, event) => {
-                          console.log('[virus_status_panel] --> click: ' + row.area);
-                          requestVirusDailyData(row.area);
-                          this.handleSelectVirus(row.area);
+                          console.log('[virus_status_panel] --> click: ' + row.key);
+                          requestVirusDailyData(row.key);
+                          this.handleSelectVirus(row.key);
                         }}
-                        key={row.area}
-                        selected={tableSelectValue.indexOf(row.area) !== -1}
+                        key={row.key}
+                        selected={tableSelectValue.indexOf(row.key) !== -1}
                       >
                         <TableCell component="th" scope="row" size="small">
                           {row.area}
