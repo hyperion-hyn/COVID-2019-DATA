@@ -171,8 +171,8 @@ class VirusStatusPanel extends Component {
                 <TableRow>
                   <TableCell><FormattedMessage id="countries_regions" /></TableCell>
                   <TableCell align="center"><FormattedMessage id="diagnoses" /></TableCell>
-                  <TableCell align="center"><FormattedMessage id="deaths" /></TableCell>
                   <TableCell align="center"><FormattedMessage id="rehabilitation" /></TableCell>
+                  <TableCell align="center"><FormattedMessage id="deaths" /></TableCell>
                 </TableRow>
               </TableHead>
 

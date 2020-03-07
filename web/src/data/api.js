@@ -3,6 +3,7 @@ import { Observable, from } from "rxjs";
 import mock_data from "./mock_data";
 
 const domain = "https://covid.hyn.space/api/";
+// const domain = "http://10.10.1.115:3000/api/";
 
 export const api = {
   requestDemoData() {
