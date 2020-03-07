@@ -19,7 +19,8 @@ import {
     Dialog,
     DialogTitle,
     DialogActions,
-    Paper
+    Paper,
+    CircularProgress
 } from "@material-ui/core";
 import { injectIntl, FormattedMessage } from "react-intl";
 
@@ -228,13 +229,18 @@ class UploadVirusPanel extends Component {
     }
 
     determineSubmitDialog() {
-        const { childInitData, updatePoiDataApi, uploadPoiDataApi, childLatitude, childLongitude } = this.props;
+        const { childInitData, updatePoiDataApi, uploadPoiDataApi, childLatitude, childLongitude, uploadPoiResult } = this.props;
         // 数据传递
         const { isUpdatePoi, isShowDetermineDialog, type, source, address, contact, ancestralHome, age, gender, symptom, travelHistory, remark, isMakeSure } = this.state;
         console.log("ready submit !!!!! ==== isUpdatePoi== " + isUpdatePoi + " data == "
             + childLatitude + childLongitude + type + source + address + contact
             + ancestralHome + age + gender + symptom + travelHistory + remark
             + " isMakeSure " + isMakeSure)
+
+        let isLoading = false;
+        if (uploadPoiResult.status === Status.LOADING) {
+            isLoading = true;
+        }
 
         return (
             <Dialog
@@ -244,35 +250,48 @@ class UploadVirusPanel extends Component {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" />
-</DialogTitle>
+                </DialogTitle>
                 <DialogActions>
-                    <Button onClick={() => {
-                        let uploadModel = new PoiInfoModel();
-                        uploadModel.lat = childLatitude;
-                        uploadModel.lon = childLongitude;
-                        uploadModel.type = type;
-                        uploadModel.source = source;
-                        uploadModel.address = address;
-                        uploadModel.contact = contact;
-                        uploadModel.ancestralHome = ancestralHome;
-                        uploadModel.age = age;
-                        uploadModel.gender = gender;
-                        uploadModel.symptom = symptom;
-                        uploadModel.travel_history = travelHistory;
-                        uploadModel.remark = remark;
-                        if (isUpdatePoi) {
-                            uploadModel.id = childInitData.id;
-                            updatePoiDataApi(uploadModel)
-                        } else {
-                            uploadPoiDataApi(uploadModel)
-                        }
+                    {isLoading && (<CircularProgress
+                        size={24}
+                        style={{
+                            maringLeft: 16,
+                            maringRight: 16,
+                            maringTop: 4,
+                            maringBottom: 4
+                        }}
+                    />)}
+                    <Button
+                        disabled={isLoading}
+                        onClick={() => {
+                            let uploadModel = new PoiInfoModel();
+                            uploadModel.lat = childLatitude;
+                            uploadModel.lon = childLongitude;
+                            uploadModel.type = type;
+                            uploadModel.source = source;
+                            uploadModel.address = address;
+                            uploadModel.contact = contact;
+                            uploadModel.ancestralHome = ancestralHome;
+                            uploadModel.age = age;
+                            uploadModel.gender = gender;
+                            uploadModel.symptom = symptom;
+                            uploadModel.travel_history = travelHistory;
+                            uploadModel.remark = remark;
+                            if (isUpdatePoi) {
+                                uploadModel.id = childInitData.id;
+                                updatePoiDataApi(uploadModel)
+                            } else {
+                                uploadPoiDataApi(uploadModel)
+                            }
 
-                        this.setState({ isShowDetermineDialog: false })
-                    }} color="primary"><FormattedMessage id="ok" />
+                            // this.setState({ isShowDetermineDialog: false })
+                        }} color="primary"><FormattedMessage id="ok" />
                     </Button>
-                    <Button onClick={() => {
-                        this.setState({ isShowDetermineDialog: false })
-                    }} color="primary"><FormattedMessage id="cancel" />
+                    <Button
+                        disabled={isLoading}
+                        onClick={() => {
+                            this.setState({ isShowDetermineDialog: false })
+                        }} color="primary"><FormattedMessage id="cancel" />
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -280,8 +299,14 @@ class UploadVirusPanel extends Component {
     }
 
     determineReportDialog() {
-        const { reportPoiDataApi, childInitData } = this.props;
+        const { reportPoiDataApi, childInitData, uploadPoiResult } = this.props;
         const { isShowReportDialog } = this.state;
+
+        let isLoading = false;
+        if (uploadPoiResult.status === Status.LOADING) {
+            isLoading = true;
+        }
+
         return (
             <Dialog
                 open={isShowReportDialog}
@@ -291,13 +316,26 @@ class UploadVirusPanel extends Component {
             >
                 <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" /></DialogTitle>
                 <DialogActions>
-                    <Button onClick={() => {
-                        reportPoiDataApi(childInitData);
-                        this.setState({ isShowReportDialog: false });
-                    }} color="primary"><FormattedMessage id="ok" /></Button>
-                    <Button onClick={() => {
-                        this.setState({ isShowReportDialog: false })
-                    }} color="primary"><FormattedMessage id="cancel" /></Button>
+                    {isLoading && (<CircularProgress
+                        size={24}
+                        style={{
+                            maringLeft: 16,
+                            maringRight: 16,
+                            maringTop: 4,
+                            maringBottom: 4
+                        }}
+                    />)}
+                    <Button
+                        disabled={isLoading}
+                        onClick={() => {
+                            reportPoiDataApi(childInitData);
+                            this.setState({ isShowReportDialog: false });
+                        }} color="primary"><FormattedMessage id="ok" /></Button>
+                    <Button
+                        disabled={isLoading}
+                        onClick={() => {
+                            this.setState({ isShowReportDialog: false })
+                        }} color="primary"><FormattedMessage id="cancel" /></Button>
                 </DialogActions>
             </Dialog>
         )
@@ -334,26 +372,29 @@ class UploadVirusPanel extends Component {
         const { callbackParent, uploadPoiResult, intl } = this.props;
         const { isUpdatePoi } = this.state;
 
-        if (uploadPoiResult.status != Status.IDLE
-            && uploadPoiResult.status != Status.LOADING
-            && uploadPoiResult.status != Status.CANCELED) {
+        if (uploadPoiResult.status !== Status.IDLE
+            && uploadPoiResult.status !== Status.LOADING
+            && uploadPoiResult.status !== Status.CANCELED) {
 
             let uploadResultText = "";
             let severity = "";
             if (uploadPoiResult.status === Status.SUCCESS) {
                 severity = "success";
                 if (uploadPoiResult.msg === VirusStatusActions.UPLOAD_POI_DATA) {
-                    uploadResultText = intl.formatMessage({id: 'upload_virus_info_success', });
+                    uploadResultText = intl.formatMessage({ id: 'upload_virus_info_success', });
                 } else if (uploadPoiResult.msg === VirusStatusActions.UPDATE_POI_DATA) {
-                    uploadResultText = intl.formatMessage({id: 'update_virus_info_success', });
+                    uploadResultText = intl.formatMessage({ id: 'update_virus_info_success', });
                 } else if (uploadPoiResult.msg === VirusStatusActions.REPORT_POI_DATA) {
-                    uploadResultText = intl.formatMessage({id: 'report_virus_info_success', });
+                    uploadResultText = intl.formatMessage({ id: 'report_virus_info_success', });
                 }
             } else if (uploadPoiResult.status === Status.FAILED) {
-                if (uploadPoiResult.msg === undefined) {
-                    uploadResultText = intl.formatMessage({id: 'upload_virus_info_fail_network', });
-                }
                 severity = "error";
+                if (uploadPoiResult.msg === undefined
+                    || uploadPoiResult.msg === "") {
+                    uploadResultText = intl.formatMessage({ id: 'upload_virus_info_fail_network', });
+                }else{
+                    uploadResultText = uploadPoiResult.msg
+                }
             }
 
             let snackbarEntity = { severity: severity, uploadResultText: uploadResultText }

@@ -6,6 +6,7 @@ import { api } from "../data/api";
 import { of, Observable } from "rxjs";
 import ServerCode from "../config/server_code";
 import { PoiInfoModel } from "../data/model";
+import { dispatch } from "rxjs/internal/observable/pairs";
 
 export function onLoadContryVirusStatusEpics(action$) {
   console.log("[virus_status] epic api, onLoadContryVirusStatusEpics ");
@@ -88,7 +89,7 @@ export function onUploadPoiInfoEpics(action$) {
           action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
         ),
         catchError(error =>
-          of(VirusStatusActions.failToUploadedPoiData("fail",error.msg))
+          of(VirusStatusActions.failToUploadedPoiData(error.msg))
         )
       );
     })
@@ -112,9 +113,9 @@ export function onUpdatePoiInfoEpics(action$) {
         takeUntil(
           action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
         ),
-        catchError(error =>
-          of(VirusStatusActions.failToUploadedPoiData("fail",error.msg))
-        )
+        catchError(error =>{
+          of(VirusStatusActions.failToUploadedPoiData(error.msg))
+        })
       );
     })
   );
@@ -131,15 +132,16 @@ export function onReportPoiInfoEpics(action$) {
           if (response.code === ServerCode.SUCCESS) {
             return VirusStatusActions.uploadedPoiData(VirusStatusActions.REPORT_POI_DATA);
           } else {
-            throw Error(response.msg);
+            return VirusStatusActions.failToUploadedPoiData(response.msg);
+            // throw Error(response.msg);
           }
         }),
         takeUntil(
           action$.pipe(ofType(VirusStatusActions.CANCELLED_UPLOAD_POI_DATA))
         ),
-        catchError(error =>
-          of(VirusStatusActions.failToUploadedPoiData("fail",error.msg))
-        )
+        catchError(error =>{
+          of(VirusStatusActions.failToUploadedPoiData(error.msg))
+        })
       );
     })
   );

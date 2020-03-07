@@ -62,7 +62,7 @@ const en_US = {
   'infomation_sources': 'Information Sources:',
   'error': 'Error: ',
   'load_detail_fail': 'Loading details failed!',
-  'cancel': 'Cancel!',
+  'cancel': 'Cancel',
   'is_confirmed_virus_info': 'Whether to confirm reporting of virus information',
   'upload_virus_info_success': 'Virus information submitted successfully',
   'upload_virus_info_fail_network': 'Network exception, please try again！',

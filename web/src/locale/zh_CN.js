@@ -62,7 +62,7 @@ const zh_CN = {
   'infomation_sources': '信息来源:',
   'error': '错误: ',
   'load_detail_fail': '加载详情失败!',
-  'cancel': '取消!',
+  'cancel': '取消',
   'is_confirmed_virus_info': '是否确认上报疫情信息',
   'upload_virus_info_success': '疫情信息提交成功',
   'upload_virus_info_fail_network': '网络异常，请重试！',
