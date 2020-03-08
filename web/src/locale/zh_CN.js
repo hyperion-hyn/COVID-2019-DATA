@@ -69,6 +69,8 @@ const zh_CN = {
   'hyperion': '海伯利安',
   'report_virus_info_success': '疫情信息举报成功',
   'update_virus_info_success': '疫情信息更新成功',
+  'confirm_info_true': '请勾选确保信息真实！',
+  'report_the_news': '报告该消息是虚假疫情信息',
 }
 
 export default zh_CN

@@ -69,6 +69,8 @@ const en_US = {
   'hyperion': 'hyperion',
   'report_virus_info_success': 'Virus information reported successfully',
   'update_virus_info_success': 'Virus information updated successfully',
+  'confirm_info_true': 'Please tick and confirm the infomation is true!',
+  'report_the_news': 'Report the news as false outbreak information',
 }
 
 export default en_US

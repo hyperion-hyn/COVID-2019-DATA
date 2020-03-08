@@ -6,7 +6,6 @@ import { api } from "../data/api";
 import { of, Observable } from "rxjs";
 import ServerCode from "../config/server_code";
 import { PoiInfoModel } from "../data/model";
-import { dispatch } from "rxjs/internal/observable/pairs";
 
 export function onLoadContryVirusStatusEpics(action$) {
   console.log("[virus_status] epic api, onLoadContryVirusStatusEpics ");
