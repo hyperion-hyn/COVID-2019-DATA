@@ -181,12 +181,15 @@ class UploadVirusPanel extends Component {
         const { updatePoiDataApi, uploadPoiDataApi, uploadPoiResult } = this.props;
         // 数据传递
         const { submitEntity, isUpdatePoi, isShowDetermineDialog, isMakeSure } = this.state;
-        console.log("ready submit !!!!! ==== isUpdatePoi== " + isUpdatePoi + " data == "
-            + JSON.stringify(submitEntity) + " isMakeSure " + isMakeSure)
-
+        
         let isLoading = false;
         if (uploadPoiResult.status === Status.LOADING) {
             isLoading = true;
+        }
+
+        if(isShowDetermineDialog){
+            console.log("ready submit !!!!! ==== isUpdatePoi== " + isUpdatePoi + " data == "
+            + JSON.stringify(submitEntity) + " isMakeSure " + isMakeSure)
         }
 
         return (
