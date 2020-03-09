@@ -1,15 +1,15 @@
-#COVID-19/2019-nCoV Infection Data
+# COVID-19/2019-nCoV Infection Data
 ## Project Intro
 
 This is the data repository for the Hyperion Covid-19 Map Visual Dashboard operated by Hyperion MapChain. The map will demonstrate two source types of Covid-19 data. The choropleth map displays divided geographical areas or regions in various colors according to the official confirmed virus cases, while the POIs are contributed by global community.
 
 
-##Online web 👉 <https://covid.hyn.space/>
+## Online web 👉 <https://covid.hyn.space/>
 
 ![](media/15837670408375/15837675777795.jpg)
 
 
-##Data Sources
+## Data Sources
 
 * [World Health Organization (WHO)](https://www.who.int/)
 * [DXY.cn. Pneumonia. 2020](http://3g.dxy.cn/newh5/view/pneumonia)
@@ -29,7 +29,7 @@ This is the data repository for the Hyperion Covid-19 Map Visual Dashboard opera
 * [Nikkei News Japan](https://zh.cn.nikkei.com/top/2020-02-03-06-03-30.html?types[0]=8&start=0)
 
 
-##Terms of Use
+## Terms of Use
 
 This GitHub repo and its contents herein, including all data, mapping, and analysis, copyright Hyperion, all rights reserved, is provided to the public strictly for non-commercial purposes. The Website relies upon publicly available data from multiple sources, that do not always agree. Hyperion hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, and merchantability. Any form of privacy breaches is not allowed. 
 
