@@ -40,6 +40,7 @@ const styles = theme => ({
   },
   gridTitle: {
     paddingLeft: 20,
+    paddingRight: "1rem",
     width: "30%",
     alignItems: "right"
   },
@@ -204,18 +205,20 @@ class UploadVirusPanel extends Component {
       isShowDetermineDialog,
       isMakeSure
     } = this.state;
-    console.log(
-      "ready submit !!!!! ==== isUpdatePoi== " +
-        isUpdatePoi +
-        " data == " +
-        JSON.stringify(submitEntity) +
-        " isMakeSure " +
-        isMakeSure
-    );
-
     let isLoading = false;
     if (uploadPoiResult.status === Status.LOADING) {
       isLoading = true;
+    }
+
+    if (isShowDetermineDialog) {
+      console.log(
+        "ready submit !!!!! ==== isUpdatePoi== " +
+          isUpdatePoi +
+          " data == " +
+          JSON.stringify(submitEntity) +
+          " isMakeSure " +
+          isMakeSure
+      );
     }
 
     return (
@@ -332,7 +335,7 @@ class UploadVirusPanel extends Component {
           onClick={event => {
             this.setState({ isShowReportDialog: true });
           }}
-          style={{marginTop: '1rem', marginLeft: '2rem', marginRight: '2rem'}}
+          style={{ marginTop: "1rem", marginLeft: "2rem", marginRight: "2rem" }}
         >
           <Typography className={classes.reportTitleFont}>
             <FormattedMessage id="report_the_news" />
