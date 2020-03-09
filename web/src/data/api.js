@@ -120,7 +120,7 @@ export const api = {
     }); */
 
     return from(
-      fetch(`${domain}data/country/daily/${area}`).then(res => res.json())
+      fetch(`${domain}data/country/daily/${area}?lang=${currentLang()}`).then(res => res.json())
     );
   },
 
