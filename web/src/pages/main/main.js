@@ -35,6 +35,7 @@ import { supportedLocales } from "../../locale";
 import { VirusStatusActions } from "../../actions";
 import Status from "../../config/status";
 import { injectIntl, FormattedMessage } from "react-intl";
+import { isGeolocationSupported } from "../../utilities/geolocate-utiles";
 
 const BootstrapInput = withStyles(theme => ({
   input: {
@@ -68,7 +69,7 @@ const styles = theme => ({
     flexGrow: 1
   },
   virusBox: {
-    width: 400,
+    width: 430,
     height: "100%",
     overflow: "hidden"
   },
@@ -247,9 +248,13 @@ class Main extends Component {
   };
 
   componentDidMount() {
-    // setTimeout(() => {
-    //   this._geolocateButtonRef.current._onClickGeolocate();
-    // }, 1000);
+    isGeolocationSupported().then(result => {
+      if (result) {
+        setTimeout(() => {
+          this._geolocateButtonRef.current._onClickGeolocate();
+        }, 1500);
+      }
+    });
   }
 
   render() {
