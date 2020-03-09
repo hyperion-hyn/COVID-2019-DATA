@@ -6,8 +6,7 @@ This is the data repository for the Hyperion Covid-19 Map Visual Dashboard opera
 
 ## Online web 👉 <https://covid.hyn.space/>
 
-![](media/15837670408375/15837675777795.jpg)
-
+![Priview](https://github.com/hyperion-hyn/COVID-2019-DATA/blob/master/web/public/website-preview.png)
 
 ## Data Sources
 
