@@ -54,12 +54,14 @@ import {injectIntl } from "react-intl";
             }),
         ];
 
+        var newType = 'bar'
         return {
             //backgroundColor: 'rgb(18, 128, 128)',
 
             grid: {
                 left: '3%',
                 right: '4%',
+                top: '3%',
                 containLabel: true
             },
             tooltip: {
@@ -88,57 +90,24 @@ import {injectIntl } from "react-intl";
                         color: colorPalette[0]
                     },
                     name: titleArray[0],
-                    type: 'bar',
+                    type: newType,
                     data: confirmedArray,
-                    markPoint: {
-                        data: [
-                            { type: 'max', name: '最大值' },
-                            { type: 'min', name: '最小值' }
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            { type: 'average', name: '平均值' }
-                        ]
-                    }
                 },
                 {
                     itemStyle: {
                         color: colorPalette[1]
                     },
                     name: titleArray[1],
-                    type: 'bar',
+                    type: newType,
                     data: recoverdArray,
-                    markPoint: {
-                        data: [
-                            { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
-                            { name: '年最低', value: 2.3, xAxis: 11, yAxis: 3 }
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            { type: 'average', name: '平均值' }
-                        ]
-                    }
                 },
                 {
                     itemStyle: {
                         color: colorPalette[2]
                     },
                     name: titleArray[2],
-                    type: 'bar',
+                    type: newType,
                     data: deadArray,
-                    markPoint: {
-                        data: [
-                            { name: '年最高', value: 182.2, xAxis: 7, yAxis: 183 },
-                            { name: '年最低', value: 2.3, xAxis: 11, yAxis: 3 }
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            { type: 'average', name: '平均值' }
-                        ]
-                    }
                 }
             ]
         };
