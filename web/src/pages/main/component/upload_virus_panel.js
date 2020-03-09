@@ -197,7 +197,7 @@ class UploadVirusPanel extends Component {
   }
 
   determineSubmitDialog() {
-    const { updatePoiDataApi, uploadPoiDataApi, uploadPoiResult } = this.props;
+    const { intl, updatePoiDataApi, uploadPoiDataApi, uploadPoiResult } = this.props;
     // 数据传递
     const {
       submitEntity,
@@ -221,6 +221,13 @@ class UploadVirusPanel extends Component {
       );
     }
 
+    var titleStr = ""
+    if(isUpdatePoi){
+        titleStr = intl.formatMessage({id:'is_confirmed_update_virus_info'})
+    }else{
+        titleStr = intl.formatMessage({id:'is_confirmed_virus_info'})
+    }
+
     return (
       <Dialog
         open={isShowDetermineDialog}
@@ -229,7 +236,7 @@ class UploadVirusPanel extends Component {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          <FormattedMessage id="is_confirmed_virus_info" />
+          {titleStr}
         </DialogTitle>
         <DialogActions>
           {isLoading && (
@@ -287,7 +294,7 @@ class UploadVirusPanel extends Component {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          <FormattedMessage id="is_confirmed_virus_info" />
+          <FormattedMessage id="is_report_the_news" />
         </DialogTitle>
         <DialogActions>
           {isLoading && (
@@ -305,7 +312,7 @@ class UploadVirusPanel extends Component {
             disabled={isLoading}
             onClick={() => {
               reportPoiDataApi(childInitData);
-              this.setState({ isShowReportDialog: false });
+            //   this.setState({ isShowReportDialog: false });
             }}
             color="primary"
           >
