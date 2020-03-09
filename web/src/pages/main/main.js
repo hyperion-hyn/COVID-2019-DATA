@@ -13,7 +13,7 @@ import {
   CircularProgress,
   Snackbar
 } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
+import { Alert } from "@material-ui/lab";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 import MapGL, {
@@ -140,7 +140,7 @@ const styles = theme => ({
     position: "absolute",
     display: "flex",
     "justify-content": "center",
-    top: "1rem",
+    top: "1rem"
   },
   languageFormControl: {
     margin: 8,
@@ -150,12 +150,11 @@ const styles = theme => ({
     position: "absolute",
     bottom: 20,
     left: 20,
-    "text-shadow": "1px 1px 2px black",
+    "text-shadow": "1px 1px 2px black"
   }
 });
 
 class Main extends Component {
-
   state = {
     viewport: {
       latitude: 23.10901,
@@ -257,6 +256,11 @@ class Main extends Component {
     const { classes, locale } = this.props;
     const { viewport, isShowPanel } = this.state;
 
+    const mapStyle =
+      locale.lang == "zh"
+        ? "https://cn.tile.map3.network/global_covid.json"
+        : "https://cn.tile.map3.network/global_covid_en.json";
+
     return (
       <Grid container direction="column" wrap="nowrap" className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
@@ -341,7 +345,7 @@ class Main extends Component {
               maxZoom={19}
               minZoom={1.1}
               // mapStyle="https://cn.tile.map3.network/ncov_v1.json"
-              mapStyle="https://cn.tile.map3.network/global_covid.json"
+              mapStyle={mapStyle}
               onViewportChange={this._onViewportChange}
               mapOptions={{
                 localIdeographFontFamily:
@@ -390,13 +394,19 @@ class Main extends Component {
 
     return (
       isShowSnackbar && (
-        <Snackbar open={isShowSnackbar} autoHideDuration={3000}
+        <Snackbar
+          open={isShowSnackbar}
+          autoHideDuration={3000}
           onClose={() => {
-            this.setState({ isShowSnackbar: false })
-          }}>
-          <Alert severity={snackbarEntity.severity}>{snackbarEntity.uploadResultText}</Alert>
+            this.setState({ isShowSnackbar: false });
+          }}
+        >
+          <Alert severity={snackbarEntity.severity}>
+            {snackbarEntity.uploadResultText}
+          </Alert>
         </Snackbar>
-      ));
+      )
+    );
   }
 
   _renderWaterMask = () => {
@@ -408,7 +418,7 @@ class Main extends Component {
             href="https://www.hyn.space/"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: 'white', fontSize: 14, textDecoration: 'none' }}
+            style={{ color: "white", fontSize: 14, textDecoration: "none" }}
           >
             @<FormattedMessage id="hyperion" />
           </a>
@@ -419,7 +429,7 @@ class Main extends Component {
 
   _renderAddNewMaker() {
     const { addingMaker } = this.state;
-    
+
     return (
       addingMaker && (
         <Marker
@@ -435,7 +445,6 @@ class Main extends Component {
         </Marker>
       )
     );
-
   }
 
   _renderAddNewPopup() {
@@ -450,7 +459,7 @@ class Main extends Component {
           onClose={this._onCloseAdding}
           closeOnClick={false}
           offsetTop={-56}
-        // offsetLeft={-24}
+          // offsetLeft={-24}
         >
           <Box
             onClick={() => {
@@ -471,7 +480,6 @@ class Main extends Component {
         </Popup>
       )
     );
-
   }
 
   _renderSelectedPoiPopup = () => {
@@ -480,7 +488,7 @@ class Main extends Component {
       selectedVirus,
       cancelVirusDetail,
       clearVirusDetail,
-      intl,
+      intl
     } = this.props;
 
     if (selectedVirus.status == Status.LOADING) {
@@ -513,7 +521,9 @@ class Main extends Component {
           offsetTop={-32}
         >
           <Typography color="textSecondary" variant={"body2"}>
-            {selectedVirus.msg ? `${intl.formatMessage({id: 'error', })}${selectedVirus.msg}` : `${intl.formatMessage({id: 'load_detail_fail', })}`}
+            {selectedVirus.msg
+              ? `${intl.formatMessage({ id: "error" })}${selectedVirus.msg}`
+              : `${intl.formatMessage({ id: "load_detail_fail" })}`}
           </Typography>
         </Popup>
       );
@@ -537,7 +547,7 @@ class Main extends Component {
           {selectedVirus.data.source && (
             <Box display="flex" direction="column">
               <Typography color="textSecondary" variant={"body2"}>
-              <FormattedMessage id="infomation_sources" />
+                <FormattedMessage id="infomation_sources" />
               </Typography>
 
               <a
@@ -557,7 +567,7 @@ class Main extends Component {
               className={classes.clickableTip}
               onClick={() => {
                 this.setState({ childInitData: selectedVirus.data });
-                this.updateUploadPanelState(true)
+                this.updateUploadPanelState(true);
               }}
             >
               <FormattedMessage id="error_correction" />
@@ -573,37 +583,46 @@ class Main extends Component {
     const { intl } = this.props;
 
     if (model.type == "help") {
-      dest = intl.formatMessage({id: 'clues_help_info', });
+      dest = intl.formatMessage({ id: "clues_help_info" });
     } else if (model.type == "cured") {
-      dest = intl.formatMessage({id: 'recovered', });
+      dest = intl.formatMessage({ id: "recovered" });
     } else if (model.type == "confirm") {
-      dest = intl.formatMessage({id: 'confirmed', });
+      dest = intl.formatMessage({ id: "confirmed" });
     } else if (model.type == "dead") {
-      dest = intl.formatMessage({id: 'dead', });
+      dest = intl.formatMessage({ id: "dead" });
     }
 
-    dest += '：'+`${intl.formatMessage({id: 'happened_at', })}${model.address}`;
+    dest +=
+      "：" + `${intl.formatMessage({ id: "happened_at" })}${model.address}`;
 
     if (model.ancestral_home) {
-      dest += '，'+`${intl.formatMessage({id: 'from', })}${model.ancestral_home}`;
+      dest +=
+        "，" + `${intl.formatMessage({ id: "from" })}${model.ancestral_home}`;
     }
     if (model.gender) {
-      dest += '，'+`${this._getSex(model.gender)}`;
+      dest += "，" + `${this._getSex(model.gender)}`;
     }
     if (model.age) {
-      dest += '，'+`${model.age}${intl.formatMessage({id: 'year_old', })}`;
+      dest += "，" + `${model.age}${intl.formatMessage({ id: "year_old" })}`;
     }
     if (model.symptom) {
-      dest += '，'+`${intl.formatMessage({id: 'have', })}${model.symptom}${intl.formatMessage({id: 'symptom', })}`;
+      dest +=
+        "，" +
+        `${intl.formatMessage({ id: "have" })}${
+          model.symptom
+        }${intl.formatMessage({ id: "symptom" })}`;
     }
     if (model.travel_history) {
-      dest += '，'+`${intl.formatMessage({id: 'to_past', })}${model.travel_history}`;
+      dest +=
+        "，" +
+        `${intl.formatMessage({ id: "to_past" })}${model.travel_history}`;
     }
     if (model.remark) {
-      dest += '，'+`${model.remark}`;
+      dest += "，" + `${model.remark}`;
     }
     if (model.contact) {
-      dest += '，'+`${intl.formatMessage({id: 'contact', })}：${model.contact}`;
+      dest +=
+        "，" + `${intl.formatMessage({ id: "contact" })}：${model.contact}`;
     }
     return dest;
   };
@@ -612,16 +631,20 @@ class Main extends Component {
     const { intl } = this.props;
 
     if (gender == "female") {
-      return intl.formatMessage({id: 'female', });
+      return intl.formatMessage({ id: "female" });
     } else if (gender == "male") {
-      return intl.formatMessage({id: 'male', });
+      return intl.formatMessage({ id: "male" });
     } else {
       return "";
     }
   }
 
   _uploadPanelView(isShowPanel) {
-    const { classes, clearVirusDetail, cancelledUploadedPoiDataApi } = this.props;
+    const {
+      classes,
+      clearVirusDetail,
+      cancelledUploadedPoiDataApi
+    } = this.props;
     const { addingMaker, childInitData } = this.state;
 
     let latitude, longitude;
@@ -641,14 +664,16 @@ class Main extends Component {
               childLatitude={latitude}
               childLongitude={longitude}
               callbackParent={(isMakerShow, snackbarEntity) => {
-                if (!snackbarEntity) {//close panel
+                if (!snackbarEntity) {
+                  //close panel
                   this.setState({
                     childInitData: undefined,
                     isShowPanel: false,
                     isShowSnackbar: false,
                     snackbarEntity: undefined
                   });
-                } else if (!isMakerShow) {//submit poi
+                } else if (!isMakerShow) {
+                  //submit poi
                   this.setState({
                     addingMaker: undefined,
                     childInitData: undefined,
@@ -656,7 +681,8 @@ class Main extends Component {
                     isShowSnackbar: true,
                     snackbarEntity: snackbarEntity
                   });
-                } else {//update poi and report poi
+                } else {
+                  //update poi and report poi
                   clearVirusDetail();
                   this.setState({
                     childInitData: undefined,
@@ -682,7 +708,7 @@ const mapStateToProps = (state, onwProps) => ({
   locale: state.locale,
   currentLocale: state.intl.locale,
   selectedVirus: state.virusDetailReducer,
-  uploadPoiResult: state.uploadPoiReducer,
+  uploadPoiResult: state.uploadPoiReducer
 });
 
 const mapDispatchToProps = {
@@ -690,7 +716,7 @@ const mapDispatchToProps = {
   fetchVirusDetail: VirusStatusActions.fetchVirusModel,
   clearVirusDetail: VirusStatusActions.cleartVirusModel,
   cancelVirusDetail: VirusStatusActions.cancelLoadVirusModel,
-  cancelledUploadedPoiDataApi: VirusStatusActions.cancelledUploadedPoiData,
+  cancelledUploadedPoiDataApi: VirusStatusActions.cancelledUploadedPoiData
 };
 
 //see https://react-redux.js.org/api/connect
