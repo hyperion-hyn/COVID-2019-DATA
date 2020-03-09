@@ -390,7 +390,7 @@ class Main extends Component {
 
     return (
       isShowSnackbar && (
-        <Snackbar open={isShowSnackbar} autoHideDuration={3000}
+        <Snackbar open={isShowSnackbar} autoHideDuration={5000}
           onClose={() => {
             this.setState({ isShowSnackbar: false })
           }}>
