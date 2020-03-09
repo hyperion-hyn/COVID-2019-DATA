@@ -58,14 +58,16 @@ import {injectIntl } from "react-intl";
             //backgroundColor: 'rgb(18, 128, 128)',
 
             grid: {
-              top: 30,
+                left: '3%',
+                right: '4%',
+                containLabel: true
             },
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
                 left: 'center',
-                bottom: '12%',
+                bottom: '30',
                 data: titleArray
             },
             calculable: true,
