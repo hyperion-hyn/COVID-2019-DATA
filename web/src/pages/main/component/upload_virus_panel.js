@@ -343,9 +343,10 @@ class UploadVirusPanel extends Component {
     };
 
     validate = values => {
+        const { intl } = this.props;
         const errors = {};
         if (!values.address) {
-            errors.address = '必填项';
+            errors.address = intl.formatMessage({id:'must_input'});
         }
         return errors;
     };
