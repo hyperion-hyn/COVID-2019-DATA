@@ -312,7 +312,7 @@ class UploadVirusPanel extends Component {
             disabled={isLoading}
             onClick={() => {
               reportPoiDataApi(childInitData);
-              this.setState({ isShowReportDialog: false });
+            //   this.setState({ isShowReportDialog: false });
             }}
             color="primary"
           >
