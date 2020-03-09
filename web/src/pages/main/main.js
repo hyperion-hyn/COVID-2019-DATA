@@ -131,7 +131,7 @@ const styles = theme => ({
     cursor: "pointer"
   },
   uploadVirusPanelGrid: {
-    width: 370,
+    width: 440,
     height: "80%",
     top: "1rem"
   },
