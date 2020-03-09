@@ -62,8 +62,9 @@ const en_US = {
   'infomation_sources': 'Source of Info:',
   'error': 'Error: ',
   'load_detail_fail': 'Failed to load details!',
-  'cancel': 'Cancel!',
+  'cancel': 'Cancel',
   'is_confirmed_virus_info': 'Confirm report of virus information',
+  'is_confirmed_update_virus_info': 'Confirm update of virus information',
   'upload_virus_info_success': 'Virus information submitted successfully,please check the virus information later.',
   'upload_virus_info_fail_network': 'Network error, please try again！',
   'hyperion': 'hyperion',
@@ -71,6 +72,7 @@ const en_US = {
   'update_virus_info_success': 'Virus information updated successfully,please check the virus information later.',
   'confirm_info_true': 'Please tick and confirm the infomation is true!',
   'report_the_news': 'Report the news as false outbreak information',
+  'is_report_the_news': 'Whether to confirm the report of the virus information',
   'must_input': 'Required',
 }
 

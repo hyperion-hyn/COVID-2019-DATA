@@ -178,7 +178,7 @@ class UploadVirusPanel extends Component {
     }
 
     determineSubmitDialog() {
-        const { updatePoiDataApi, uploadPoiDataApi, uploadPoiResult } = this.props;
+        const { updatePoiDataApi, uploadPoiDataApi, uploadPoiResult, intl } = this.props;
         // 数据传递
         const { submitEntity, isUpdatePoi, isShowDetermineDialog, isMakeSure } = this.state;
         
@@ -192,6 +192,13 @@ class UploadVirusPanel extends Component {
             + JSON.stringify(submitEntity) + " isMakeSure " + isMakeSure)
         }
 
+        var titleStr = ""
+        if(isUpdatePoi){
+            titleStr = intl.formatMessage({id:'is_confirmed_update_virus_info'})
+        }else{
+            titleStr = intl.formatMessage({id:'is_confirmed_virus_info'})
+        }
+
         return (
             <Dialog
                 open={isShowDetermineDialog}
@@ -199,7 +206,7 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" />
+                <DialogTitle id="alert-dialog-slide-title">{titleStr}
                 </DialogTitle>
                 <DialogActions>
                     {isLoading && (<CircularProgress
@@ -248,7 +255,7 @@ class UploadVirusPanel extends Component {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_confirmed_virus_info" /></DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title"><FormattedMessage id="is_report_the_news" /></DialogTitle>
                 <DialogActions>
                     {isLoading && (<CircularProgress
                         size={24}

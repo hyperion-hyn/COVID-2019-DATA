@@ -64,6 +64,7 @@ const zh_CN = {
   'load_detail_fail': '加载详情失败!',
   'cancel': '取消',
   'is_confirmed_virus_info': '是否确认上报疫情信息',
+  'is_confirmed_update_virus_info': '是否确认更新疫情信息',
   'upload_virus_info_success': '疫情信息提交成功，请稍后查看该疫情信息。',
   'upload_virus_info_fail_network': '网络异常，请重试！',
   'hyperion': '海伯利安',
@@ -71,6 +72,7 @@ const zh_CN = {
   'update_virus_info_success': '疫情信息更新成功，请稍后查看该疫情信息。',
   'confirm_info_true': '请勾选确保信息真实！',
   'report_the_news': '报告该消息是虚假疫情信息',
+  'is_report_the_news': '是否确认举报该疫情信息',
   'must_input': '必填项',
 }
 
