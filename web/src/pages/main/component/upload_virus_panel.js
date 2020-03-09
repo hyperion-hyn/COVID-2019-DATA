@@ -36,6 +36,7 @@ const styles = theme => ({
     },
     gridTitle: {
         paddingLeft: 20,
+        paddingRight:10,
         width: "30%",
         alignItems: "right",
     },
