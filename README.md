@@ -77,6 +77,10 @@ $ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
 
 This GitHub repo and its contents herein, including all data, mapping, and analysis, copyright Hyperion, all rights reserved, is provided to the public strictly for non-commercial purposes. The Website relies upon publicly available data from multiple sources, that do not always agree. Hyperion hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, and merchantability. Any form of privacy breaches is not allowed. 
 
+## Communication group
+
+![TEG](https://github.com/hyperion-hyn/COVID-2019-DATA/blob/master/web/public/technology-qr.jpeg)
+
 
 
 
