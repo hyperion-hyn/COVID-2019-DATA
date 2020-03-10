@@ -73,7 +73,9 @@ $ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
 Request parameter description:
 
 `lat` means longitude of selected area, e.g: `lat`= `23.1202`
+
 `lon` means latitude of the selected area, e.g: `lon`=`113.3248`
+
 `radius` means radius of the selected area, e.g:`radius`=`1000`
 
 ```shell
