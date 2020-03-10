@@ -79,7 +79,7 @@ Request parameter description:
 `radius` means radius of the selected area, e.g:`radius`=`1000`
 
 ```shell
-$ curl -G -d 'lat=${lat}' -d 'lon=${lon} -d radius=${radius}' https://covid.hyn.space/api/covid-collector/event/radius
+$ curl -G -d 'lat=${lat}' -d 'lon=${lon}' -d 'radius=${radius}' https://covid.hyn.space/api/covid-collector/event/radius
 ```
 
 * API 4：Get an virus information in an urban area of a country (Coming soon)
