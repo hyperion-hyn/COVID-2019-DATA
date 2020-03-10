@@ -79,7 +79,7 @@ This GitHub repo and its contents herein, including all data, mapping, and analy
 
 ## Communication group
 
-![TEG set up-w140](https://github.com/hyperion-hyn/COVID-2019-DATA/blob/master/web/public/technology-qr.jpeg)
+![TEG -w140](https://github.com/hyperion-hyn/COVID-2019-DATA/blob/master/web/public/technology-qr.jpeg)
 
 
 
