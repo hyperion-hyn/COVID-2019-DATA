@@ -33,7 +33,7 @@ API 1: Get virus information in all countries
 
 Request parameter description:
 
-lang supports 'zh', 'en'
+`lang` supports `zh`, `en`
 
 ```shell
 $ curl -G https://covid.hyn.space/api/data/country/latest?lang=${lang}
@@ -60,9 +60,9 @@ API 2: Get daily virus information, return results include daily added and cumul
 
 Request parameter description:
 
-lang supports 'zh', 'en'
+`lang` supports `zh`, `en`
 
-area Key field of source API 1, e.g: Set area to '意大利'
+`area` key field of source API 1, e.g: Set area to `意大利`
 
 ```shell
 $ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
