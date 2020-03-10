@@ -29,7 +29,6 @@ This is the data repository for the Hyperion Covid-19 Map Visual Dashboard opera
 
 ## API
 
-
 API 1: Get virus information in all countries
 
 Request parameter description:
@@ -67,6 +66,7 @@ $ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
 API 3：Get virus information in Nearby Areas (Coming Soon)
 
 API 4：Get an virus information in an urban area of a country (Coming soon)
+
 
 ## Terms of Use
 
