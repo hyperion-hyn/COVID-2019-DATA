@@ -68,7 +68,17 @@ Request parameter description:
 $ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
 ```
 
-* API 3：Get virus information in Nearby Areas (Coming Soon)
+* API 3：Get virus information in Nearby Areas 
+
+Request parameter description:
+
+`lat` means longitude of selected area, e.g: `lat`= `23.1202`
+`lon` means latitude of the selected area, e.g: `lon`=`113.3248`
+`radius` means radius of the selected area, e.g:`radius`=`1000`
+
+```shell
+$ curl -G -d 'lat=${lat}' -d 'lon=${lon} -d radius=${radius}' https://covid.hyn.space/api/covid-collector/event/radius
+```
 
 * API 4：Get an virus information in an urban area of a country (Coming soon)
 
