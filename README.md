@@ -56,6 +56,7 @@ Return result description:
 ```
 
 API 2: Get daily virus information, return results include daily added and cumulative total
+
 Request parameter description:
 lang supports 'zh', 'en'
 area Key field of source API 1, e.g: Set area to '意大利'
