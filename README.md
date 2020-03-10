@@ -62,7 +62,7 @@ Request parameter description:
 
 `lang` supports `zh`, `en`
 
-`area` key field of source API 1, e.g: `area` = `意大利`
+`area` can be set to the `key` value of **API 1**, e.g: `area` = `意大利`
 
 ```shell
 $ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
