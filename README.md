@@ -29,7 +29,7 @@ This is the data repository for the Hyperion Covid-19 Map Visual Dashboard opera
 
 ## API
 
-API 1: Get virus information in all countries
+* API 1: Get virus information in all countries
 
 Request parameter description:
 
@@ -56,21 +56,21 @@ Return result description:
 ...
 ```
 
-API 2: Get daily virus information, return results include daily added and cumulative total
+* API 2: Get daily virus information, return results include daily added and cumulative total
 
 Request parameter description:
 
 `lang` supports `zh`, `en`
 
-`area` key field of source API 1, e.g: Set area to `意大利`
+`area` key field of source API 1, e.g: `area` = `意大利`
 
 ```shell
 $ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
 ```
 
-API 3：Get virus information in Nearby Areas (Coming Soon)
+* API 3：Get virus information in Nearby Areas (Coming Soon)
 
-API 4：Get an virus information in an urban area of a country (Coming soon)
+* API 4：Get an virus information in an urban area of a country (Coming soon)
 
 
 ## Terms of Use
