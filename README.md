@@ -27,6 +27,46 @@ This is the data repository for the Hyperion Covid-19 Map Visual Dashboard opera
 * [South Korea CDC](https://www.cdc.go.kr/board/board.es?mid=a30402000000&bid=0030)
 * [Nikkei News Japan](https://zh.cn.nikkei.com/top/2020-02-03-06-03-30.html?types[0]=8&start=0)
 
+## API
+
+
+API 1: Get virus information in all countries
+
+Request parameter description:
+lang supports 'zh', 'en'
+```shell
+$ curl -G https://covid.hyn.space/api/data/country/latest?lang=${lang}
+```
+
+
+Return result description:
+```shell
+...
+{
+        "id": 965008,
+        "area": "意大利",
+        "key": "意大利",
+        "newConfirmed": 1797,
+        "newRecovered": 102,
+        "newDead": 97,
+        "totalConfirmed": 9172,
+        "totalRecovered": 724,
+        "totalDead": 463
+}
+...
+```
+
+API 2: Get daily virus information, return results include daily added and cumulative total
+Request parameter description:
+lang supports 'zh', 'en'
+area Key field of source API 1, e.g: Set area to '意大利'
+```shell
+$ curl -G https://covid.hyn.space/api/data/country/daily/${area}?lang=${lang}
+```
+
+API 3：Get virus information in Nearby Areas (Coming Soon)
+
+API 4：Get an virus information in an urban area of a country (Coming soon)
 
 ## Terms of Use
 
