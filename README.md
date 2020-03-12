@@ -39,22 +39,29 @@ Request parameter description:
 $ curl -G https://covid.hyn.space/api/data/country/latest?lang=${lang}
 ```
 
-Return result description:
+Return results:
 ```shell
 ...
 {
         "id": 965008,
         "area": "意大利",
         "key": "意大利",
-        "newConfirmed": 1797,
-        "newRecovered": 102,
-        "newDead": 97,
-        "totalConfirmed": 9172,
-        "totalRecovered": 724,
-        "totalDead": 463
+        "newConfirmed": 2179,
+        "newRecovered": 41,
+        "newDead": 196,
+        "totalConfirmed": 12462,
+        "totalRecovered": 1045,
+        "totalDead": 827,
+        "hasSub": true
 }
 ...
 ```
+Description：
+
+`key` can be used to **API 2** and **API 4**
+
+`hasSub` can be used to determine if there is a lower-level virus information
+
 
 * API 2: Get daily virus information, return results include daily added and cumulative total
 
@@ -82,8 +89,17 @@ Request parameter description:
 $ curl -G -d 'lat=${lat}' -d 'lon=${lon}' -d 'radius=${radius}' https://covid.hyn.space/api/covid-collector/event/radius
 ```
 
-* API 4：Get an virus information in an urban area of a country (Coming soon)
+* API 4：Get an virus information in an urban area of a country
 
+Request parameter description:
+
+`lang` supports `zh`, `en`
+
+`country` can be set to the `key` value of **API 1**, e.g: `country` = `意大利`
+
+```shell
+$ curl -G -d 'lang=${lang}' -d 'country=${country}'  https://covid.hyn.space/api/data/province/latest
+```
 
 ## Terms of Use
 
@@ -91,7 +107,7 @@ This GitHub repo and its contents herein, including all data, mapping, and analy
 
 ## Communication group
 
-![TEG -w140](https://github.com/hyperion-hyn/COVID-2019-DATA/blob/master/web/public/technology-qr.jpeg)
+![TEG -w100](https://github.com/hyperion-hyn/COVID-2019-DATA/blob/master/web/public/technology-qr.jpeg)
 
 
 
